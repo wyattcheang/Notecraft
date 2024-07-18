@@ -1,0 +1,81 @@
+[
+    {
+        "type": "Dynamics",
+        "section": "Symbol",
+        "terms": [
+            {
+                "name": "pianississimo",
+                "symbols": [["1D18F", "1D18F", "1D18F"]],
+                "meaning": "as soft as possible"
+            },
+            {
+                "name": "pianissimo",
+                "symbols": [["1D18F", "1D18F"]],
+                "meaning": "very soft"
+            },
+            {
+                "name": "piano",
+                "symbols": [["1D18F"]],
+                "meaning": "soft"
+            },
+            {
+                "name": "mezzo piano",
+                "symbols": [["1D190", "1D18F"]],
+                "meaning": "moderately soft"
+            },
+            {
+                "name": "mezzo forte",
+                "symbols": [["1D190", "1D191"]],
+                "meaning": "moderately loud"
+            },
+            {
+                "name": "forte",
+                "symbols": [["1D191"]],
+                "meaning": "loud"
+            },
+            {
+                "name": "fortissimo",
+                "symbols": [["1D191", "1D191"]],
+                "meaning": "very loud"
+            },
+            {
+                "name": "fortississimo",
+                "symbols": [["1D191", "1D191", "1D191"]],
+                "meaning": "as loud as possible"
+            }
+        ]
+    },
+    {
+        "type": "Dynamics",
+        "section": "Change",
+        "terms": [
+            {
+                "name": "crescendo",
+                "abbreviation": ["cresc."],
+                "symbols": [["1D192"]],
+                "meaning": "gradually louder"
+            },
+            {
+                "name": "diminuendo",
+                "abbreviation": ["dim."],
+                "symbols": [["1D193"]],
+                "meaning": "gradually softer"
+            },
+            {
+                "name": "fortepiano",
+                "symbols": [["1D191", "1D18F"]],
+                "meaning": "loud, then immediately soft"
+            },
+            {
+                "name": "sforzando, forzando, sforzato",
+                "symbols": [["1D18D", "1D191", "1D18E"], ["1D18D", "1D191"], ["1D191", "1D18E"]],
+                "meaning": "suddenly accented (applied to a note or chord)"
+            },
+            {
+                "name": "rinforzando",
+                "symbols": [["1D18C", "1D191", "1D18E"], ["1D18C", "1D191"]],
+                "meaning": "reinforced (applied to a note, chord or phrase)"
+            }
+        ]
+    }
+]

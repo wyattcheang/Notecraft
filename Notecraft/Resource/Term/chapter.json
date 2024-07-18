@@ -1,0 +1,53 @@
+[
+  {
+    "id": 1,
+    "title": "Fundamentals",
+    "units": [
+      { "id": 1, "title": "Clefs" },
+      { "id": 2, "title": "Steps" },
+      { "id": 3, "title": "Accidentals" }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Notations",
+    "units": [
+      { "id": 4, "title": "Dynamics" },
+      { "id": 5, "title": "Articulations" },
+      { "id": 6, "title": "Tempo" }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Rhythmic and Rest",
+    "units": [
+      { "id": 7, "title": "Note" },
+      { "id": 8, "title": "Rest" },
+      { "id": 9, "title": "Dot and Ties" }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Time Signature",
+    "units": [
+      { "id": 10, "title": "Simple Meter" },
+      { "id": 11, "title": "Compound Meter" }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Key Signature",
+    "units": [
+      { "id": 12, "title": "Major Scales" },
+      { "id": 13, "title": "Minor Scales" }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Intervals",
+    "units": [
+      { "id": 14, "title": "Perfect, Major, Minor" },
+      { "id": 15, "title": "Augmented Diminished" }
+    ]
+  }
+]

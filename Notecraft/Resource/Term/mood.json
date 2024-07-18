@@ -1,0 +1,204 @@
+[
+    {
+    "type": "Mood Terms",
+    "section": "General",
+    "terms": [
+        {
+            "name": "Affettuoso",
+            "translation": "with feeling",
+            "meaning": "Tenderly"
+        },
+        {
+            "name": "Agitato",
+            "translation": "agitated, moved",
+            "meaning": "Excited and fast"
+        },
+        {
+            "name": "Animato",
+            "translation": "animated",
+            "meaning": "Animated, fast"
+        },
+        {
+            "name": "Brillante",
+            "translation": "brilliant",
+            "meaning": "Brilliant, radiant, bright"
+        },
+        {
+            "name": "Bruscamente",
+            "translation": "brusquely",
+            "meaning": "Abruptly"
+        },
+        {
+            "name": "Cantabile",
+            "translation": "singable",
+            "meaning": "In a singing style"
+        },
+        {
+            "name": "Colossale",
+            "translation": "colossal",
+            "meaning": "In a fashion which suggests immensity"
+        },
+        {
+            "name": "Comodo",
+            "translation": "convenient",
+            "meaning": "Comfortably, moderately"
+        },
+        {
+            "name": "Con amore",
+            "translation": "with love",
+            "meaning": "With love"
+        },
+        {
+            "name": "Con brio",
+            "translation": "with power",
+            "meaning": "With vigour"
+        },
+        {
+            "name": "Con fuoco",
+            "translation": "with fire",
+            "meaning": "Passionate, powerful, enthusiastic"
+        },
+        {
+            "name": "Con moto",
+            "translation": "with movement",
+            "meaning": "With movement, with energy, spirited"
+        },
+        {
+            "name": "Con spirito",
+            "translation": "with spirit",
+            "meaning": "Vigorous, spirited"
+        },
+        {
+            "name": "Deciso",
+            "translation": "firm, resolute",
+            "meaning": "Decisive, determined"
+        },
+        {
+            "name": "Dolce",
+            "translation": "sweet",
+            "meaning": "Softly, sweetly"
+        },
+        {
+            "name": "Drammatico",
+            "translation": "dramatic",
+            "meaning": "Dramatic"
+        },
+        {
+            "name": "Espressivo",
+            "translation": "expressive",
+            "meaning": "Expressive"
+        },
+        {
+            "name": "Feroce",
+            "translation": "ferocious",
+            "meaning": "Fierce, heavy"
+        },
+        {
+            "name": "Festoso",
+            "translation": "happy",
+            "meaning": "Festive, jolly"
+        },
+        {
+            "name": "Furioso",
+            "translation": "furious",
+            "meaning": "Angry, hasty"
+        },
+        {
+            "name": "Giocoso",
+            "translation": "playful",
+            "meaning": "Merry, spirited, playful"
+        },
+        {
+            "name": "Grandioso",
+            "translation": "great, grandiose",
+            "meaning": "Broad, noble, great"
+        },
+        {
+            "name": "Grazioso",
+            "translation": "gracious, graceful",
+            "meaning": "Graceful or charming"
+        },
+        {
+            "name": "Lacrimoso",
+            "translation": "lachrymose, teary",
+            "meaning": "Tearfully, sadly"
+        },
+        {
+            "name": "Lamentoso",
+            "translation": "Plaintively, Sadly",
+            "meaning": "Mournfully, Sorrowly"
+        },
+        {
+            "name": "Maestoso",
+            "translation": "majestic",
+            "meaning": "Stately, broad"
+        },
+        {
+            "name": "Misterioso",
+            "translation": "mysterious",
+            "meaning": "Mysteriously, secretively, enigmatic"
+        },
+        {
+            "name": "Morendo",
+            "translation": "dying",
+            "meaning": "Dying away"
+        },
+        {
+            "name": "Pesante",
+            "translation": "heavy",
+            "meaning": "Heavy, slowly, weightily"
+        },
+        {
+            "name": "Risoluto",
+            "translation": "resolved",
+            "meaning": "Resolved, decisive"
+        },
+        {
+            "name": "Scherzando",
+            "translation": "playful, joking",
+            "meaning": "Playful, lively"
+        },
+        {
+            "name": "Solitario",
+            "translation": "lonely",
+            "meaning": "Lonely, alone"
+        },
+        {
+            "name": "Sotto (voce)",
+            "translation": "under-voice, subdued (voice)",
+            "meaning": "Subdued, hushed"
+        },
+        {
+            "name": "Sonore",
+            "translation": "loud, resonant",
+            "meaning": "Full, broad"
+        },
+        {
+            "name": "Semplicemente",
+            "translation": "simply",
+            "meaning": "Simply"
+        },
+        {
+            "name": "Slancio",
+            "translation": "passionately hurl or fling; lance",
+            "meaning": "Enthusiastic"
+        },
+        {
+            "name": "Tranquillo",
+            "translation": "calm, tranquil",
+            "meaning": "Calm, soft, peaceful"
+        },
+        {
+            "name": "Vivace",
+            "translation": "vivacious",
+            "meaning": "Up-tempo, lively"
+        },
+        {
+            "name": "Volante",
+            "translation": "flying",
+            "meaning": "Fast, light"
+        }
+    ]
+}
+]
+

@@ -1,0 +1,1087 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F1C0E0DF2C48554F0051F7B6 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C0E0DE2C48554E0051F7B6 /* AuthView.swift */; };
+		F1C0E0E12C4855620051F7B6 /* EmailFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C0E0E02C4855620051F7B6 /* EmailFieldView.swift */; };
+		F1C0E0E32C48558D0051F7B6 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C0E0E22C48558D0051F7B6 /* ButtonStyle.swift */; };
+		F1C0E0E52C4855B00051F7B6 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C0E0E42C4855B00051F7B6 /* Extension.swift */; };
+		F1D9CFCD2C4843450092552D /* NotecraftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D9CFCC2C4843450092552D /* NotecraftApp.swift */; };
+		F1D9CFCF2C4843450092552D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D9CFCE2C4843450092552D /* ContentView.swift */; };
+		F1D9CFD12C4843470092552D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1D9CFD02C4843470092552D /* Assets.xcassets */; };
+		F1D9CFD42C4843470092552D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1D9CFD32C4843470092552D /* Preview Assets.xcassets */; };
+		F1D9CFDE2C4843470092552D /* NotecraftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D9CFDD2C4843470092552D /* NotecraftTests.swift */; };
+		F1D9CFE82C4843470092552D /* NotecraftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D9CFE72C4843470092552D /* NotecraftUITests.swift */; };
+		F1D9CFEA2C4843470092552D /* NotecraftUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D9CFE92C4843470092552D /* NotecraftUITestsLaunchTests.swift */; };
+		F1DCEBA62C4844A200DFB508 /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBA42C4844A200DFB508 /* MenuBarView.swift */; };
+		F1DCEBA72C4844A200DFB508 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBA52C4844A200DFB508 /* MainView.swift */; };
+		F1DCEBAD2C48450700DFB508 /* TheoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBAB2C48450700DFB508 /* TheoryView.swift */; };
+		F1DCEBAE2C48450700DFB508 /* MusicNotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBAC2C48450700DFB508 /* MusicNotation.swift */; };
+		F1DCEBB02C48452300DFB508 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBAF2C48452300DFB508 /* StudyView.swift */; };
+		F1DCEBB32C48454700DFB508 /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBB12C48454700DFB508 /* QuizView.swift */; };
+		F1DCEBB42C48454700DFB508 /* LoadQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBB22C48454700DFB508 /* LoadQuizView.swift */; };
+		F1DCEBBB2C48456900DFB508 /* KeyTimeSignatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBB52C48456800DFB508 /* KeyTimeSignatureView.swift */; };
+		F1DCEBBC2C48456900DFB508 /* DictView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBB62C48456800DFB508 /* DictView.swift */; };
+		F1DCEBBD2C48456900DFB508 /* TermListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBB72C48456900DFB508 /* TermListView.swift */; };
+		F1DCEBBE2C48456900DFB508 /* BookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBB82C48456900DFB508 /* BookmarkView.swift */; };
+		F1DCEBBF2C48456900DFB508 /* ScaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBB92C48456900DFB508 /* ScaleView.swift */; };
+		F1DCEBC02C48456900DFB508 /* IntervalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBBA2C48456900DFB508 /* IntervalView.swift */; };
+		F1DCEBC72C4845B400DFB508 /* CircleOfFifthsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBC22C4845B400DFB508 /* CircleOfFifthsView.swift */; };
+		F1DCEBC82C4845B400DFB508 /* TimeSignatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBC32C4845B400DFB508 /* TimeSignatureView.swift */; };
+		F1DCEBC92C4845B400DFB508 /* KeySignatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBC42C4845B400DFB508 /* KeySignatureView.swift */; };
+		F1DCEBCA2C4845B400DFB508 /* NoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBC52C4845B400DFB508 /* NoteView.swift */; };
+		F1DCEBCB2C4845B400DFB508 /* ClefSignatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBC62C4845B400DFB508 /* ClefSignatureView.swift */; };
+		F1DCEBD02C4845CB00DFB508 /* MetronomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBCC2C4845CB00DFB508 /* MetronomeView.swift */; };
+		F1DCEBD12C4845CB00DFB508 /* TunerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBCD2C4845CB00DFB508 /* TunerView.swift */; };
+		F1DCEBD22C4845CB00DFB508 /* PitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBCE2C4845CB00DFB508 /* PitchView.swift */; };
+		F1DCEBD32C4845CB00DFB508 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBCF2C4845CB00DFB508 /* KeyboardView.swift */; };
+		F1DCEBD52C4845F600DFB508 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBD42C4845F600DFB508 /* ProfileView.swift */; };
+		F1DCEBD72C4845FE00DFB508 /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBD62C4845FE00DFB508 /* SheetView.swift */; };
+		F1DCEBDA2C48461E00DFB508 /* JSONHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBD82C48461D00DFB508 /* JSONHandler.swift */; };
+		F1DCEBDB2C48461E00DFB508 /* SheetManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBD92C48461E00DFB508 /* SheetManger.swift */; };
+		F1DCEBE02C48464200DFB508 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBDF2C48464200DFB508 /* Server.swift */; };
+		F1DCEBE22C48464C00DFB508 /* SignInGoogle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBE12C48464C00DFB508 /* SignInGoogle.swift */; };
+		F1DCEBE62C48465700DFB508 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBE32C48465700DFB508 /* Key.swift */; };
+		F1DCEBE72C48465700DFB508 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBE42C48465700DFB508 /* Database.swift */; };
+		F1DCEBE82C48465700DFB508 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBE52C48465700DFB508 /* Storage.swift */; };
+		F1DCEBF22C4846A500DFB508 /* KeyboardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBE92C4846A500DFB508 /* KeyboardModel.swift */; };
+		F1DCEBF32C4846A500DFB508 /* MIDIPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBEA2C4846A500DFB508 /* MIDIPlayer.swift */; };
+		F1DCEBF42C4846A500DFB508 /* Symbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBEB2C4846A500DFB508 /* Symbol.swift */; };
+		F1DCEBF52C4846A500DFB508 /* MetronomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBEC2C4846A500DFB508 /* MetronomeModel.swift */; };
+		F1DCEBF62C4846A500DFB508 /* TunerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBED2C4846A500DFB508 /* TunerModel.swift */; };
+		F1DCEBF72C4846A500DFB508 /* FFT.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBEE2C4846A500DFB508 /* FFT.swift */; };
+		F1DCEBF82C4846A500DFB508 /* YIN.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBEF2C4846A500DFB508 /* YIN.swift */; };
+		F1DCEBF92C4846A500DFB508 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBF02C4846A500DFB508 /* UserModel.swift */; };
+		F1DCEBFA2C4846A500DFB508 /* StopWatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBF12C4846A500DFB508 /* StopWatchModel.swift */; };
+		F1DCEBFC2C4846B800DFB508 /* FieldContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBFB2C4846B800DFB508 /* FieldContainer.swift */; };
+		F1DCEBFF2C4846CC00DFB508 /* ShimmerStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBFD2C4846CC00DFB508 /* ShimmerStyle.swift */; };
+		F1DCEC002C4846CC00DFB508 /* UnicodeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBFE2C4846CC00DFB508 /* UnicodeStyle.swift */; };
+		F1DCEC082C4846F600DFB508 /* Bravura.otf in Resources */ = {isa = PBXBuildFile; fileRef = F1DCEC052C4846F600DFB508 /* Bravura.otf */; };
+		F1DCEC092C4846F600DFB508 /* Times New Roman.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1DCEC062C4846F600DFB508 /* Times New Roman.ttf */; };
+		F1DCEC0A2C4846F600DFB508 /* NotoMusic-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1DCEC072C4846F600DFB508 /* NotoMusic-Regular.ttf */; };
+		F1DCEC0E2C48470C00DFB508 /* keyboard.sf2 in Resources */ = {isa = PBXBuildFile; fileRef = F1DCEC0C2C48470C00DFB508 /* keyboard.sf2 */; };
+		F1DCEC0F2C48470C00DFB508 /* metronome.sf2 in Resources */ = {isa = PBXBuildFile; fileRef = F1DCEC0D2C48470C00DFB508 /* metronome.sf2 */; };
+		F1DCEC152C48471C00DFB508 /* dynamic.json in Resources */ = {isa = PBXBuildFile; fileRef = F1DCEC112C48471C00DFB508 /* dynamic.json */; };
+		F1DCEC162C48471C00DFB508 /* tempo.json in Resources */ = {isa = PBXBuildFile; fileRef = F1DCEC122C48471C00DFB508 /* tempo.json */; };
+		F1DCEC172C48471C00DFB508 /* mood.json in Resources */ = {isa = PBXBuildFile; fileRef = F1DCEC132C48471C00DFB508 /* mood.json */; };
+		F1DCEC182C48471C00DFB508 /* chapter.json in Resources */ = {isa = PBXBuildFile; fileRef = F1DCEC142C48471C00DFB508 /* chapter.json */; };
+		F1DCEC1B2C4847B100DFB508 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = F1DCEC1A2C4847B100DFB508 /* Auth */; };
+		F1DCEC1D2C4847B100DFB508 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = F1DCEC1C2C4847B100DFB508 /* Functions */; };
+		F1DCEC1F2C4847B100DFB508 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = F1DCEC1E2C4847B100DFB508 /* PostgREST */; };
+		F1DCEC212C4847B100DFB508 /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = F1DCEC202C4847B100DFB508 /* Realtime */; };
+		F1DCEC232C4847B100DFB508 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = F1DCEC222C4847B100DFB508 /* Storage */; };
+		F1DCEC252C4847B100DFB508 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = F1DCEC242C4847B100DFB508 /* Supabase */; };
+		F1DCEC282C4847CF00DFB508 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = F1DCEC272C4847CF00DFB508 /* GoogleSignIn */; };
+		F1DCEC2A2C4847CF00DFB508 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F1DCEC292C4847CF00DFB508 /* GoogleSignInSwift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F1D9CFDA2C4843470092552D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F1D9CFC12C4843450092552D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F1D9CFC82C4843450092552D;
+			remoteInfo = Notecraft;
+		};
+		F1D9CFE42C4843470092552D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F1D9CFC12C4843450092552D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F1D9CFC82C4843450092552D;
+			remoteInfo = Notecraft;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		F1C0E0DD2C4854430051F7B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F1C0E0DE2C48554E0051F7B6 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		F1C0E0E02C4855620051F7B6 /* EmailFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailFieldView.swift; sourceTree = "<group>"; };
+		F1C0E0E22C48558D0051F7B6 /* ButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyle.swift; sourceTree = "<group>"; };
+		F1C0E0E42C4855B00051F7B6 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		F1D9CFC92C4843450092552D /* Notecraft.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notecraft.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F1D9CFCC2C4843450092552D /* NotecraftApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotecraftApp.swift; sourceTree = "<group>"; };
+		F1D9CFCE2C4843450092552D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F1D9CFD02C4843470092552D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F1D9CFD32C4843470092552D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F1D9CFD92C4843470092552D /* NotecraftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotecraftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F1D9CFDD2C4843470092552D /* NotecraftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotecraftTests.swift; sourceTree = "<group>"; };
+		F1D9CFE32C4843470092552D /* NotecraftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotecraftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F1D9CFE72C4843470092552D /* NotecraftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotecraftUITests.swift; sourceTree = "<group>"; };
+		F1D9CFE92C4843470092552D /* NotecraftUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotecraftUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		F1DCEBA42C4844A200DFB508 /* MenuBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		F1DCEBA52C4844A200DFB508 /* MainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		F1DCEBAB2C48450700DFB508 /* TheoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheoryView.swift; sourceTree = "<group>"; };
+		F1DCEBAC2C48450700DFB508 /* MusicNotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicNotation.swift; sourceTree = "<group>"; };
+		F1DCEBAF2C48452300DFB508 /* StudyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
+		F1DCEBB12C48454700DFB508 /* QuizView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
+		F1DCEBB22C48454700DFB508 /* LoadQuizView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadQuizView.swift; sourceTree = "<group>"; };
+		F1DCEBB52C48456800DFB508 /* KeyTimeSignatureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyTimeSignatureView.swift; sourceTree = "<group>"; };
+		F1DCEBB62C48456800DFB508 /* DictView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictView.swift; sourceTree = "<group>"; };
+		F1DCEBB72C48456900DFB508 /* TermListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermListView.swift; sourceTree = "<group>"; };
+		F1DCEBB82C48456900DFB508 /* BookmarkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkView.swift; sourceTree = "<group>"; };
+		F1DCEBB92C48456900DFB508 /* ScaleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScaleView.swift; sourceTree = "<group>"; };
+		F1DCEBBA2C48456900DFB508 /* IntervalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntervalView.swift; sourceTree = "<group>"; };
+		F1DCEBC22C4845B400DFB508 /* CircleOfFifthsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleOfFifthsView.swift; sourceTree = "<group>"; };
+		F1DCEBC32C4845B400DFB508 /* TimeSignatureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSignatureView.swift; sourceTree = "<group>"; };
+		F1DCEBC42C4845B400DFB508 /* KeySignatureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeySignatureView.swift; sourceTree = "<group>"; };
+		F1DCEBC52C4845B400DFB508 /* NoteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteView.swift; sourceTree = "<group>"; };
+		F1DCEBC62C4845B400DFB508 /* ClefSignatureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClefSignatureView.swift; sourceTree = "<group>"; };
+		F1DCEBCC2C4845CB00DFB508 /* MetronomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetronomeView.swift; sourceTree = "<group>"; };
+		F1DCEBCD2C4845CB00DFB508 /* TunerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TunerView.swift; sourceTree = "<group>"; };
+		F1DCEBCE2C4845CB00DFB508 /* PitchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchView.swift; sourceTree = "<group>"; };
+		F1DCEBCF2C4845CB00DFB508 /* KeyboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
+		F1DCEBD42C4845F600DFB508 /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		F1DCEBD62C4845FE00DFB508 /* SheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
+		F1DCEBD82C48461D00DFB508 /* JSONHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONHandler.swift; sourceTree = "<group>"; };
+		F1DCEBD92C48461E00DFB508 /* SheetManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SheetManger.swift; sourceTree = "<group>"; };
+		F1DCEBDF2C48464200DFB508 /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
+		F1DCEBE12C48464C00DFB508 /* SignInGoogle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInGoogle.swift; sourceTree = "<group>"; };
+		F1DCEBE32C48465700DFB508 /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
+		F1DCEBE42C48465700DFB508 /* Database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
+		F1DCEBE52C48465700DFB508 /* Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		F1DCEBE92C4846A500DFB508 /* KeyboardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardModel.swift; sourceTree = "<group>"; };
+		F1DCEBEA2C4846A500DFB508 /* MIDIPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIPlayer.swift; sourceTree = "<group>"; };
+		F1DCEBEB2C4846A500DFB508 /* Symbol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Symbol.swift; sourceTree = "<group>"; };
+		F1DCEBEC2C4846A500DFB508 /* MetronomeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetronomeModel.swift; sourceTree = "<group>"; };
+		F1DCEBED2C4846A500DFB508 /* TunerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TunerModel.swift; sourceTree = "<group>"; };
+		F1DCEBEE2C4846A500DFB508 /* FFT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFT.swift; sourceTree = "<group>"; };
+		F1DCEBEF2C4846A500DFB508 /* YIN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YIN.swift; sourceTree = "<group>"; };
+		F1DCEBF02C4846A500DFB508 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		F1DCEBF12C4846A500DFB508 /* StopWatchModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StopWatchModel.swift; sourceTree = "<group>"; };
+		F1DCEBFB2C4846B800DFB508 /* FieldContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldContainer.swift; sourceTree = "<group>"; };
+		F1DCEBFD2C4846CC00DFB508 /* ShimmerStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerStyle.swift; sourceTree = "<group>"; };
+		F1DCEBFE2C4846CC00DFB508 /* UnicodeStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnicodeStyle.swift; sourceTree = "<group>"; };
+		F1DCEC052C4846F600DFB508 /* Bravura.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bravura.otf; sourceTree = "<group>"; };
+		F1DCEC062C4846F600DFB508 /* Times New Roman.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Times New Roman.ttf"; sourceTree = "<group>"; };
+		F1DCEC072C4846F600DFB508 /* NotoMusic-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoMusic-Regular.ttf"; sourceTree = "<group>"; };
+		F1DCEC0C2C48470C00DFB508 /* keyboard.sf2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = keyboard.sf2; sourceTree = "<group>"; };
+		F1DCEC0D2C48470C00DFB508 /* metronome.sf2 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = metronome.sf2; sourceTree = "<group>"; };
+		F1DCEC112C48471C00DFB508 /* dynamic.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dynamic.json; sourceTree = "<group>"; };
+		F1DCEC122C48471C00DFB508 /* tempo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tempo.json; sourceTree = "<group>"; };
+		F1DCEC132C48471C00DFB508 /* mood.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mood.json; sourceTree = "<group>"; };
+		F1DCEC142C48471C00DFB508 /* chapter.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = chapter.json; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F1D9CFC62C4843450092552D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F1DCEC1F2C4847B100DFB508 /* PostgREST in Frameworks */,
+				F1DCEC1D2C4847B100DFB508 /* Functions in Frameworks */,
+				F1DCEC252C4847B100DFB508 /* Supabase in Frameworks */,
+				F1DCEC2A2C4847CF00DFB508 /* GoogleSignInSwift in Frameworks */,
+				F1DCEC1B2C4847B100DFB508 /* Auth in Frameworks */,
+				F1DCEC232C4847B100DFB508 /* Storage in Frameworks */,
+				F1DCEC212C4847B100DFB508 /* Realtime in Frameworks */,
+				F1DCEC282C4847CF00DFB508 /* GoogleSignIn in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F1D9CFD62C4843470092552D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F1D9CFE02C4843470092552D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F1D9CFC02C4843450092552D = {
+			isa = PBXGroup;
+			children = (
+				F1D9CFCB2C4843450092552D /* Notecraft */,
+				F1D9CFDC2C4843470092552D /* NotecraftTests */,
+				F1D9CFE62C4843470092552D /* NotecraftUITests */,
+				F1D9CFCA2C4843450092552D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F1D9CFCA2C4843450092552D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F1D9CFC92C4843450092552D /* Notecraft.app */,
+				F1D9CFD92C4843470092552D /* NotecraftTests.xctest */,
+				F1D9CFE32C4843470092552D /* NotecraftUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F1D9CFCB2C4843450092552D /* Notecraft */ = {
+			isa = PBXGroup;
+			children = (
+				F1C0E0DD2C4854430051F7B6 /* Info.plist */,
+				F1DCEC012C4846D900DFB508 /* Resource */,
+				F1DCEB9E2C48446500DFB508 /* Style */,
+				F1DCEB9D2C48445100DFB508 /* Model */,
+				F1DCEB9C2C48444A00DFB508 /* Extension */,
+				F1DCEB9B2C48444100DFB508 /* Manager */,
+				F1DCEB9A2C48443400DFB508 /* View */,
+				F1D9CFCC2C4843450092552D /* NotecraftApp.swift */,
+				F1D9CFCE2C4843450092552D /* ContentView.swift */,
+				F1D9CFD02C4843470092552D /* Assets.xcassets */,
+				F1D9CFD22C4843470092552D /* Preview Content */,
+			);
+			path = Notecraft;
+			sourceTree = "<group>";
+		};
+		F1D9CFD22C4843470092552D /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				F1D9CFD32C4843470092552D /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		F1D9CFDC2C4843470092552D /* NotecraftTests */ = {
+			isa = PBXGroup;
+			children = (
+				F1D9CFDD2C4843470092552D /* NotecraftTests.swift */,
+			);
+			path = NotecraftTests;
+			sourceTree = "<group>";
+		};
+		F1D9CFE62C4843470092552D /* NotecraftUITests */ = {
+			isa = PBXGroup;
+			children = (
+				F1D9CFE72C4843470092552D /* NotecraftUITests.swift */,
+				F1D9CFE92C4843470092552D /* NotecraftUITestsLaunchTests.swift */,
+			);
+			path = NotecraftUITests;
+			sourceTree = "<group>";
+		};
+		F1DCEB9A2C48443400DFB508 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCEBA52C4844A200DFB508 /* MainView.swift */,
+				F1DCEBA42C4844A200DFB508 /* MenuBarView.swift */,
+				F1DCEBA32C48449800DFB508 /* Theory */,
+				F1DCEBA22C48449000DFB508 /* Sheet */,
+				F1DCEBA12C48448B00DFB508 /* Profile */,
+				F1DCEBA02C48448200DFB508 /* Pitch */,
+				F1DCEB9F2C48447A00DFB508 /* Auth */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F1DCEB9B2C48444100DFB508 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCEBDE2C48463A00DFB508 /* FastAPI */,
+				F1DCEBDD2C48462F00DFB508 /* Supabase */,
+				F1DCEBDC2C48462700DFB508 /* Auth */,
+				F1DCEBD82C48461D00DFB508 /* JSONHandler.swift */,
+				F1DCEBD92C48461E00DFB508 /* SheetManger.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		F1DCEB9C2C48444A00DFB508 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				F1C0E0E42C4855B00051F7B6 /* Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		F1DCEB9D2C48445100DFB508 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCEBEE2C4846A500DFB508 /* FFT.swift */,
+				F1DCEBE92C4846A500DFB508 /* KeyboardModel.swift */,
+				F1DCEBEC2C4846A500DFB508 /* MetronomeModel.swift */,
+				F1DCEBEA2C4846A500DFB508 /* MIDIPlayer.swift */,
+				F1DCEBF12C4846A500DFB508 /* StopWatchModel.swift */,
+				F1DCEBEB2C4846A500DFB508 /* Symbol.swift */,
+				F1DCEBED2C4846A500DFB508 /* TunerModel.swift */,
+				F1DCEBF02C4846A500DFB508 /* UserModel.swift */,
+				F1DCEBEF2C4846A500DFB508 /* YIN.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		F1DCEB9E2C48446500DFB508 /* Style */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCEBFD2C4846CC00DFB508 /* ShimmerStyle.swift */,
+				F1DCEBFE2C4846CC00DFB508 /* UnicodeStyle.swift */,
+				F1DCEBFB2C4846B800DFB508 /* FieldContainer.swift */,
+				F1C0E0E22C48558D0051F7B6 /* ButtonStyle.swift */,
+			);
+			path = Style;
+			sourceTree = "<group>";
+		};
+		F1DCEB9F2C48447A00DFB508 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				F1C0E0DE2C48554E0051F7B6 /* AuthView.swift */,
+				F1C0E0E02C4855620051F7B6 /* EmailFieldView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		F1DCEBA02C48448200DFB508 /* Pitch */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCEBCF2C4845CB00DFB508 /* KeyboardView.swift */,
+				F1DCEBCC2C4845CB00DFB508 /* MetronomeView.swift */,
+				F1DCEBCE2C4845CB00DFB508 /* PitchView.swift */,
+				F1DCEBCD2C4845CB00DFB508 /* TunerView.swift */,
+			);
+			path = Pitch;
+			sourceTree = "<group>";
+		};
+		F1DCEBA12C48448B00DFB508 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCEBD42C4845F600DFB508 /* ProfileView.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		F1DCEBA22C48449000DFB508 /* Sheet */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCEBD62C4845FE00DFB508 /* SheetView.swift */,
+			);
+			path = Sheet;
+			sourceTree = "<group>";
+		};
+		F1DCEBA32C48449800DFB508 /* Theory */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCEBAC2C48450700DFB508 /* MusicNotation.swift */,
+				F1DCEBAB2C48450700DFB508 /* TheoryView.swift */,
+				F1DCEBAA2C4844FE00DFB508 /* Study */,
+				F1DCEBA92C4844F700DFB508 /* Quiz */,
+				F1DCEBA82C4844ED00DFB508 /* Bookmark */,
+			);
+			path = Theory;
+			sourceTree = "<group>";
+		};
+		F1DCEBA82C4844ED00DFB508 /* Bookmark */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCEBC12C4845A600DFB508 /* utlis */,
+				F1DCEBB82C48456900DFB508 /* BookmarkView.swift */,
+				F1DCEBB62C48456800DFB508 /* DictView.swift */,
+				F1DCEBBA2C48456900DFB508 /* IntervalView.swift */,
+				F1DCEBB52C48456800DFB508 /* KeyTimeSignatureView.swift */,
+				F1DCEBB92C48456900DFB508 /* ScaleView.swift */,
+				F1DCEBB72C48456900DFB508 /* TermListView.swift */,
+			);
+			path = Bookmark;
+			sourceTree = "<group>";
+		};
+		F1DCEBA92C4844F700DFB508 /* Quiz */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCEBB22C48454700DFB508 /* LoadQuizView.swift */,
+				F1DCEBB12C48454700DFB508 /* QuizView.swift */,
+			);
+			path = Quiz;
+			sourceTree = "<group>";
+		};
+		F1DCEBAA2C4844FE00DFB508 /* Study */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCEBAF2C48452300DFB508 /* StudyView.swift */,
+			);
+			path = Study;
+			sourceTree = "<group>";
+		};
+		F1DCEBC12C4845A600DFB508 /* utlis */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCEBC22C4845B400DFB508 /* CircleOfFifthsView.swift */,
+				F1DCEBC62C4845B400DFB508 /* ClefSignatureView.swift */,
+				F1DCEBC42C4845B400DFB508 /* KeySignatureView.swift */,
+				F1DCEBC52C4845B400DFB508 /* NoteView.swift */,
+				F1DCEBC32C4845B400DFB508 /* TimeSignatureView.swift */,
+			);
+			path = utlis;
+			sourceTree = "<group>";
+		};
+		F1DCEBDC2C48462700DFB508 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCEBE12C48464C00DFB508 /* SignInGoogle.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		F1DCEBDD2C48462F00DFB508 /* Supabase */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCEBE42C48465700DFB508 /* Database.swift */,
+				F1DCEBE32C48465700DFB508 /* Key.swift */,
+				F1DCEBE52C48465700DFB508 /* Storage.swift */,
+			);
+			path = Supabase;
+			sourceTree = "<group>";
+		};
+		F1DCEBDE2C48463A00DFB508 /* FastAPI */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCEBDF2C48464200DFB508 /* Server.swift */,
+			);
+			path = FastAPI;
+			sourceTree = "<group>";
+		};
+		F1DCEC012C4846D900DFB508 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCEC102C48471500DFB508 /* Term */,
+				F1DCEC0B2C48470000DFB508 /* Sound */,
+				F1DCEC042C4846EF00DFB508 /* Font */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		F1DCEC042C4846EF00DFB508 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCEC052C4846F600DFB508 /* Bravura.otf */,
+				F1DCEC072C4846F600DFB508 /* NotoMusic-Regular.ttf */,
+				F1DCEC062C4846F600DFB508 /* Times New Roman.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		F1DCEC0B2C48470000DFB508 /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCEC0C2C48470C00DFB508 /* keyboard.sf2 */,
+				F1DCEC0D2C48470C00DFB508 /* metronome.sf2 */,
+			);
+			path = Sound;
+			sourceTree = "<group>";
+		};
+		F1DCEC102C48471500DFB508 /* Term */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCEC142C48471C00DFB508 /* chapter.json */,
+				F1DCEC112C48471C00DFB508 /* dynamic.json */,
+				F1DCEC132C48471C00DFB508 /* mood.json */,
+				F1DCEC122C48471C00DFB508 /* tempo.json */,
+			);
+			path = Term;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F1D9CFC82C4843450092552D /* Notecraft */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F1D9CFED2C4843470092552D /* Build configuration list for PBXNativeTarget "Notecraft" */;
+			buildPhases = (
+				F1D9CFC52C4843450092552D /* Sources */,
+				F1D9CFC62C4843450092552D /* Frameworks */,
+				F1D9CFC72C4843450092552D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Notecraft;
+			packageProductDependencies = (
+				F1DCEC1A2C4847B100DFB508 /* Auth */,
+				F1DCEC1C2C4847B100DFB508 /* Functions */,
+				F1DCEC1E2C4847B100DFB508 /* PostgREST */,
+				F1DCEC202C4847B100DFB508 /* Realtime */,
+				F1DCEC222C4847B100DFB508 /* Storage */,
+				F1DCEC242C4847B100DFB508 /* Supabase */,
+				F1DCEC272C4847CF00DFB508 /* GoogleSignIn */,
+				F1DCEC292C4847CF00DFB508 /* GoogleSignInSwift */,
+			);
+			productName = Notecraft;
+			productReference = F1D9CFC92C4843450092552D /* Notecraft.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F1D9CFD82C4843470092552D /* NotecraftTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F1D9CFF02C4843470092552D /* Build configuration list for PBXNativeTarget "NotecraftTests" */;
+			buildPhases = (
+				F1D9CFD52C4843470092552D /* Sources */,
+				F1D9CFD62C4843470092552D /* Frameworks */,
+				F1D9CFD72C4843470092552D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F1D9CFDB2C4843470092552D /* PBXTargetDependency */,
+			);
+			name = NotecraftTests;
+			productName = NotecraftTests;
+			productReference = F1D9CFD92C4843470092552D /* NotecraftTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F1D9CFE22C4843470092552D /* NotecraftUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F1D9CFF32C4843470092552D /* Build configuration list for PBXNativeTarget "NotecraftUITests" */;
+			buildPhases = (
+				F1D9CFDF2C4843470092552D /* Sources */,
+				F1D9CFE02C4843470092552D /* Frameworks */,
+				F1D9CFE12C4843470092552D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F1D9CFE52C4843470092552D /* PBXTargetDependency */,
+			);
+			name = NotecraftUITests;
+			productName = NotecraftUITests;
+			productReference = F1D9CFE32C4843470092552D /* NotecraftUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F1D9CFC12C4843450092552D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					F1D9CFC82C4843450092552D = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					F1D9CFD82C4843470092552D = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = F1D9CFC82C4843450092552D;
+					};
+					F1D9CFE22C4843470092552D = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = F1D9CFC82C4843450092552D;
+					};
+				};
+			};
+			buildConfigurationList = F1D9CFC42C4843450092552D /* Build configuration list for PBXProject "Notecraft" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F1D9CFC02C4843450092552D;
+			packageReferences = (
+				F1DCEC192C4847B100DFB508 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+				F1DCEC262C4847CF00DFB508 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+			);
+			productRefGroup = F1D9CFCA2C4843450092552D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F1D9CFC82C4843450092552D /* Notecraft */,
+				F1D9CFD82C4843470092552D /* NotecraftTests */,
+				F1D9CFE22C4843470092552D /* NotecraftUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F1D9CFC72C4843450092552D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F1D9CFD42C4843470092552D /* Preview Assets.xcassets in Resources */,
+				F1DCEC152C48471C00DFB508 /* dynamic.json in Resources */,
+				F1DCEC092C4846F600DFB508 /* Times New Roman.ttf in Resources */,
+				F1DCEC0E2C48470C00DFB508 /* keyboard.sf2 in Resources */,
+				F1DCEC172C48471C00DFB508 /* mood.json in Resources */,
+				F1DCEC082C4846F600DFB508 /* Bravura.otf in Resources */,
+				F1DCEC0A2C4846F600DFB508 /* NotoMusic-Regular.ttf in Resources */,
+				F1DCEC0F2C48470C00DFB508 /* metronome.sf2 in Resources */,
+				F1DCEC182C48471C00DFB508 /* chapter.json in Resources */,
+				F1D9CFD12C4843470092552D /* Assets.xcassets in Resources */,
+				F1DCEC162C48471C00DFB508 /* tempo.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F1D9CFD72C4843470092552D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F1D9CFE12C4843470092552D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F1D9CFC52C4843450092552D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F1DCEBB02C48452300DFB508 /* StudyView.swift in Sources */,
+				F1DCEBCB2C4845B400DFB508 /* ClefSignatureView.swift in Sources */,
+				F1DCEBC92C4845B400DFB508 /* KeySignatureView.swift in Sources */,
+				F1DCEBD02C4845CB00DFB508 /* MetronomeView.swift in Sources */,
+				F1DCEBC02C48456900DFB508 /* IntervalView.swift in Sources */,
+				F1DCEBF42C4846A500DFB508 /* Symbol.swift in Sources */,
+				F1C0E0DF2C48554F0051F7B6 /* AuthView.swift in Sources */,
+				F1DCEBAD2C48450700DFB508 /* TheoryView.swift in Sources */,
+				F1DCEBF92C4846A500DFB508 /* UserModel.swift in Sources */,
+				F1C0E0E32C48558D0051F7B6 /* ButtonStyle.swift in Sources */,
+				F1DCEBA62C4844A200DFB508 /* MenuBarView.swift in Sources */,
+				F1DCEBD52C4845F600DFB508 /* ProfileView.swift in Sources */,
+				F1DCEBBF2C48456900DFB508 /* ScaleView.swift in Sources */,
+				F1DCEBBC2C48456900DFB508 /* DictView.swift in Sources */,
+				F1DCEBD32C4845CB00DFB508 /* KeyboardView.swift in Sources */,
+				F1DCEBF82C4846A500DFB508 /* YIN.swift in Sources */,
+				F1DCEBE02C48464200DFB508 /* Server.swift in Sources */,
+				F1C0E0E12C4855620051F7B6 /* EmailFieldView.swift in Sources */,
+				F1DCEBF22C4846A500DFB508 /* KeyboardModel.swift in Sources */,
+				F1DCEBA72C4844A200DFB508 /* MainView.swift in Sources */,
+				F1DCEBBE2C48456900DFB508 /* BookmarkView.swift in Sources */,
+				F1DCEBF62C4846A500DFB508 /* TunerModel.swift in Sources */,
+				F1DCEBDA2C48461E00DFB508 /* JSONHandler.swift in Sources */,
+				F1DCEBBB2C48456900DFB508 /* KeyTimeSignatureView.swift in Sources */,
+				F1DCEBDB2C48461E00DFB508 /* SheetManger.swift in Sources */,
+				F1DCEBC72C4845B400DFB508 /* CircleOfFifthsView.swift in Sources */,
+				F1DCEBD22C4845CB00DFB508 /* PitchView.swift in Sources */,
+				F1DCEBAE2C48450700DFB508 /* MusicNotation.swift in Sources */,
+				F1DCEBF72C4846A500DFB508 /* FFT.swift in Sources */,
+				F1DCEBF32C4846A500DFB508 /* MIDIPlayer.swift in Sources */,
+				F1DCEBFF2C4846CC00DFB508 /* ShimmerStyle.swift in Sources */,
+				F1DCEBCA2C4845B400DFB508 /* NoteView.swift in Sources */,
+				F1DCEBD72C4845FE00DFB508 /* SheetView.swift in Sources */,
+				F1DCEBFA2C4846A500DFB508 /* StopWatchModel.swift in Sources */,
+				F1DCEBD12C4845CB00DFB508 /* TunerView.swift in Sources */,
+				F1DCEBFC2C4846B800DFB508 /* FieldContainer.swift in Sources */,
+				F1DCEBE82C48465700DFB508 /* Storage.swift in Sources */,
+				F1DCEBF52C4846A500DFB508 /* MetronomeModel.swift in Sources */,
+				F1DCEBB42C48454700DFB508 /* LoadQuizView.swift in Sources */,
+				F1DCEBBD2C48456900DFB508 /* TermListView.swift in Sources */,
+				F1DCEBB32C48454700DFB508 /* QuizView.swift in Sources */,
+				F1DCEBE22C48464C00DFB508 /* SignInGoogle.swift in Sources */,
+				F1DCEBC82C4845B400DFB508 /* TimeSignatureView.swift in Sources */,
+				F1D9CFCF2C4843450092552D /* ContentView.swift in Sources */,
+				F1C0E0E52C4855B00051F7B6 /* Extension.swift in Sources */,
+				F1DCEBE62C48465700DFB508 /* Key.swift in Sources */,
+				F1DCEBE72C48465700DFB508 /* Database.swift in Sources */,
+				F1D9CFCD2C4843450092552D /* NotecraftApp.swift in Sources */,
+				F1DCEC002C4846CC00DFB508 /* UnicodeStyle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F1D9CFD52C4843470092552D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F1D9CFDE2C4843470092552D /* NotecraftTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F1D9CFDF2C4843470092552D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F1D9CFE82C4843470092552D /* NotecraftUITests.swift in Sources */,
+				F1D9CFEA2C4843470092552D /* NotecraftUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F1D9CFDB2C4843470092552D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F1D9CFC82C4843450092552D /* Notecraft */;
+			targetProxy = F1D9CFDA2C4843470092552D /* PBXContainerItemProxy */;
+		};
+		F1D9CFE52C4843470092552D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F1D9CFC82C4843450092552D /* Notecraft */;
+			targetProxy = F1D9CFE42C4843470092552D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		F1D9CFEB2C4843470092552D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F1D9CFEC2C4843470092552D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F1D9CFEE2C4843470092552D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Notecraft/Preview Content\"";
+				DEVELOPMENT_TEAM = 5PB6R8YN64;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Notecraft/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Notecraft;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "\"Notecraft uses microphones for tuning\"";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = notecraft.bundle.id;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F1D9CFEF2C4843470092552D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Notecraft/Preview Content\"";
+				DEVELOPMENT_TEAM = 5PB6R8YN64;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Notecraft/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Notecraft;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "\"Notecraft uses microphones for tuning\"";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = notecraft.bundle.id;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F1D9CFF12C4843470092552D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5PB6R8YN64;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = wyattcheang.NotecraftTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Notecraft.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Notecraft";
+			};
+			name = Debug;
+		};
+		F1D9CFF22C4843470092552D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5PB6R8YN64;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = wyattcheang.NotecraftTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Notecraft.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Notecraft";
+			};
+			name = Release;
+		};
+		F1D9CFF42C4843470092552D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5PB6R8YN64;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = wyattcheang.NotecraftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Notecraft;
+			};
+			name = Debug;
+		};
+		F1D9CFF52C4843470092552D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5PB6R8YN64;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = wyattcheang.NotecraftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Notecraft;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F1D9CFC42C4843450092552D /* Build configuration list for PBXProject "Notecraft" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F1D9CFEB2C4843470092552D /* Debug */,
+				F1D9CFEC2C4843470092552D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F1D9CFED2C4843470092552D /* Build configuration list for PBXNativeTarget "Notecraft" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F1D9CFEE2C4843470092552D /* Debug */,
+				F1D9CFEF2C4843470092552D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F1D9CFF02C4843470092552D /* Build configuration list for PBXNativeTarget "NotecraftTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F1D9CFF12C4843470092552D /* Debug */,
+				F1D9CFF22C4843470092552D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F1D9CFF32C4843470092552D /* Build configuration list for PBXNativeTarget "NotecraftUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F1D9CFF42C4843470092552D /* Debug */,
+				F1D9CFF52C4843470092552D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F1DCEC192C4847B100DFB508 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+		F1DCEC262C4847CF00DFB508 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F1DCEC1A2C4847B100DFB508 /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1DCEC192C4847B100DFB508 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		F1DCEC1C2C4847B100DFB508 /* Functions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1DCEC192C4847B100DFB508 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Functions;
+		};
+		F1DCEC1E2C4847B100DFB508 /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1DCEC192C4847B100DFB508 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		F1DCEC202C4847B100DFB508 /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1DCEC192C4847B100DFB508 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
+		F1DCEC222C4847B100DFB508 /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1DCEC192C4847B100DFB508 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Storage;
+		};
+		F1DCEC242C4847B100DFB508 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1DCEC192C4847B100DFB508 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+		F1DCEC272C4847CF00DFB508 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1DCEC262C4847CF00DFB508 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		F1DCEC292C4847CF00DFB508 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1DCEC262C4847CF00DFB508 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = F1D9CFC12C4843450092552D /* Project object */;
+}

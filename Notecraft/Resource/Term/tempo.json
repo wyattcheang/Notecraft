@@ -1,0 +1,145 @@
+[
+    {
+        "type": "Tempo",
+        "section": "Marking",
+        "terms": [
+            {
+                "name": "adagietto",
+                "meaning": "rather slow, slightly faster than adagio",
+                "bpm": [72, 76],
+            },
+            {
+                "name": "adagio",
+                "meaning": "slow",
+                "bpm": [66, 76],
+            },
+            {
+                "name": "allegretto",
+                "meaning": "moderately fast, slightly slower than allegro",
+                "bpm": [112, 120],
+            },
+            {
+                "name": "allegrissimo",
+                "meaning": "very fast, faster than allegro",
+                "bpm": [172, 176],
+            },
+            {
+                "name": "allegro",
+                "meaning": "fast",
+                "bpm": [120, 168],
+            },
+            {
+                "name": "allegro moderato",
+                "meaning": "moderately fast, slightly slower than allegro",
+                "bpm": [116, 120],
+            },
+            {
+                "name": "andante",
+                "meaning": "walking pace",
+                "bpm": [76, 108],
+            },
+            {
+                "name": "andante moderato",
+                "meaning": "walking pace, faster than andante",
+                "bpm": [92, 112],
+            },
+            {
+                "name": "andantino",
+                "meaning": "moderate tempo, slightly faster than andante",
+                "bpm": [80, 108],
+            },
+            {
+                "name": "grave",
+                "meaning": "very slow",
+                "bpm": [25, 45],
+            },
+            {
+                "name": "larghetto",
+                "meaning": "rather slow and broad, slightly faster than largo",
+                "bpm": [60, 66]
+            },
+            {
+                "name": "larghissimo",
+                "meaning": "extremely slow, slower than largo",
+                "bpm": [1, 25],
+            },
+            {
+                "name": "largo",
+                "meaning": "very slow and broad",
+                "bpm": [40, 60],
+            },
+            {
+                "name": "lento",
+                "meaning": "slow",
+                "bpm": [45, 60],
+            },
+            {
+                "name": "moderato",
+                "meaning": "moderately",
+                "bpm": [108, 120],
+            },
+            {
+                "name": "prestissimo",
+                "meaning": "extremely fast, faster than presto",
+                "bpm": [200, 400],
+            },
+            {
+                "name": "presto",
+                "meaning": "very fast",
+                "bpm": [168, 200],
+            },
+            {
+                "name": "vivace",
+                "meaning": "fast and lively",
+                "bpm": [140, 176],
+            },
+            {
+                "name": "vivacissimo",
+                "meaning": "very fast and lively, faster than vivace",
+                "bpm": [172, 176],
+            }
+        ]
+    },
+    {
+        "type": "Tempo",
+        "section": "Change",
+        "terms": [
+            {
+                "name": "A piacere",
+                "meaning": "At pleasure, the tempo may be decided by the performer",
+            },
+            {
+                "name": "a tempo",
+                "meaning": "Resume previous tempo",
+            },
+            {
+                "name": "rallentando",
+                "meaning": "Gradually slower",
+                "abbreviation": ["rall."]
+            },
+            {
+                "name": "ritardando",
+                "meaning": "gradually slower",
+                "abbreviation": ["rit.", "ritard."]
+            },
+            {
+                "name": "ritenuto",
+                "meaning": "Immediately slower",
+                "abbreviation": ["riten."]
+            },
+            {
+                "name": "rubato",
+                "meaning": "In free time, no steady beat",
+            },
+            {
+                "name": "stringendo",
+                "meaning": "gradually faster, literally \"tightening\"",
+            },
+            {
+                "name": "accelerando",
+                "meaning": "gradually faster",
+                "abbreviation": ["accel."]
+            }
+        ]
+    }
+]
