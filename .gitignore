@@ -30,6 +30,9 @@ DerivedData/
 *.dSYM.zip
 *.dSYM
 
+## SoundFont
+*.sf2
+
 ## Playgrounds
 timeline.xctimeline
 playground.xcworkspace

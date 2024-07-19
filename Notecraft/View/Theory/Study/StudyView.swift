@@ -57,5 +57,7 @@ struct StudyCardView: View {
 }
 
 #Preview {
-    StudyView(chapters: loadFile("chapter.json"))
+    NavigationStack {
+        StudyView(chapters: loadFile("chapter.json"))
+    }
 }
