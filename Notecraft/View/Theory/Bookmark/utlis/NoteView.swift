@@ -18,12 +18,7 @@ import SwiftUI
     }
 }
 
-
-
 struct GroupNoteView: View {
-    let midi = MIDIPlayer.shared
-//    let midi = MIDIPlayer(volume: 0.6, sampler: "keyboard")
-    
     let clef: ClefType
     let pitches: [Pitch]
     var isRest: Bool = false
@@ -106,10 +101,6 @@ struct GroupNoteView: View {
         let areInSameOctave = pitch1.octave == pitch2.octave
         let areBAndCInAdjacentOctaves = pitch1.note.baseNote == .B && pitch2.note.baseNote == .C && pitch1.octave + 1 == pitch2.octave
         return areNotesAdjacent && (areInSameOctave || areBAndCInAdjacentOctaves)
-    }
-    
-    private func playNote(pitch: Pitch) {
-        midi.play(pitch.MIDINote)
     }
 }
 

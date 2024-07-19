@@ -20,8 +20,8 @@ enum AuthState {
 class UserModel {
     // Variables
     @MainActor
+    var uuidString: String = ""
     var data: User?
-    
     var authState: AuthState
     var errorMessage: String
     
@@ -32,9 +32,7 @@ class UserModel {
     
     private func wait() async {
         do {
-            print("Wait")
             try await Task.sleep(nanoseconds: 1_000_000_000)
-            print("Done")
         }
         catch {
             print(error.localizedDescription)
@@ -49,6 +47,9 @@ extension UserModel {
         do {
             let session = try await supabase.auth.session
             self.data = session.user
+            if let uuidString = data?.id.uuidString {
+                self.uuidString = uuidString
+            }
         } catch {
             return
         }
@@ -76,20 +77,6 @@ extension UserModel {
 
 // MARK: - Email and Password Authentication
 extension UserModel {
-//    @MainActor 
-//    func signInWithEmailPassword(email:String, password:String) async -> Bool {
-//        do {
-//            let session = try await supabase.auth.signIn(email: email, password: password)
-//            data = session.user
-//            return true
-//        }
-//        catch  {
-//            print(error)
-//            errorMessage = error.localizedDescription
-//            authState = .unauthenticated
-//            return false
-//        }
-//    }
     
     @MainActor
     func signInWithEmailPassword(email: String, password: String, completion: @escaping (Result<Bool, Error>) -> Void) async {

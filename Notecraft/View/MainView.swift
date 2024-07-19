@@ -9,7 +9,6 @@ import SwiftUI
 
 struct MainView: View {
     @State private var user = UserModel()
-
     var body: some View {
         Group {
             switch user.authState {
@@ -48,11 +47,28 @@ private struct UserModelKey: EnvironmentKey {
     static var defaultValue: UserModel = UserModel()
 }
 
+private struct TunerModelKey: EnvironmentKey {
+    static var defaultValue: TunerModel = TunerModel()
+}
+
+private struct MidiPlayerKey: EnvironmentKey {
+    static var defaultValue: MIDIPlayer = MIDIPlayer()
+}
+
 extension EnvironmentValues {
     var user: UserModel {
         get { self[UserModelKey.self] }
         set { self[UserModelKey.self] = newValue }
     }
+    
+    var tuner: TunerModel {
+        get { self[TunerModelKey.self] }
+        set { self[TunerModelKey.self] = newValue }
+    }
+    
+    var midi: MIDIPlayer {
+        get { self[MidiPlayerKey.self] }
+        set { self[MidiPlayerKey.self] = newValue }
+    }
 }
-
 

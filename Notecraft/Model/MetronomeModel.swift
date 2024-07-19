@@ -80,7 +80,7 @@ class MetronomeModel {
     }
     
     private func loadSoundFont() {
-        guard let url = Bundle.main.url(forResource: "metronom", withExtension: "sf2") else { return }
+        guard let url = Bundle.main.url(forResource: "metronome", withExtension: "sf2") else { return }
         try? unitSampler.loadSoundBankInstrument(
             at: url, program: 0,
             bankMSB: UInt8(kAUSampler_DefaultMelodicBankMSB),

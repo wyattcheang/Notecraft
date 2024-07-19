@@ -8,10 +8,8 @@
 import SwiftUI
 
 struct ScaleView: View {
+    @Environment(\.midi) var midi: MIDIPlayer
     @AppStorage("notationSize") var notationSize: NotationSize = .standard
-    
-    let midi = MIDIPlayer.shared
-//    var midi = MIDIPlayer(volume: 0.6, sampler: "keyboard")
     
     @State var keySignature = KeySignature(clef: .treble, scale: .major, key: .C)
     @State var accidental: AccidentalType = .sharp
@@ -58,7 +56,7 @@ struct ScaleView: View {
             }
         }
         List {
-            CircleOfFifthsView(scale: keySignature.scale, key: $keySignature.key)
+            CircleOfFifthsView(key: $keySignature.key, scale: $keySignature.scale)
             Group {
                 Picker("Clef", selection: $keySignature.clef) {
                     ForEach(ClefType.allCases) { type in

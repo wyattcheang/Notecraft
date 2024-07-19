@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct CircleOfFifthsView: View {
-    var scale: ScaleType
     @Binding var key: KeyType
-    
+    @Binding var scale: ScaleType
     @State private var accidental: AccidentalType = .sharp
     
     var keys: [KeyType] {
@@ -27,7 +26,7 @@ struct CircleOfFifthsView: View {
     
     var body: some View {
         VStack {
-            ZStack(alignment: .bottomTrailing) {
+            ZStack(alignment: .bottom) {
                 ZStack {
                     ForEach(Array(zip(keys.indices, keys)), id: \.0) { index, key in
                         let startAngle = Double(index) * 30 - 105
@@ -52,20 +51,41 @@ struct CircleOfFifthsView: View {
                     }
                 }
                 .frame(maxWidth: .infinity, minHeight: 200)
-                Button(action: { toggle() }) {
-                    Circle()
-                        .fill(Color(uiColor: .systemGray5))
-                        .frame(width: 40, height: 40)
-                        .overlay {
-                            Text(accidental.symbol)
-                        }
+                HStack {
+                    Button(action: { toggleScale() }) {
+                        Circle()
+                            .fill(Color(uiColor: .systemGray5))
+                            .frame(width: 40, height: 40)
+                            .overlay {
+                                Text(scale == .major ? "M" : "m")
+                            }
+                    }
+                    Spacer()
+                    Button(action: { toggleAccidental() }) {
+                        Circle()
+                            .fill(Color(uiColor: .systemGray5))
+                            .frame(width: 40, height: 40)
+                            .overlay {
+                                Text(accidental.symbol)
+                            }
+                    }
                 }
+                .font(.subheadline)
+                .fontWeight(.heavy)
             }
-            .padding()
+        }
+        .padding(.vertical)
+    }
+    
+    private func toggleScale() {
+        if scale == .major {
+            self.scale = .minor(.natural)
+        } else if scale == .minor(.natural) {
+            self.scale = .major
         }
     }
     
-    private func toggle() {
+    private func toggleAccidental() {
         if accidental == .sharp {
             self.accidental = .flat
         } else if accidental == .flat {
@@ -102,5 +122,5 @@ struct ArcSegment: Shape {
 }
 
 #Preview {
-    CircleOfFifthsView(scale: .major, key: .constant(.C))
+    CircleOfFifthsView(key: .constant(.C), scale: .constant(.major))
 }

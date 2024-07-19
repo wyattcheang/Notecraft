@@ -78,3 +78,7 @@ struct MetronomeView: View {
         }
     }
 }
+
+#Preview {
+    MetronomeView()
+}

@@ -9,67 +9,6 @@ import Foundation
 import Observation
 import AVFoundation
 
-enum FullNoteType: String, CaseIterable {
-    case C, D, E, F, G, A, B
-    case CSharp = "C♯"
-    case DSharp = "D♯"
-    case FSharp = "F♯"
-    case GSharp = "G♯"
-    case ASharp = "A♯"
-    case DFlat = "D♭"
-    case EFlat = "E♭"
-    case GFlat = "G♭"
-    case AFlat = "A♭"
-    case BFlat = "B♭"
-    
-    var note: Note {
-        switch self {
-        case .C: return Note(.C, .natural)
-        case .D: return Note(.D, .natural)
-        case .E: return Note(.E, .natural)
-        case .F: return Note(.F, .natural)
-        case .G: return Note(.G, .natural)
-        case .A: return Note(.A, .natural)
-        case .B: return Note(.B, .natural)
-        case .CSharp: return Note(.C, .sharp)
-        case .DSharp: return Note(.D, .sharp)
-        case .FSharp: return Note(.F, .sharp)
-        case .GSharp: return Note(.G, .sharp)
-        case .ASharp: return Note(.A, .sharp)
-        case .DFlat: return Note(.D, .flat)
-        case .EFlat: return Note(.E, .flat)
-        case .GFlat: return Note(.G, .flat)
-        case .AFlat: return Note(.A, .flat)
-        case .BFlat: return Note(.B, .flat)
-        }
-    }
-    
-    var sharp: FullNoteType {
-        switch self {
-        case .C: return .CSharp
-        case .D: return .DSharp
-        case .F: return .FSharp
-        case .G: return .GSharp
-        case .A: return .ASharp
-        default: return self
-        }
-    }
-    
-    var flat: FullNoteType {
-        switch self {
-        case .D: return .DFlat
-        case .E: return .EFlat
-        case .G: return .GFlat
-        case .A: return .AFlat
-        case .B: return .BFlat
-        default: return self
-        }
-    }
-    
-    static let sharpPitchNote: [FullNoteType] = FullNoteType.allCases.filter { $0.note.accidental != .flat }
-    static let flatPitchNote: [FullNoteType] = FullNoteType.allCases.filter { $0.note.accidental != .sharp }
-}
-
 @Observable
 class TunerModel {
     var note: String = ""
@@ -128,7 +67,7 @@ class TunerModel {
         audioEngine.prepare()
     }
     
-    func startTuning() {
+    func start() {
         do {
             try audioEngine?.start()
         } catch {
@@ -136,7 +75,7 @@ class TunerModel {
         }
     }
 
-    func stopTuning() {
+    func stop() {
         audioEngine?.stop()
     }
     
@@ -201,7 +140,7 @@ class TunerModel {
 //        let fft = FFT(sampleCount: Int(bufferSize), sampleRate: sampleRate)
 //
 //        let magnitudes = fft.calculateMagnitudes(buffer: channelDataArray)
-//        
+//
 //        if let maxMagnitude = magnitudes.max(), let maxIndex = magnitudes.firstIndex(of: maxMagnitude) {
 //            let frequency = fft.frequency(at: maxIndex)
 //            DispatchQueue.main.async {
@@ -210,4 +149,3 @@ class TunerModel {
 //        }
 //    }
 }
-

@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct IntervalView: View {
-    let midi = MIDIPlayer.shared
-    
+    @Environment(\.midi) var midi: MIDIPlayer
     @AppStorage("notationSize") var notationSize: NotationSize = .standard
     
     @State var keySignature = KeySignature(clef: .treble, scale: .major, key: .C)
@@ -88,7 +87,7 @@ struct IntervalView: View {
                         Text("\(type)")
                     }
                 }
-                CircleOfFifthsView(scale: keySignature.scale, key: $keySignature.key)
+                CircleOfFifthsView(key: $keySignature.key, scale: $keySignature.scale)
                 Button("Play", action: playInterval)
                     .disabled(isPlayingScale)
                     .buttonStyle(.accentButton)

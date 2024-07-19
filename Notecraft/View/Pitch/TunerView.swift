@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TunerView: View {
-    @State private var tuner = TunerModel()
+    @State var tuner = TunerModel()
     @AppStorage("pitchStandard") var pitchStandard: Double = 440.0
     @AppStorage("accidentalPreference") var accidentalPreference: AccidentalType = .sharp
     
@@ -36,10 +36,10 @@ struct TunerView: View {
         }
         .onAppear {
             tuner.setPrams(pitchStandard: pitchStandard, accidentalPreference: accidentalPreference)
-            tuner.startTuning()
+            tuner.start()
         }
         .onDisappear {
-            tuner.stopTuning()
+            tuner.stop()
         }
     }
     

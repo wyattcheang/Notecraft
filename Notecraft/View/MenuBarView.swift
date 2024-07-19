@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MenuBarView: View {
+    @State var midi = MIDIPlayer()
     var body: some View {
         TabView {
             TheoryView()
@@ -16,11 +17,13 @@ struct MenuBarView: View {
                         .padding()
                     Text("Theory")
                 }
+                .environment(\.midi, midi)
             PitchView()
                 .tabItem() {
                     Image(systemName:"tuningfork")
                     Text("Pitch")
                 }
+                .environment(\.midi, midi)
             SheetView()
                 .tabItem() {
                     Image(systemName:"music.note.list")

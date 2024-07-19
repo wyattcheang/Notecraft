@@ -31,4 +31,46 @@ class Storage {
             }
         }
     }
+    
+    func checkXMLFileAvailability(bucket: String, path: String) async -> [String] {
+        print(bucket)
+        print(path)
+        do {
+            let data = try await supabase.storage
+                .from(bucket)
+                .list(path: path)
+            let result = (data.map {$0.name})
+            print(result)
+            return result
+        }
+        catch {
+            print(error)
+            return []
+        }
+    }
+    
+    func getXMLFile(bucket: String, paths: [String]) async -> [URL] {
+        var fileURLs: [URL] = []
+        
+        for path in paths {
+            do {
+                let data = try await supabase.storage
+                    .from(bucket)
+                    .download(path: path)
+                
+                let localURL = getLocalFilePath(for: path)
+                try data.write(to: localURL)
+                fileURLs.append(localURL)
+            } catch {
+                print(error)
+            }
+        }
+        return fileURLs
+    }
+
+    func getLocalFilePath(for remotePath: String) -> URL {
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let localFileName = (remotePath as NSString).lastPathComponent
+        return documentsDirectory.appendingPathComponent(localFileName)
+    }
 }

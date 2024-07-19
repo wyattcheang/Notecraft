@@ -6,9 +6,9 @@
 //
 
 import SwiftUI
+import AVFAudio
 
 struct BookmarkView: View {
-    
     // Define a dictionary of titles and their corresponding destinations
     let items: [(title: String, destination: AnyView)] = [
             ("Signatures", AnyView(KeyTimeSignatureView())),

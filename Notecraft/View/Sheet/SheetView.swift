@@ -519,11 +519,26 @@ struct PDFKitView: UIViewRepresentable {
     }
 }
 
+enum FlipDirection {
+    case left, right
+}
+
 struct MusicSheetView: View {
     var file: URL
     @Binding var dismiss: Bool
+    
+    @Environment(\.user) var user: UserModel
+    
     @State private var currentPage: Int = 1
     @State private var isShowingNavBar: Bool = true
+    @State private var isXMLFileAvailable: Bool = false
+    @State private var xmlFilesName: [String] = []
+    
+    @State private var fileToShare: [URL] = []
+    @State private var filesAreReady: Bool = false
+    @State private var loadingState: Bool = false
+    
+    var userID: String = ""
     
     var id: String {
         do {
@@ -534,37 +549,66 @@ struct MusicSheetView: View {
     }
     
     var body: some View {
-        VStack {
-            GeometryReader { geometry in
-                NavigationStack {
-                    PDFKitView(url: file, width: geometry.size.width, currentPage: $currentPage)
-                        .navigationTitle(file.lastPathComponent)
-                        .navigationBarTitleDisplayMode(.inline)
-                        .navigationBarHidden(!isShowingNavBar)
-                        .toolbar {
-                            ToolbarItem(placement: .navigationBarLeading) {
-                                Button(action: {
-                                    dismiss.toggle()
-                                }) {
-                                    Label("Back", systemImage: "chevron.left")
+        ZStack {
+            VStack {
+                GeometryReader { geometry in
+                    NavigationStack {
+                        PDFKitView(url: file, width: geometry.size.width, currentPage: $currentPage)
+                            .navigationTitle(file.lastPathComponent)
+                            .navigationBarTitleDisplayMode(.inline)
+                            .navigationBarHidden(!isShowingNavBar)
+                            .toolbar {
+                                ToolbarItem(placement: .topBarLeading) {
+                                    Button(action: {
+                                        dismiss.toggle()
+                                    }) {
+                                        Label("Back", systemImage: "chevron.left")
+                                    }
                                 }
-                                Spacer()
-                                Button(action: {}) {
-                                    Image(systemName: "share")
+                                ToolbarItem(placement: .topBarTrailing) {
+                                    Menu {
+                                        Button("Export PDF", action: sharePDF)
+                                        if xmlFilesName.isEmpty {
+                                            Button("Convert to MusicXML", action: convertPDFtoMusicXML)
+                                        } else {
+                                            Button ("Export MusicXML") {
+                                                Task {
+                                                    await exportMusicXML()
+                                                }
+                                            }
+                                        }
+                                    } label: {
+                                        Label("More", systemImage: "ellipsis")
+                                    }
+                                }
+                                ToolbarItem(placement: .bottomBar) {
+                                    HStack {
+                                        Button("Previous", action: { flipPage(to: .left) })
+                                        Spacer()
+                                        Button("Next", action: { flipPage(to: .right) })
+                                    }
                                 }
                             }
-                        }
-                        .animation(.easeIn(duration: 0.3), value: isShowingNavBar)
+                            .animation(.easeIn(duration: 0.3), value: isShowingNavBar)
+                    }
                 }
             }
-            HStack {
-                Button("Previous", action: { flipPage(to: .left) })
-                Spacer()
-                Text(id)
-                Spacer()
-                Button("Next", action: { flipPage(to: .right) })
+            
+            if loadingState {
+                Color.black.opacity(0.4)
+                    .edgesIgnoringSafeArea(.all)
+                
+                ProgressView("Loading...")
+                    .progressViewStyle(CircularProgressViewStyle())
             }
-            .padding()
+        }
+        .onAppear {
+            checkFile()
+        }
+        .sheet(isPresented: $filesAreReady) {
+            if !fileToShare.isEmpty {
+                ShareSheet(activityItems: self.fileToShare)
+            }
         }
     }
     
@@ -583,9 +627,62 @@ struct MusicSheetView: View {
         }
     }
     
-    enum FlipDirection {
-        case left, right
+    private func sharePDF() {
+        loadingState = true
+        defer {
+            loadingState = false
+            filesAreReady = true
+        }
+        DispatchQueue.main.async {
+            fileToShare.removeAll()
+            self.fileToShare = [file]
+        }
     }
+    
+    @MainActor
+    func convertPDFtoMusicXML() {
+        FastAPIServer.shared.uploadPDF(at: file, fileID: id, userID: user.uuidString)
+    }
+    
+    @MainActor
+    private func checkFile() {
+        DispatchQueue.global(qos: .background).async {
+            Task {
+                let path = "\(await user.uuidString)/\(id)"
+                self.xmlFilesName = await Storage.shared.checkXMLFileAvailability(bucket: "sheets", path: path)
+            }
+        }
+    }
+    
+    @MainActor
+    private func exportMusicXML() async {
+        loadingState = true
+        defer {
+            loadingState = false
+            filesAreReady = true
+        }
+        let paths = xmlFilesName.map { "\(user.uuidString)/\(id)/\($0)" }
+        let fileURLs = await Storage.shared.getXMLFile(bucket: "sheets", paths: paths)
+        
+        print("File URLs: \(fileURLs)") // Debug print
+        
+        if !fileURLs.isEmpty {
+            fileToShare.removeAll()
+            fileToShare = fileURLs
+            print("File to Share: \(self.fileToShare)") // Debug print
+            print("About to show ShareSheet") // Debug print
+        }
+    }
+}
+
+struct ShareSheet: UIViewControllerRepresentable {
+    var activityItems: [URL]
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        return UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
 struct TestingView: View {
@@ -602,7 +699,7 @@ struct TestingView: View {
 }
 
 
-//#Preview("Test") {
-//    MusicSheetView(file: <#T##URL#>, dismiss: <#T##Bool#>)
-//}
+#Preview("Test") {
+    MusicSheetView(file: Bundle.main.url(forResource: "paganini-caprice-24-violin", withExtension: "pdf")!, dismiss: .constant(false))
+}
 

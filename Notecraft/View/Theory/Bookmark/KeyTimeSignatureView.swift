@@ -30,7 +30,6 @@ struct KeyTimeSignatureView: View {
     
     @State var keySignature: KeySignature = .init(clef: .treble, scale: .major, key: .C)
     @State var timeSignature: TimeSignature = .init(beat: 4, time: 4)
-    @State var accidentalPreference: AccidentalType = .sharp
     
     var body: some View {
         VStack {
@@ -45,24 +44,6 @@ struct KeyTimeSignatureView: View {
             Text("\(keySignature.key.text) \(keySignature.scale.name) in \(keySignature.clef.rawValue.capitalized) Clef")
         }
         List {
-            Group {
-                Picker("Clef", selection: $keySignature.clef) {
-                    ForEach(ClefType.allCases) { type in
-                        Text(type.rawValue)
-                    }
-                }
-                Picker("Scale", selection: $keySignature.scale) {
-                    ForEach(ScaleType.basicCase) { type in
-                        Text(type.name)
-                    }
-                }
-                Picker("Accidental Preference", selection: $accidentalPreference) {
-                    ForEach(AccidentalType.preference) { accidental in
-                        Text(accidental.rawValue)
-                    }
-                }
-            }
-            .pickerStyle(.segmented)
             HStack {
                 Picker("Beat", selection: $timeSignature.beat) {
                     ForEach(1...12, id: \.self) { range in
@@ -75,10 +56,18 @@ struct KeyTimeSignatureView: View {
                     }
                 }
             }
-            VStack {
-                CircleOfFifthsView(scale: keySignature.scale, key: $keySignature.key)
-            }
             .frame(maxWidth: .infinity)
+            Group {
+                Picker("Clef", selection: $keySignature.clef) {
+                    ForEach(ClefType.allCases) { type in
+                        Text(type.rawValue)
+                    }
+                }
+            }
+            .pickerStyle(.segmented)
+            VStack {
+                CircleOfFifthsView(key: $keySignature.key, scale: $keySignature.scale)
+            }
         }
     }
 }

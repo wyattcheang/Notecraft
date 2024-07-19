@@ -70,7 +70,7 @@ struct PopoverView: View {
                     if let abb = term.abbreviation {
                         Text(abb.joined(separator: ", "))
                             .bold()
-                            .font(.custom("Times New Roman", size: 24))
+                            .font(.custom("TimesNewRomanPSMT", size: 24))
                     }
                 }
                 

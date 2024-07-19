@@ -8,22 +8,23 @@
 import Foundation
 import AVFoundation
 
-public class MIDIPlayer {
-    // Static shared instance
-    public static let shared = MIDIPlayer()
+class MIDIPlayer {
+    let volume: Float
+    let sampler: String
+    let format: String
     
-    public var volume: Float = 0.5
-    public var sampler: String = "keyboard"
-    public var format: String = "sf2"
-    
+    private var audioSession: AVAudioSession?
     private let audioEngine = AVAudioEngine()
     private let unitSampler = AVAudioUnitSampler()
     
-    private init() {
-        setup()
+    init(volume: Float = 0.5, sampler: String = "musescore", format: String = "sf2") {
+        self.volume = volume
+        self.sampler = sampler
+        self.format = format
+        setupAudioEngine()
     }
     
-    private func setup() {
+    private func setupAudioEngine() {
         audioEngine.mainMixerNode.volume = volume
         audioEngine.attach(unitSampler)
         audioEngine.connect(unitSampler, to: audioEngine.mainMixerNode, format: nil)
@@ -36,7 +37,7 @@ public class MIDIPlayer {
         guard let url = Bundle.main.url(forResource: sampler,
                                         withExtension: format) else { return }
         try? unitSampler.loadSoundBankInstrument(
-            at: url, program: 0,
+            at: url, program: 1,
             bankMSB: UInt8(kAUSampler_DefaultMelodicBankMSB),
             bankLSB: UInt8(kAUSampler_DefaultBankLSB)
         )
