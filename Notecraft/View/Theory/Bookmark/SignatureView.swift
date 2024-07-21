@@ -8,7 +8,7 @@
 import SwiftUI
 
 #Preview {
-    KeyTimeSignatureView()
+    SignatureView()
 }
 
 struct NotationRenderView: View {
@@ -25,7 +25,7 @@ struct NotationRenderView: View {
     }
 }
 
-struct KeyTimeSignatureView: View {
+struct SignatureView: View {
     @AppStorage("notationSize") var notationSize: NotationSize = .standard
     
     @State var keySignature: KeySignature = .init(clef: .treble, scale: .major, key: .C)
