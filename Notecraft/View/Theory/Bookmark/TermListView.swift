@@ -10,18 +10,25 @@ import SwiftUI
 
 struct TermListView: View {
     let file: String
-    @State private var termGroups: [TermGroup]
+    let termGroups: [TermGroup]
+    var termname: String
     @State private var selectedTerm: Term?
     @State private var showingPopover = false
+    @State private var searchText = ""
     
     init(file: String) {
         self.file = file
         self.termGroups = loadFile(file)
+        if let termname = termGroups.first?.type {
+            self.termname = termname
+        } else {
+            self.termname = ""
+        }
     }
     
     var body: some View {
         List {
-            ForEach(termGroups, id:\.self) { group in
+            ForEach(serachResult, id:\.self) { group in
                 Section(group.section) {
                     ForEach(group.terms, id: \.self) { term in
                         NavigationLink(destination: PopoverView(term: term)) {
@@ -29,13 +36,38 @@ struct TermListView: View {
                         }
                     }
                 }
-                
             }
         }
         .popover(isPresented: $showingPopover) {
             if let term = selectedTerm {
                 PopoverView(term: term)
             }
+        }
+        .navigationTitle(termname)
+        .navigationBarTitleDisplayMode(.inline)
+        .searchable(text: $searchText)
+    }
+    
+    private var serachResult: [TermGroup] {
+        if searchText.isEmpty {
+            return termGroups
+        } else {
+            return termGroups.map { group in
+                let filteredTerms = group.terms.filter { term in
+                    let matchesNameOrMeaning = term.name.lowercased().contains(searchText.lowercased()) ||
+                    term.meaning.lowercased().contains(searchText.lowercased())
+                    
+                    let matchesBPM: Bool
+                    if let bpm = term.bpm, let searchNumber = Int(searchText) {
+                        matchesBPM = bpm[0]...bpm[1] ~= searchNumber
+                    } else {
+                        matchesBPM = false
+                    }
+                    
+                    return matchesNameOrMeaning || matchesBPM
+                }
+                return TermGroup(type: group.type, section: group.section, terms: filteredTerms)
+            }.filter { !$0.terms.isEmpty }
         }
     }
 }

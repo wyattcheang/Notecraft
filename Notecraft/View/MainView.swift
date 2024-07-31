@@ -16,7 +16,7 @@ struct MainView: View {
                 AuthView()
                     .environment(\.user, user)
             case .authenticating:
-                ProgressView()
+                LoadingView()
             case .authenticated:
                 MenuBarView()
                     .environment(\.user, user)
@@ -29,6 +29,7 @@ struct MainView: View {
     }
 
     private func listenToAuthStateChanges() async {
+        print("listenToAuthStateCalled")
         for await state in supabase.auth.authStateChanges {
             if [.initialSession, .signedIn, .signedOut].contains(state.event) {
                 DispatchQueue.main.async {

@@ -8,20 +8,20 @@
 import SwiftUI
 
 struct IntervalView: View {
-    @Environment(\.midi) var midi: MIDIPlayer
     @AppStorage("notationSize") var notationSize: NotationSize = .standard
+    @Environment(\.midi) var midi: MIDIPlayer
     
-    @State var keySignature = KeySignature(clef: .treble, scale: .major, key: .C)
-    @State var accidental: AccidentalType = .sharp
-    @State var octave: Int = 4
-    
-    @State private var isShowKeySignature: Bool = true
-    @State private var isPlayingScale: Bool = false
+    @State private var keySignature = KeySignature(key: .Csharp)
     @State private var intervalQuality: IntervalQualityType = .major
-    @State private var intervalPosition: IntervalPositionType = .second
+    @State private var intervalGeneric: IntervalGenericType = .third
+    
+    @State private var staffWidth: CGFloat = 0
+    @State private var octave: Int = 4
+    @State private var isShowingKeySignature: Bool = true
+
     
     var interval: Interval? {
-        guard let interval = Interval(quality: intervalQuality, position: intervalPosition) else { return nil }
+        guard let interval = Interval(quality: intervalQuality, generic: intervalGeneric) else { return nil }
         return interval
     }
     
@@ -36,86 +36,88 @@ struct IntervalView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                if isShowKeySignature {
-                    KeySignatureView(keySignature: $keySignature, showStaff: true)
+            ZStack {
+                StaffView(width: staffWidth + 20)
+                HStack {
+                    KeySignatureView(keySignature: $keySignature, showKeySignature: isShowingKeySignature)
+                    GroupNoteView(clef: keySignature.clef,
+                                  pitches: pitchGroup,
+                                  keySignature: keySignature,
+                                  isShowingKeySignature: isShowingKeySignature)
                 }
-                GroupNoteView(clef: keySignature.clef,
-                              pitches: pitchGroup,
-                              keySignature: keySignature,
-                              isShowKeySignature: isShowKeySignature)
-            }
-            .overlay {
-                VStack{
-                    HStack {
-                        ForEach(pitchGroup) { pitch in
-                            Text(pitch.text)
-                        }
-                    }
-                    if let interval = interval {
-                        Text(interval.text)
-                    }
-                }
-                .bold()
-                .font(.caption)
-                .offset(y: 80)
+                .widthAware($staffWidth)
             }
             .padding()
-            .frame(maxWidth: .infinity, maxHeight: 200)
+            .frame(maxWidth: .infinity, maxHeight: 230)
+            .overlay(alignment: .bottom) {
+                HStack {
+                    CircleToggleButton("music.note", toggle: $isShowingKeySignature)
+                    Spacer()
+                    VStack{
+                        HStack {
+                            ForEach(pitchGroup) { pitch in
+                                Text(pitch.text)
+                            }
+                        }
+                        if let interval = interval {
+                            Text(interval.text)
+                        }
+                    }
+                    .font(.headline)
+                    Spacer()
+                    PlayMidiButton(isPlaying: midi.isPlaying, play: playInterval, stop: midi.stopAll)
+                }
+                .padding(.horizontal)
+            }
             List {
-                Toggle("Show Key Signature", isOn: $isShowKeySignature)
-                Group {
-                    Picker("Clef", selection: $keySignature.clef) {
-                        ForEach(ClefType.allCases) { type in
-                            Text(type.rawValue.capitalized)
-                        }
-                    }
-                    Picker("Style", selection: $intervalQuality) {
-                        ForEach(intervalPosition.AvailableInterval) { style in
-                            Text(style.abb)
-                        }
-                    }
-                    Picker("Octave", selection: $octave) {
-                        ForEach(keySignature.clef.preferenceOctaveRange, id: \.self) { number in
-                            Text("\(number)")
-                        }
+                Picker("Generic", selection: $intervalGeneric) {
+                    ForEach(IntervalGenericType.allCases) { type in
+                        Text(type.ordinal)
                     }
                 }
                 .pickerStyle(.segmented)
-                Picker("Series", selection: $intervalPosition) {
-                    ForEach(IntervalPositionType.allCases) { type in
-                        Text("\(type)")
+                Picker("Quality", selection: $intervalQuality) {
+                    ForEach(intervalGeneric.availableQualities) { style in
+                        Text(style.abb)
                     }
                 }
+                .pickerStyle(.segmented)
+                Picker("Octave", selection: $octave) {
+                    ForEach(keySignature.clef.preferenceOctaveRange, id: \.self) { number in
+                        Text("\(number)")
+                    }
+                }
+                .pickerStyle(.segmented)
+                Picker("Clef", selection: $keySignature.clef) {
+                    ForEach(ClefType.allCases) { type in
+                        Text(type.rawValue.capitalized)
+                    }
+                }
+                .pickerStyle(.segmented)
                 CircleOfFifthsView(key: $keySignature.key, scale: $keySignature.scale)
-                Button("Play", action: playInterval)
-                    .disabled(isPlayingScale)
-                    .buttonStyle(.accentButton)
             }
-            .onChange(of: intervalPosition) {
-                if !intervalPosition.AvailableInterval.contains(intervalQuality) {
-                    intervalQuality = intervalPosition.reset
+            .onChange(of: intervalGeneric) {
+                // to constrait a valid interval can be selected
+                if !intervalGeneric.availableQualities.contains(intervalQuality) {
+                    intervalQuality = intervalGeneric.defaultQuality
+                }
+            }
+            .onChange(of: keySignature.clef) {
+                if !keySignature.clef.preferenceOctaveRange.contains(octave) {
+                    self.octave = keySignature.clef.defaultOctave
                 }
             }
         }
+        .navigationTitle("Interval")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     private func playInterval() {
-        isPlayingScale = true
-        for pitch in pitchGroup {
-            midi.play(pitch.MIDINote)
-        }
+        let interval = pitchGroup.map { $0.MIDINote }
+        var midiGroup = pitchGroup.map { Midi(notes: [$0.MIDINote]) }
+        midiGroup.append(Midi(notes: interval))
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.stopInterval()
-        }
-    }
-    
-    private func stopInterval() {
-        for pitch in pitchGroup {
-            midi.stop(pitch.MIDINote)
-        }
-        isPlayingScale = false
+        midi.play(midiGroup: midiGroup)
     }
 }
 

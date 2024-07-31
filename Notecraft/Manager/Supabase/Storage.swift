@@ -21,7 +21,8 @@ class Storage {
                     if let image = UIImage(data: data) {
                         completion(.success(image))
                     } else {
-                        completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to convert data to UIImage"])))
+                        completion(.failure(NSError(domain: "", code: -1, 
+                                                    userInfo: [NSLocalizedDescriptionKey: "Failed to convert data to UIImage"])))
                     }
                 }
                 
@@ -33,14 +34,11 @@ class Storage {
     }
     
     func checkXMLFileAvailability(bucket: String, path: String) async -> [String] {
-        print(bucket)
-        print(path)
         do {
             let data = try await supabase.storage
                 .from(bucket)
                 .list(path: path)
             let result = (data.map {$0.name})
-            print(result)
             return result
         }
         catch {

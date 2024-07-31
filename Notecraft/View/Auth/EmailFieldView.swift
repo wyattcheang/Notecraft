@@ -117,10 +117,7 @@ struct EmailFieldView: View {
                 : signUpWithEmailPassword()
             } label: {
                 if isLoading {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                        .padding(.vertical, 8)
-                        .frame(maxWidth: .infinity)
+                    LoadingView()
                 } else {
                     Text(credential.authFlow.rawValue)
                         .padding(.vertical, 8)

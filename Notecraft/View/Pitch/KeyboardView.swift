@@ -8,62 +8,66 @@
 import SwiftUI
 
 struct KeyboardView: View {
-    @State private var isSuitain = true
+    @AppStorage("isSustain") var isSustain: Bool = true
     var octaves: ClosedRange<Int> = 2...6
     
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 4) {
-                ForEach(octaves, id:\.self) { octave in
-                    OctaveView(octave: octave, isSuitain: isSuitain)
+        VStack {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 4) {
+                    ForEach(octaves, id:\.self) { octave in
+                        OctaveView(octave: octave)
+                    }
                 }
+                .padding(.horizontal)
+                .padding(.bottom, 50)
             }
-            .padding(.bottom, 20)
-            Toggle("Sustain", isOn: $isSuitain)
-                .bold()
-                .toggleStyle(.button)
+            .overlay(alignment: .bottomTrailing) {
+                Toggle("Sustain", isOn: $isSustain)
+                    .bold()
+                    .toggleStyle(.button)
+                    .padding(.horizontal)
+            }
         }
     }
 }
 
 struct OctaveView: View {
+    @AppStorage("accidentalPreference") var accidentalPreference: AccidentalType = .sharp
     var octave: Int
-    var isSuitain: Bool
+    var blackKeys: [[FullNoteType]] {
+        if accidentalPreference == .sharp {
+            [[.CSharp, .DSharp], [.FSharp, .GSharp, .ASharp]]
+        } else {
+            [[.DFlat, .EFlat], [.GFlat, .AFlat, .BFlat]]
+        }
+    }
     
     var body: some View {
         HStack(spacing: 4) {
-            GroupKey(octave: octave, isSuitain: isSuitain, whiteKey: [.C, .D, .E])
-            GroupKey(octave: octave, isSuitain: isSuitain, whiteKey: [.F, .G, .A, .B])
+            GroupKey(octave: octave, whiteKey: [.C, .D, .E], blackKey: blackKeys.first ?? [])
+            GroupKey(octave: octave, whiteKey: [.F, .G, .A, .B], blackKey: blackKeys.last ?? [])
         }
     }
     
     struct GroupKey: View {
-        @AppStorage("accidentalPreference") var accidentalPreference: AccidentalType = .sharp
         var octave: Int
-        let isSuitain: Bool
         var whiteKey: [FullNoteType]
-        var blackKey: [FullNoteType] {
-            switch accidentalPreference {
-            case .sharp, .natural, .doubleSharp:
-                return whiteKey.dropLast().map { $0.sharp }
-            case .flat, .doubleFlat:
-                return whiteKey.dropFirst().map { $0.flat }
-            }
-        }
+        var blackKey: [FullNoteType]
         
         var body: some View {
             ZStack(alignment: .top) {
                 HStack(spacing: 4) {
                     ForEach(whiteKey, id:\.self) { key in
                         let pitch = Pitch(key.note, octave: octave)
-                        PianoKey(pitch: pitch, isSuitain: isSuitain)
+                        PianoKey(pitch: pitch)
                     }
                 }
                 
                 HStack(spacing: 4){
                     ForEach(blackKey, id:\.self) { key in
                         let pitch = Pitch(key.note, octave: octave)
-                        PianoKey(pitch: pitch, isSuitain: isSuitain)
+                        PianoKey(pitch: pitch)
                             .padding(.horizontal, 2)
                     }
                 }
@@ -74,10 +78,10 @@ struct OctaveView: View {
     
     struct PianoKey: View {
         let pitch: Pitch
-        let isSuitain: Bool
         
-        @State private var isLongPressed = false
+        @AppStorage("isSustain") var isSustain: Bool = true
         @Environment(\.midi) var midi: MIDIPlayer
+        @State private var isLongPressed = false
         private let width: CGFloat = 44
         private var isWhiteKey: Bool {
             return pitch.note.accidental == .natural
@@ -93,7 +97,7 @@ struct OctaveView: View {
                 }
                 .onEnded { _ in
                     isLongPressed = false
-                    if !isSuitain {
+                    if !isSustain {
                         midi.stop(pitch.MIDINote)
                     }
                 }

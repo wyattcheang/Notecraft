@@ -21,30 +21,17 @@ enum FileType: String {
     case dir = "Directory"
 }
 
-struct PDFViewer: UIViewRepresentable {
-    var url: URL
-
-    func makeUIView(context: Context) -> PDFView {
-        let pdfView = PDFView()
-        pdfView.autoScales = true
-        return pdfView
-    }
-
-    func updateUIView(_ uiView: PDFView, context: Context) {
-        if let document = PDFDocument(url: url) {
-            uiView.document = document
-        } else {
-            print("Failed to load PDF document from URL: \(url)")
-        }
-    }
-}
 
 struct SheetView: View {
-    var dir: URL = SheetManager.shared.mainDirectory
-
+    @Environment(\.user) var user: UserModel
+    
     var body: some View {
         NavigationView {
-            DirectoryContentView(dir: dir, isOuttestView: true)
+            if let dir = user.sheetDirectory {
+                DirectoryContentView(dir: dir, isOuttestView: true)
+            } else {
+                LoadingView()
+            }
         }
         .navigationViewStyle(.stack)
     }
@@ -338,7 +325,7 @@ struct DocumentInfoView: View {
         Button("Delete", role: .destructive) {
             action = .delete
             actionAlert.title = "Delete \(type.rawValue)"
-            actionAlert.message = "Confirm delete \(docName)?"
+            actionAlert.message = "Confirm delete \(url.lastPathComponent)?"
             actionAlert.isPresented.toggle()
         }
     }
@@ -372,7 +359,6 @@ struct DocumentInfoView: View {
             case .success:
                 load()
             case .failure:
-                print("here")
                 completionAlert.title = "Action Failed"
                 completionAlert.message = "The \(type.rawValue) with the same name already exists."
                 completionAlert.dismissMessage = "OK"
@@ -486,7 +472,6 @@ struct PDFKitView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: PDFView, context: Context) {
-        print("callced")
         if let page = uiView.document?.page(at: currentPage - 1) {
             uiView.go(to: page)
         }
@@ -520,7 +505,8 @@ struct PDFKitView: UIViewRepresentable {
 }
 
 enum FlipDirection {
-    case left, right
+    case previous
+    case next
 }
 
 struct MusicSheetView: View {
@@ -537,6 +523,7 @@ struct MusicSheetView: View {
     @State private var fileToShare: [URL] = []
     @State private var filesAreReady: Bool = false
     @State private var loadingState: Bool = false
+    @State private var alert = AlertControl()
     
     var userID: String = ""
     
@@ -583,9 +570,9 @@ struct MusicSheetView: View {
                                 }
                                 ToolbarItem(placement: .bottomBar) {
                                     HStack {
-                                        Button("Previous", action: { flipPage(to: .left) })
+                                        Button("Previous", action: { flipPage(to: .previous) })
                                         Spacer()
-                                        Button("Next", action: { flipPage(to: .right) })
+                                        Button("Next", action: { flipPage(to: .next) })
                                     }
                                 }
                             }
@@ -595,11 +582,7 @@ struct MusicSheetView: View {
             }
             
             if loadingState {
-                Color.black.opacity(0.4)
-                    .edgesIgnoringSafeArea(.all)
-                
-                ProgressView("Loading...")
-                    .progressViewStyle(CircularProgressViewStyle())
+                LoadingView()
             }
         }
         .onAppear {
@@ -610,6 +593,11 @@ struct MusicSheetView: View {
                 ShareSheet(activityItems: self.fileToShare)
             }
         }
+        .alert(isPresented: $alert.isPresented) {
+            Alert(title: Text(alert.title),
+                  message: Text(alert.message),
+                  dismissButton: .default(Text(alert.dismissMessage)))
+        }
     }
     
     private func totalPages(for pdfURL: URL) -> Int {
@@ -619,9 +607,9 @@ struct MusicSheetView: View {
     
     private func flipPage(to direction: FlipDirection) {
         withAnimation {
-            if direction == .left {
+            if direction == .previous {
                 currentPage = max(currentPage - 1, 1)
-            } else if direction == .right {
+            } else if direction == .next {
                 currentPage = min(currentPage + 1, totalPages(for: file))
             }
         }
@@ -633,15 +621,25 @@ struct MusicSheetView: View {
             loadingState = false
             filesAreReady = true
         }
-        DispatchQueue.main.async {
-            fileToShare.removeAll()
-            self.fileToShare = [file]
-        }
+        fileToShare.removeAll()
+        self.fileToShare = [file]
     }
     
     @MainActor
     func convertPDFtoMusicXML() {
-        FastAPIServer.shared.uploadPDF(at: file, fileID: id, userID: user.uuidString)
+        FastAPIServer.shared.uploadPDF(at: file, fileID: id, userID: user.uuidString) { result in
+            switch result {
+            case .success( _):
+                alert.title = "Start conversion successfully!"
+                alert.message = "You MusicXML file will be available soon, come back later."
+                alert.isPresented.toggle()
+            case .failure( _):
+                alert.title = "Unable to start conversion."
+                alert.message = "Something when wrong, try again later."
+                alert.isPresented.toggle()
+            }
+        }
+       
     }
     
     @MainActor

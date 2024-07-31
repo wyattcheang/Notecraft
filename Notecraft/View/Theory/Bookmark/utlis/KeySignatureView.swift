@@ -13,14 +13,30 @@ class KeySignature {
     var scale: ScaleType
     var key: KeyType
     
+    init(clef: ClefType = .treble, scale: ScaleType = .major, key: KeyType = .C) {
+        self.clef = clef
+        self.scale = scale
+        self.key = key
+    }
+    
     var accidental: AccidentalType {
-        if KeyType.sharpKeysMajor.contains(key) || KeyType.sharpKeysMinor.contains(key) {
-            return .sharp
-        }
-        if KeyType.flatKeysMajor.contains(key) || KeyType.flatKeysMinor.contains(key) {
-            return .flat
-        } else {
-            return .natural
+        switch scale {
+        case .major:
+            if KeyType.sharpKeysMajor.contains(key) {
+                return .sharp
+            } else if KeyType.flatKeysMajor.contains(key) {
+                return .flat
+            } else {
+                return .natural
+            }
+        case .minor(_):
+            if KeyType.sharpKeysMinor.contains(key) {
+                return .sharp
+            } else if KeyType.flatKeysMinor.contains(key) {
+                return .flat
+            } else {
+                return .natural
+            }
         }
     }
     
@@ -30,12 +46,6 @@ class KeySignature {
         case .alto, .tenor: return 3
         case .bass: return 2
         }
-    }
-    
-    init(clef: ClefType = .treble, scale: ScaleType = .major, key: KeyType = .C) {
-        self.clef = clef
-        self.scale = scale
-        self.key = key
     }
     
     var accidentalNotes: [Note] {
@@ -74,34 +84,45 @@ class KeySignature {
             Pitch(note, octave: octave)
         }
     }
+    
+    var textWithScaleType: String {
+        return "\(key.text) \(scale.nameWithType) in \(clef.rawValue.capitalized) Clef"
+    }
+    
+    var text: String {
+        return "\(key.text) \(scale.name) in \(clef.rawValue.capitalized) Clef"
+    }
 }
 
 struct KeySignatureView: View {
     @AppStorage("notationSize") var notationSize: NotationSize = .standard
     @Binding var keySignature: KeySignature
-    var showStaff: Bool = false
-        
+    var showKeySignature: Bool = true
+    
     var body: some View {
-        ZStack {
-            if showStaff {
-                StaffView(4)
-            }
+        HStack {
+            ClefView(keySignature.clef)
             HStack {
-                ClefView(keySignature.clef)
-                ForEach(keySignature.pitchsOnStaff, id:\.self) { pitch in
-                    let note = pitch.note
-                    let offset = pitch.note.baseNote.offset(for: keySignature.clef,
-                                                            in: pitch.octave,
-                                                            notationSize: notationSize)
-                    Text(note.accidental.symbol)
-                        .offset(y:  offset)
+                if showKeySignature {
+                    ForEach(keySignature.pitchsOnStaff, id:\.self) { pitch in
+                        let note = pitch.note
+                        let offset = pitch.note.baseNote.offset(for: keySignature.clef,
+                                                                in: pitch.octave,
+                                                                notationSize: notationSize)
+                        Text(note.accidental.symbol)
+                            .offset(y:  offset)
+                            .padding(.horizontal, -5)
+                    }
                 }
-                .padding(.horizontal, -5)
             }
+            .frame(minWidth: .leastNonzeroMagnitude)
         }
+        .padding(.horizontal)
+        .frame(minWidth: .leastNonzeroMagnitude)
         .notoMusicSymbolTextStyle()
     }
 }
+
 
 
 struct ClefView: View {
@@ -109,7 +130,7 @@ struct ClefView: View {
     
     @AppStorage("notationSize") var notationSize: NotationSize = .standard
     var offset: CGFloat {
-        notationSize.CGFloatValue / 9 * clefType.yOffset
+        notationSize.CGFloatValue / 9 * clefType.offset
     }
     
     init(_ clefType: ClefType) {
@@ -117,7 +138,9 @@ struct ClefView: View {
     }
     
     var body: some View {
-        Text(clefType.symbol)
-            .offset(y: offset)
+        HStack {
+            Text(clefType.symbol)
+                .offset(y: offset)
+        }
     }
 }

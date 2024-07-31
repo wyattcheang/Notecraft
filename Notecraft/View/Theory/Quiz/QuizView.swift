@@ -25,14 +25,7 @@ struct QuizView: View {
                             .padding()
                         }
                     } header: {
-                        HStack {
-                            Text(chapter.title)
-                            Spacer()
-                            Text("\(chapter.id, specifier: "%02d")")
-                        }
-                        .bold()
-                        .font(.headline)
-                        Divider()
+                        SectionHeaderView(text: chapter.title, index: chapter.id)
                     }
                 }
             }
@@ -75,76 +68,26 @@ struct QuizIconView: View {
             }
         }
     }
-
+    
     @State private var bestResult: QuizLog?
     
     var body: some View {
-        HStack {
-            Spacer()
+        HStack(alignment: .top) {
             VStack {
-                Circle()
-                    .fill(isAvailable ? .accent : Color(uiColor: .systemGray4))
-                    .frame(width: 90, height: 120)
-                    .overlay {
-                        Image("quiz_\(unit.id)")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 60, height: 60)
-                            .foregroundColor(.white)
-                    }
-                    .overlay {
-                        Text(unit.title)
-                            .font(.subheadline)
-                            .offset(y: 60)
-                    }
-                    .onTapGesture {
-                        if isAvailable {
-                            isQuizStarted.toggle()
-                        }
-                    }
-                    .fullScreenCover(isPresented: $isQuizStarted) {
-                        LoadQuizView(unitId: unit.id, back: {
-                            isQuizStarted.toggle()
-                            reload()
-                        })
-                    }
+                Button(action: { isQuizStarted.toggle() }) {
+                    UnitIcon(unit: unit, image: "quiz_\(unit.id)", isDisabled: !isAvailable)
+                }
+                .disabled(!isAvailable)
+                .fullScreenCover(isPresented: $isQuizStarted) {
+                    LoadQuizView(unitId: unit.id, back: {
+                        isQuizStarted.toggle()
+                        reload()
+                    })
+                }
             }
             if isAvailable {
-                Group {
-                    switch isLoading {
-                    case true:
-                        VStack(alignment: .leading) {
-                            ForEach(0...4, id:\.self) {_ in
-                                Text((Array(repeating: " ", count: 10).joined()))
-                            }
-                        }
-                        .redacted(reason: .placeholder)
-                        .shimmering()
-                    case false:
-                        if let bestResult = bestResult {
-                            VStack(alignment: .leading) {
-                                Text("Best Result")
-                                    .bold()
-                                Text("\(bestResult.date.formatted())")
-                                Text("\((bestResult.accuracy * 100), specifier: "%.1f")%")
-                                Text("\(bestResult.timeTaken.secondToString())")
-                            }
-                            .opacity(1)
-                            .transition(.identity)
-                        } else {
-                            VStack {
-                                Text("No Record")
-                            }
-                            .opacity(1)
-                            .transition(.identity)
-                        }
-                    }
-                }
-                .padding()
-                .font(.caption)
-                .foregroundColor(.secondary)
+                QuizRecordView(isLoading: isLoading, result: bestResult)
             }
-            Spacer()
         }
         .onAppear {
             fetchBestQuizResult()
@@ -180,7 +123,46 @@ struct QuizIconView: View {
     }
 }
 
-#Preview {
-    QuizView(chapters: loadFile("chapter.json"))
+struct QuizRecordView: View {
+    var isLoading: Bool
+    var result: QuizLog?
+    
+    var body: some View {
+        VStack {
+            Group {
+                switch isLoading {
+                case true:
+                    VStack(alignment: .leading) {
+                        ForEach(0...4, id:\.self) {_ in
+                            Text((Array(repeating: " ", count: 20).joined()))
+                        }
+                    }
+                    .redacted(reason: .placeholder)
+                    .shimmering()
+                case false:
+                    if let result = result {
+                        VStack(alignment: .leading) {
+                            Text("Best Result")
+                                .bold()
+                            Text("\(result.date.formatted())")
+                            Text("\((result.accuracy * 100), specifier: "%.1f")%")
+                            Text("\(result.timeTaken.secondToString())")
+                        }
+                        .transition(.identity)
+                    } else {
+                        VStack {
+                            Text("No Record")
+                        }
+                        .transition(.identity)
+                    }
+                }
+            }
+            .padding()
+            .font(.caption)
+            .foregroundColor(.secondary)
+        }
+        .frame(maxHeight: 90)
+    }
 }
+
 

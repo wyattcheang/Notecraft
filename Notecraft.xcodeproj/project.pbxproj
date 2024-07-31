@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F1BA80622C4AF9D000C80843 /* LoadLessonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BA80612C4AF9D000C80843 /* LoadLessonView.swift */; };
+		F1BA80652C4D0F0E00C80843 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BA80642C4D0F0E00C80843 /* SwiftUIView.swift */; };
+		F1BA80672C4D11EC00C80843 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = F1BA80662C4D11EB00C80843 /* loading.gif */; };
 		F1C0E0DF2C48554F0051F7B6 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C0E0DE2C48554E0051F7B6 /* AuthView.swift */; };
 		F1C0E0E12C4855620051F7B6 /* EmailFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C0E0E02C4855620051F7B6 /* EmailFieldView.swift */; };
 		F1C0E0E32C48558D0051F7B6 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C0E0E22C48558D0051F7B6 /* ButtonStyle.swift */; };
@@ -22,10 +25,10 @@
 		F1DCEBA72C4844A200DFB508 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBA52C4844A200DFB508 /* MainView.swift */; };
 		F1DCEBAD2C48450700DFB508 /* TheoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBAB2C48450700DFB508 /* TheoryView.swift */; };
 		F1DCEBAE2C48450700DFB508 /* MusicNotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBAC2C48450700DFB508 /* MusicNotation.swift */; };
-		F1DCEBB02C48452300DFB508 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBAF2C48452300DFB508 /* StudyView.swift */; };
+		F1DCEBB02C48452300DFB508 /* LessonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBAF2C48452300DFB508 /* LessonView.swift */; };
 		F1DCEBB32C48454700DFB508 /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBB12C48454700DFB508 /* QuizView.swift */; };
 		F1DCEBB42C48454700DFB508 /* LoadQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBB22C48454700DFB508 /* LoadQuizView.swift */; };
-		F1DCEBBB2C48456900DFB508 /* KeyTimeSignatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBB52C48456800DFB508 /* KeyTimeSignatureView.swift */; };
+		F1DCEBBB2C48456900DFB508 /* SignatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBB52C48456800DFB508 /* SignatureView.swift */; };
 		F1DCEBBD2C48456900DFB508 /* TermListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBB72C48456900DFB508 /* TermListView.swift */; };
 		F1DCEBBE2C48456900DFB508 /* BookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBB82C48456900DFB508 /* BookmarkView.swift */; };
 		F1DCEBBF2C48456900DFB508 /* ScaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBB92C48456900DFB508 /* ScaleView.swift */; };
@@ -34,7 +37,6 @@
 		F1DCEBC82C4845B400DFB508 /* TimeSignatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBC32C4845B400DFB508 /* TimeSignatureView.swift */; };
 		F1DCEBC92C4845B400DFB508 /* KeySignatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBC42C4845B400DFB508 /* KeySignatureView.swift */; };
 		F1DCEBCA2C4845B400DFB508 /* NoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBC52C4845B400DFB508 /* NoteView.swift */; };
-		F1DCEBCB2C4845B400DFB508 /* ClefSignatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBC62C4845B400DFB508 /* ClefSignatureView.swift */; };
 		F1DCEBD02C4845CB00DFB508 /* MetronomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBCC2C4845CB00DFB508 /* MetronomeView.swift */; };
 		F1DCEBD12C4845CB00DFB508 /* TunerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBCD2C4845CB00DFB508 /* TunerView.swift */; };
 		F1DCEBD22C4845CB00DFB508 /* PitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DCEBCE2C4845CB00DFB508 /* PitchView.swift */; };
@@ -62,7 +64,6 @@
 		F1DCEC082C4846F600DFB508 /* Bravura.otf in Resources */ = {isa = PBXBuildFile; fileRef = F1DCEC052C4846F600DFB508 /* Bravura.otf */; };
 		F1DCEC0A2C4846F600DFB508 /* NotoMusic-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1DCEC072C4846F600DFB508 /* NotoMusic-Regular.ttf */; };
 		F1DCEC0E2C48470C00DFB508 /* keyboard.sf2 in Resources */ = {isa = PBXBuildFile; fileRef = F1DCEC0C2C48470C00DFB508 /* keyboard.sf2 */; };
-		F1DCEC0F2C48470C00DFB508 /* metronome.sf2 in Resources */ = {isa = PBXBuildFile; fileRef = F1DCEC0D2C48470C00DFB508 /* metronome.sf2 */; };
 		F1DCEC152C48471C00DFB508 /* dynamic.json in Resources */ = {isa = PBXBuildFile; fileRef = F1DCEC112C48471C00DFB508 /* dynamic.json */; };
 		F1DCEC162C48471C00DFB508 /* tempo.json in Resources */ = {isa = PBXBuildFile; fileRef = F1DCEC122C48471C00DFB508 /* tempo.json */; };
 		F1DCEC172C48471C00DFB508 /* mood.json in Resources */ = {isa = PBXBuildFile; fileRef = F1DCEC132C48471C00DFB508 /* mood.json */; };
@@ -101,6 +102,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F1BA80612C4AF9D000C80843 /* LoadLessonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadLessonView.swift; sourceTree = "<group>"; };
+		F1BA80642C4D0F0E00C80843 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
+		F1BA80662C4D11EB00C80843 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		F1C0E0DD2C4854430051F7B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F1C0E0DE2C48554E0051F7B6 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		F1C0E0E02C4855620051F7B6 /* EmailFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailFieldView.swift; sourceTree = "<group>"; };
@@ -120,10 +124,10 @@
 		F1DCEBA52C4844A200DFB508 /* MainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		F1DCEBAB2C48450700DFB508 /* TheoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheoryView.swift; sourceTree = "<group>"; };
 		F1DCEBAC2C48450700DFB508 /* MusicNotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicNotation.swift; sourceTree = "<group>"; };
-		F1DCEBAF2C48452300DFB508 /* StudyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
+		F1DCEBAF2C48452300DFB508 /* LessonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonView.swift; sourceTree = "<group>"; };
 		F1DCEBB12C48454700DFB508 /* QuizView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
 		F1DCEBB22C48454700DFB508 /* LoadQuizView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadQuizView.swift; sourceTree = "<group>"; };
-		F1DCEBB52C48456800DFB508 /* KeyTimeSignatureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyTimeSignatureView.swift; sourceTree = "<group>"; };
+		F1DCEBB52C48456800DFB508 /* SignatureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignatureView.swift; sourceTree = "<group>"; };
 		F1DCEBB72C48456900DFB508 /* TermListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermListView.swift; sourceTree = "<group>"; };
 		F1DCEBB82C48456900DFB508 /* BookmarkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkView.swift; sourceTree = "<group>"; };
 		F1DCEBB92C48456900DFB508 /* ScaleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScaleView.swift; sourceTree = "<group>"; };
@@ -132,7 +136,6 @@
 		F1DCEBC32C4845B400DFB508 /* TimeSignatureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSignatureView.swift; sourceTree = "<group>"; };
 		F1DCEBC42C4845B400DFB508 /* KeySignatureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeySignatureView.swift; sourceTree = "<group>"; };
 		F1DCEBC52C4845B400DFB508 /* NoteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteView.swift; sourceTree = "<group>"; };
-		F1DCEBC62C4845B400DFB508 /* ClefSignatureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClefSignatureView.swift; sourceTree = "<group>"; };
 		F1DCEBCC2C4845CB00DFB508 /* MetronomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetronomeView.swift; sourceTree = "<group>"; };
 		F1DCEBCD2C4845CB00DFB508 /* TunerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TunerView.swift; sourceTree = "<group>"; };
 		F1DCEBCE2C4845CB00DFB508 /* PitchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchView.swift; sourceTree = "<group>"; };
@@ -160,7 +163,6 @@
 		F1DCEC052C4846F600DFB508 /* Bravura.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bravura.otf; sourceTree = "<group>"; };
 		F1DCEC072C4846F600DFB508 /* NotoMusic-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoMusic-Regular.ttf"; sourceTree = "<group>"; };
 		F1DCEC0C2C48470C00DFB508 /* keyboard.sf2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = keyboard.sf2; sourceTree = "<group>"; };
-		F1DCEC0D2C48470C00DFB508 /* metronome.sf2 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = metronome.sf2; sourceTree = "<group>"; };
 		F1DCEC112C48471C00DFB508 /* dynamic.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dynamic.json; sourceTree = "<group>"; };
 		F1DCEC122C48471C00DFB508 /* tempo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tempo.json; sourceTree = "<group>"; };
 		F1DCEC132C48471C00DFB508 /* mood.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mood.json; sourceTree = "<group>"; };
@@ -206,6 +208,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F1BA80632C4D0EFA00C80843 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				F1BA80642C4D0F0E00C80843 /* SwiftUIView.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		F1D9CFC02C4843450092552D = {
 			isa = PBXGroup;
 			children = (
@@ -272,6 +282,7 @@
 		F1DCEB9A2C48443400DFB508 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F1BA80632C4D0EFA00C80843 /* Shared */,
 				F1DCEBA52C4844A200DFB508 /* MainView.swift */,
 				F1DCEBA42C4844A200DFB508 /* MenuBarView.swift */,
 				F1DCEBA32C48449800DFB508 /* Theory */,
@@ -371,7 +382,7 @@
 			children = (
 				F1DCEBAC2C48450700DFB508 /* MusicNotation.swift */,
 				F1DCEBAB2C48450700DFB508 /* TheoryView.swift */,
-				F1DCEBAA2C4844FE00DFB508 /* Study */,
+				F1DCEBAA2C4844FE00DFB508 /* Lesson */,
 				F1DCEBA92C4844F700DFB508 /* Quiz */,
 				F1DCEBA82C4844ED00DFB508 /* Bookmark */,
 			);
@@ -384,7 +395,7 @@
 				F1DCEBC12C4845A600DFB508 /* utlis */,
 				F1DCEBB82C48456900DFB508 /* BookmarkView.swift */,
 				F1DCEBBA2C48456900DFB508 /* IntervalView.swift */,
-				F1DCEBB52C48456800DFB508 /* KeyTimeSignatureView.swift */,
+				F1DCEBB52C48456800DFB508 /* SignatureView.swift */,
 				F1DCEBB92C48456900DFB508 /* ScaleView.swift */,
 				F1DCEBB72C48456900DFB508 /* TermListView.swift */,
 			);
@@ -394,25 +405,25 @@
 		F1DCEBA92C4844F700DFB508 /* Quiz */ = {
 			isa = PBXGroup;
 			children = (
-				F1DCEBB22C48454700DFB508 /* LoadQuizView.swift */,
 				F1DCEBB12C48454700DFB508 /* QuizView.swift */,
+				F1DCEBB22C48454700DFB508 /* LoadQuizView.swift */,
 			);
 			path = Quiz;
 			sourceTree = "<group>";
 		};
-		F1DCEBAA2C4844FE00DFB508 /* Study */ = {
+		F1DCEBAA2C4844FE00DFB508 /* Lesson */ = {
 			isa = PBXGroup;
 			children = (
-				F1DCEBAF2C48452300DFB508 /* StudyView.swift */,
+				F1DCEBAF2C48452300DFB508 /* LessonView.swift */,
+				F1BA80612C4AF9D000C80843 /* LoadLessonView.swift */,
 			);
-			path = Study;
+			path = Lesson;
 			sourceTree = "<group>";
 		};
 		F1DCEBC12C4845A600DFB508 /* utlis */ = {
 			isa = PBXGroup;
 			children = (
 				F1DCEBC22C4845B400DFB508 /* CircleOfFifthsView.swift */,
-				F1DCEBC62C4845B400DFB508 /* ClefSignatureView.swift */,
 				F1DCEBC42C4845B400DFB508 /* KeySignatureView.swift */,
 				F1DCEBC52C4845B400DFB508 /* NoteView.swift */,
 				F1DCEBC32C4845B400DFB508 /* TimeSignatureView.swift */,
@@ -449,6 +460,7 @@
 		F1DCEC012C4846D900DFB508 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				F1BA80662C4D11EB00C80843 /* loading.gif */,
 				F1E2BF652C49606400905F5E /* paganini-caprice-24-violin.pdf */,
 				F1DCEC102C48471500DFB508 /* Term */,
 				F1DCEC0B2C48470000DFB508 /* Sound */,
@@ -472,7 +484,6 @@
 				F1E2BF612C495AA500905F5E /* AI_basic_drums.sf2 */,
 				F1E2BF5F2C49581300905F5E /* Kalimba.sf2 */,
 				F1DCEC0C2C48470C00DFB508 /* keyboard.sf2 */,
-				F1DCEC0D2C48470C00DFB508 /* metronome.sf2 */,
 				F1E2BF562C48F55500905F5E /* musescore.sf2 */,
 			);
 			path = Sound;
@@ -627,8 +638,8 @@
 				F1E2BF662C49606400905F5E /* paganini-caprice-24-violin.pdf in Resources */,
 				F1DCEC0A2C4846F600DFB508 /* NotoMusic-Regular.ttf in Resources */,
 				F1E2BF572C48F55500905F5E /* musescore.sf2 in Resources */,
-				F1DCEC0F2C48470C00DFB508 /* metronome.sf2 in Resources */,
 				F1DCEC182C48471C00DFB508 /* chapter.json in Resources */,
+				F1BA80672C4D11EC00C80843 /* loading.gif in Resources */,
 				F1D9CFD12C4843470092552D /* Assets.xcassets in Resources */,
 				F1DCEC162C48471C00DFB508 /* tempo.json in Resources */,
 			);
@@ -655,8 +666,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F1DCEBB02C48452300DFB508 /* StudyView.swift in Sources */,
-				F1DCEBCB2C4845B400DFB508 /* ClefSignatureView.swift in Sources */,
+				F1DCEBB02C48452300DFB508 /* LessonView.swift in Sources */,
 				F1DCEBC92C4845B400DFB508 /* KeySignatureView.swift in Sources */,
 				F1DCEBD02C4845CB00DFB508 /* MetronomeView.swift in Sources */,
 				F1DCEBC02C48456900DFB508 /* IntervalView.swift in Sources */,
@@ -676,7 +686,8 @@
 				F1DCEBBE2C48456900DFB508 /* BookmarkView.swift in Sources */,
 				F1DCEBF62C4846A500DFB508 /* TunerModel.swift in Sources */,
 				F1DCEBDA2C48461E00DFB508 /* JSONHandler.swift in Sources */,
-				F1DCEBBB2C48456900DFB508 /* KeyTimeSignatureView.swift in Sources */,
+				F1BA80622C4AF9D000C80843 /* LoadLessonView.swift in Sources */,
+				F1DCEBBB2C48456900DFB508 /* SignatureView.swift in Sources */,
 				F1DCEBDB2C48461E00DFB508 /* SheetManger.swift in Sources */,
 				F1DCEBC72C4845B400DFB508 /* CircleOfFifthsView.swift in Sources */,
 				F1DCEBD22C4845CB00DFB508 /* PitchView.swift in Sources */,
@@ -691,6 +702,7 @@
 				F1DCEBFC2C4846B800DFB508 /* FieldContainer.swift in Sources */,
 				F1DCEBE82C48465700DFB508 /* Storage.swift in Sources */,
 				F1E2BF5E2C49145A00905F5E /* AudioManager.swift in Sources */,
+				F1BA80652C4D0F0E00C80843 /* SwiftUIView.swift in Sources */,
 				F1DCEBF52C4846A500DFB508 /* MetronomeModel.swift in Sources */,
 				F1DCEBB42C48454700DFB508 /* LoadQuizView.swift in Sources */,
 				F1DCEBBD2C48456900DFB508 /* TermListView.swift in Sources */,
@@ -872,7 +884,7 @@
 				INFOPLIST_FILE = Notecraft/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Notecraft;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "\"Notecraft uses microphones for tuning\"";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = Allow;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -909,7 +921,7 @@
 				INFOPLIST_FILE = Notecraft/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Notecraft;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "\"Notecraft uses microphones for tuning\"";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = Allow;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

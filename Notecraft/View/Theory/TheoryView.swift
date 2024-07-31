@@ -7,27 +7,26 @@
 
 import SwiftUI
 
-enum LearnTab: Hashable {
-    case study
+enum TheoryTabBar: Hashable {
+    case lesson
     case quiz
-    case note
+    case bookmark
 }
 
 struct TabButtonAsset: Hashable {
-    var tab: LearnTab
+    var tab: TheoryTabBar
     var icon: String
     var text: String
 }
 
 struct TheoryView: View {
-    @State private var currentTab: LearnTab = .quiz
+    @State private var currentTab: TheoryTabBar = .quiz
+    @State private var allChapter: [Chapter] = []
     
-    let chapters: [Chapter] = loadFile("chapter.json")
-
     private var assets: [TabButtonAsset] = [
-        TabButtonAsset(tab: .study, icon: "book.fill", text: "Learn"),
+        TabButtonAsset(tab: .lesson, icon: "book.fill", text: "Lesson"),
         TabButtonAsset(tab: .quiz, icon: "pencil.line", text: "Quiz"),
-        TabButtonAsset(tab: .note, icon: "bookmark.fill", text: "Bookmark")
+        TabButtonAsset(tab: .bookmark, icon: "bookmark.fill", text: "Bookmark")
     ]
     
     var body: some View {
@@ -38,23 +37,37 @@ struct TheoryView: View {
                 
                 VStack {
                     switch currentTab {
-                    case .study:
-                        StudyView(chapters: chapters)
+                    case .lesson:
+                        LessonView(chapters: allChapter)
                     case .quiz:
-                        QuizView(chapters: chapters)
-                    case .note:
+                        QuizView(chapters: allChapter)
+                    case .bookmark:
                         BookmarkView()
                     }
                 }
             }
         }
         .navigationViewStyle(.stack)
+        .onAppear {
+            fetchChapter()
+        }
+    }
+    
+    private func fetchChapter() {
+        Database.shared.fetchChapter { result in
+            switch result {
+            case .success(let success):
+                allChapter = success
+            case .failure(let failure):
+                print(failure)
+            }
+        }
     }
 }
 
 struct TabButtonBar: View {
     var assets: [TabButtonAsset]
-    @Binding var selectedTab: LearnTab
+    @Binding var selectedTab: TheoryTabBar
     
     var body: some View {
         HStack {
@@ -71,9 +84,9 @@ struct TabButtonBar: View {
 struct TabButton: View {
     var icon: String = ""
     var text: String = ""
-    var tab: LearnTab
+    var tab: TheoryTabBar
     
-    @Binding var selectedTab: LearnTab
+    @Binding var selectedTab: TheoryTabBar
     var selected: Bool {
         return selectedTab == tab
     }

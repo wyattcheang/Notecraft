@@ -23,3 +23,28 @@ struct FieldContainer<Content: View>: View {
         .background(Divider(), alignment: .bottom)
     }
 }
+
+struct WidthAwareModifier: ViewModifier {
+    @Binding var width: CGFloat
+    
+    func body(content: Content) -> some View {
+        content
+            .background(
+                GeometryReader { geometry in
+                    Color.clear
+                        .onAppear {
+                            width = geometry.size.width
+                        }
+                        .onChange(of: geometry.size.width) {
+                            width = geometry.size.width
+                        }
+                }
+            )
+    }
+}
+
+extension View {
+    func widthAware(_ width: Binding<CGFloat>) -> some View {
+        self.modifier(WidthAwareModifier(width: width))
+    }
+}

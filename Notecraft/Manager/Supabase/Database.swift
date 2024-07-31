@@ -9,14 +9,45 @@ import Foundation
 import Observation
 import UIKit
 
+protocol ImageLoadable: AnyObject {
+    var image: String { get }
+    var uiImage: UIImage? { get set }
+    var imageLoadingState: ImageLoadingState { get set }
+}
+
+enum ImageLoadingState {
+    case loading, loaded, failed
+}
+
+extension ImageLoadable {
+    func fetchImageAsync() async {
+        await withCheckedContinuation { continuation in
+            Storage.shared.fetchImage(bucket: "images", path: image) { result in
+                switch result {
+                case .success(let fetchedImage):
+                    self.uiImage = fetchedImage
+                    self.imageLoadingState = .loaded
+                case .failure(let error):
+                    print(self.image)
+                    print("Failed to fetch image: \(error)")
+                    self.imageLoadingState = .failed
+                }
+                continuation.resume()
+            }
+        }
+    }
+}
+
 class Chapter: Identifiable, Decodable {
     var id: Int
     var title: String
+    var subtitle: String
     var units: [Unit]
     
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case title = "title"
+        case subtitle = "subtitle"
         case units = "units"
     }
 }
@@ -32,83 +63,72 @@ class Unit: Identifiable, Decodable {
 }
 
 @Observable
-class Quiz: Codable, Identifiable {
-    var id: String
-    var question: String
+class Lesson: Codable, Identifiable, ImageLoadable {
+    var id: Int
+    var text: String
     var image: String
-    var options: [Option]
+    var midi: [Midi]
     var uiImage: UIImage?
+    var imageLoadingState: ImageLoadingState = .loading
     
     private enum CodingKeys: String, CodingKey {
-        case _id = "id"
-        case _question = "question"
-        case _image = "image"
-        case _options = "options"
+        case _id = "id", _text = "text", _image = "image", _midi = "midi"
+    }
+}
+
+class Midi: Codable, Identifiable {
+    var notes: [UInt8]
+    var duration: Double
+    
+    init(notes: [UInt8], duration: Double = 0.25) {
+        self.notes = notes
+        self.duration = duration
     }
     
+    private enum CodingKeys: String, CodingKey {
+        case notes
+        case duration
+    }
+    
+    // Custom initializer to provide default value for duration
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(String.self, forKey: ._id)
-        self.question = try container.decode(String.self, forKey: ._question)
-        self.image = try container.decode(String.self, forKey: ._image)
-        self.options = try container.decode([Option].self, forKey: ._options)
-        self.uiImage = nil // Initialize uiImage as nil initially
         
-        self.options.shuffle()
-        if !image.isEmpty {
-            fetchQuizImage()
-        }
-    }
-    
-    private func fetchQuizImage() {
-        Storage.shared.fetchImage(bucket: "images", path: image) { result in
-            switch result {
-            case .success(let fetchImage):
-                self.uiImage = fetchImage
-            case .failure(let error):
-                print("Failed to fetch quiz image: \(error)")
-            }
-        }
+        // Decode notes as [Int] and then convert to [UInt8]
+        let notesArray = try container.decode([Int].self, forKey: .notes)
+        self.notes = notesArray.map { UInt8($0) }
+        
+        // Provide default value if duration is missing
+        self.duration = try container.decodeIfPresent(Double.self, forKey: .duration) ?? 0.25
     }
 }
 
 @Observable
-class Option: Codable, Identifiable {
+class Quiz: Codable, Identifiable, ImageLoadable {
+    var id: String
+    var question: String
+    var image: String
+    var midi: [Midi]
+    var options: [Option]
+    var uiImage: UIImage?
+    var imageLoadingState: ImageLoadingState = .loading
+    
+    private enum CodingKeys: String, CodingKey {
+        case _id = "id", _question = "question", _image = "image", _options = "options", _midi="midi"
+    }
+}
+
+@Observable
+class Option: Codable, Identifiable, ImageLoadable {
     var id: String = ""
     var answer: String = ""
     var image: String = ""
     var correctness: Bool = false
     var uiImage: UIImage?
+    var imageLoadingState: ImageLoadingState = .loading
     
     private enum CodingKeys: String, CodingKey {
-        case _id = "id"
-        case _answer = "answer"
-        case _image = "image"
-        case _correctness = "correctness"
-    }
-    
-    required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(String.self, forKey: ._id)
-        self.answer = try container.decode(String.self, forKey: ._answer)
-        self.image = try container.decode(String.self, forKey: ._image)
-        self.correctness = try container.decode(Bool.self, forKey: ._correctness)
-        self.uiImage = nil
-        
-        if !image.isEmpty {
-            fetchOptionImage()
-        }
-    }
-    
-    func fetchOptionImage() {
-        Storage.shared.fetchImage(bucket: "images", path: image) { result in
-            switch result {
-            case .success(let image):
-                self.uiImage = image
-            case .failure(let error):
-                print("Failed to fetch option image: \(error)")
-            }
-        }
+        case _id = "id", _answer = "answer", _image = "image", _correctness = "correctness"
     }
 }
 
@@ -164,6 +184,59 @@ class QuizLog: Codable {
 
 class Database {
     static let shared = Database()
+    func fetchChapter(completion: @escaping (Result<[Chapter], Error>) -> Void) {
+        Task {
+            do {
+                let chapter: [Chapter] = try await supabase
+                    .from("chapter")
+                    .select("""
+                            id,
+                            title,
+                            subtitle,
+                            units: unit (id, title)
+                            """)
+                    .order("id")
+                    .order("id", referencedTable: "unit")
+                    .execute()
+                    .value
+                completion(.success(chapter))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func fetchLesson(unitId: Int, completion: @escaping (Result<[Lesson], Error>) -> Void) {
+        Task {
+            do {
+                let lessons: [Lesson] = try await supabase
+                    .from("lesson")
+                    .select("""
+                            id,
+                            image,
+                            text,
+                            midi
+                            """)
+                    .eq("unit_id", value: unitId)
+                    .order("id")
+                    .execute()
+                    .value
+
+                // Create a TaskGroup to fetch images concurrently
+                await withTaskGroup(of: Void.self) { group in
+                    for lesson in lessons {
+                        group.addTask {
+                            await lesson.fetchImageAsync()
+                        }
+                    }
+                }
+                completion(.success(lessons))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+    
     func fetchQuizUnitAvailability(completion: @escaping (Result<[QuizUnitAvailability], Error>) -> Void) {
         Task {
             do {
@@ -180,15 +253,16 @@ class Database {
         }
     }
     
-    func fetchQuizzes(unitId: Int, completion: @escaping (Result<[Quiz], Error>) -> Void) {
+    func fetchQuizzes(unitId: Int, amount: Int = 10, completion: @escaping (Result<[Quiz], Error>) -> Void) {
         Task {
             do {
                 let quizzes: [Quiz] = try await supabase
-                    .from("quiz")
+                    .rpc("random_quizzes", params: ["p_unit_id": unitId, "p_amount": amount])
                     .select("""
                             id,
                             question,
                             image,
+                            midi,
                             options:option (
                                 id,
                                 answer,
@@ -196,24 +270,26 @@ class Database {
                                 correctness
                             )
                             """)
-                    .eq("unit_id", value: unitId)
                     .execute()
                     .value
+                // Wait for all quiz and option images to be loaded
+                await withTaskGroup(of: Void.self) { group in
+                    for quiz in quizzes {
+                        if !quiz.image.isEmpty {
+                            group.addTask {
+                                await quiz.fetchImageAsync()
+                            }
+                        }
+                        for option in quiz.options {
+                            if !option.image.isEmpty {
+                                group.addTask {
+                                    await option.fetchImageAsync()
+                                }
+                            }
+                        }
+                    }
+                }
                 completion(.success(quizzes))
-            } catch {
-                completion(.failure(error))
-            }
-        }
-    }
-    
-    func addQuizLog(quiz_log: QuizLog, completion: @escaping (Result<Int, Error>) -> Void) {
-        Task {
-            do {
-                let result = try await supabase
-                    .from("quiz_log")
-                    .insert(quiz_log)
-                    .execute()
-                completion(.success(result.response.statusCode))
             } catch {
                 completion(.failure(error))
             }
@@ -235,6 +311,21 @@ class Database {
             }
         }
     }
+    
+    func addQuizLog(quiz_log: QuizLog, completion: @escaping (Result<Int, Error>) -> Void) {
+        Task {
+            do {
+                let result = try await supabase
+                    .from("quiz_log")
+                    .insert(quiz_log)
+                    .execute()
+                completion(.success(result.response.statusCode))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
 }
 extension Data {
     var prettyString: NSString? {

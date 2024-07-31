@@ -51,7 +51,6 @@ class YIN {
         }
         
         // Step 4: Parabolic interpolation
-        
         // Attempt to access array elements
         guard tauEstimate - 1 >= 0 && tauEstimate + 1 < cumulativeMeanNormalizedDifference.count else {
             return 0.0
@@ -67,3 +66,6 @@ class YIN {
         return (sampleRate / Double(betterTau)).rounded()
     }
 }
+
+
+

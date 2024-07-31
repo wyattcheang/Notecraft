@@ -12,7 +12,7 @@ import AVFoundation
 @Observable
 class TunerModel {
     var note: String = ""
-    var accidental: AccidentalType = .natural
+    var accidental: AccidentalType = .sharp
     var octave: Int = 4
     var cent: Double = 0.0
     var frequency: Double = 0.0
@@ -67,42 +67,6 @@ class TunerModel {
         audioEngine.prepare()
     }
     
-    func start() {
-        do {
-            try audioEngine?.start()
-        } catch {
-            print("Failed to start audio engine: \(error.localizedDescription)")
-        }
-    }
-
-    func stop() {
-        audioEngine?.stop()
-    }
-    
-    private func updateCurrentNoteAndOctave() {
-        var closestNote: FullNoteType = .A
-        var closestOctave: Int = 0
-        var minDifference: Double = Double.greatestFiniteMagnitude
-        
-        let pitchDict = pitchDictGenerator()
-        
-        for (note, frequencies) in pitchDict {
-            for (octave, noteFrequency) in frequencies.enumerated() {
-                let centsDifference = abs(1200 * log2(frequency / noteFrequency))
-                if centsDifference < minDifference {
-                    minDifference = centsDifference
-                    closestNote = note
-                    closestOctave = octave
-                }
-            }
-        }
-        
-        self.note = "\(closestNote.note.baseNote)"
-        self.accidental = closestNote.note.accidental
-        self.octave = closestOctave
-        self.cent = 1200 * log2(frequency / pitchDict[closestNote]![closestOctave])
-    }
-    
     private func processBuffer(_ buffer: AVAudioPCMBuffer) {
         guard let channelData = buffer.floatChannelData else {
             return
@@ -134,6 +98,43 @@ class TunerModel {
         return dict
     }
     
+    private func updateCurrentNoteAndOctave() {
+        var closestNote: FullNoteType = .A
+        var closestOctave: Int = 0
+        var minDifference: Double = Double.greatestFiniteMagnitude
+        
+        let pitchDict = pitchDictGenerator()
+        
+        for (note, frequencies) in pitchDict {
+            for (octave, noteFrequency) in frequencies.enumerated() {
+                let centsDifference = abs(1200 * log2(frequency / noteFrequency))
+                if centsDifference < minDifference {
+                    minDifference = centsDifference
+                    closestNote = note
+                    closestOctave = octave
+                }
+            }
+        }
+        
+        self.note = "\(closestNote.note.baseNote)"
+        self.accidental = closestNote.note.accidental
+        self.octave = closestOctave
+        self.cent = 1200 * log2(frequency / pitchDict[closestNote]![closestOctave])
+    }
+    
+    func start() {
+        do {
+            try audioEngine?.start()
+        } catch {
+            print("Failed to start audio engine: \(error.localizedDescription)")
+        }
+    }
+    
+    func stop() {
+        audioEngine?.stop()
+    }
+}
+
 //    private func analyzeBuffer(_ buffer: AVAudioPCMBuffer) {
 //        guard let channelData = buffer.floatChannelData?[0] else { return }
 //        let channelDataArray = Array(UnsafeBufferPointer(start: channelData, count: Int(buffer.frameLength)))
@@ -148,4 +149,4 @@ class TunerModel {
 //            }
 //        }
 //    }
-}
+//}

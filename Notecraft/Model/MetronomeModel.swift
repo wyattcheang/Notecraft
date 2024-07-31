@@ -10,20 +10,14 @@ import AVFoundation
 @Observable
 class MetronomeModel {
     var onBeat: Bool = false
-    var division: Int = 2 {
-        didSet {
-            updateInterval()
-        }
+    var division: Int = 1 {
+        didSet { updateInterval() }
     }
-    var beat: Int = 6 {
-        didSet {
-            updateInterval()
-        }
+    var beat: Int = 4 {
+        didSet { updateInterval() }
     }
     var bpm: Int = 120 {
-        didSet {
-            updateInterval()
-        }
+        didSet { updateInterval() }
     }
     
     private var timer: Timer?
@@ -32,42 +26,19 @@ class MetronomeModel {
     private var tapTimes: [Date] = []
     private var currentSubdivision: Int = 0
     private var currentBeat: Int = 1
-    private var interval: Double {
-        60.0 / Double(bpm * division)
-    }
     private var isTicking: Bool = false
+    private var interval: Double { 60.0 / Double(bpm * division) }
     
     init() {
         setupAudioEngine()
     }
     
-    func startTick() {
-        stopTick()
-        timer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(handleTick), userInfo: nil, repeats: true)
-        isTicking = true
-    }
-    
-    func stopTick() {
-        timer?.invalidate()
-        timer = nil
-        isTicking = false
-        currentSubdivision = 0
-        currentBeat = 1
-    }
-    
-    func handleTap() {
-        tapTimes.append(Date())
-        if tapTimes.count > 10 {
-            tapTimes.removeFirst()
+    deinit {
+        if audioEngine.isRunning {
+            audioEngine.disconnectNodeOutput(unitSampler)
+            audioEngine.detach(unitSampler)
+            audioEngine.stop()
         }
-        calculateBPM()
-    }
-    
-    private func calculateBPM() {
-        guard tapTimes.count > 2 else { return }
-        let intervals = zip(tapTimes.dropFirst(), tapTimes).map { $0.timeIntervalSince($1) }
-        let averageInterval = intervals.reduce(0, +) / Double(intervals.count)
-        bpm = min(Int(60.0 / averageInterval), 400)
     }
     
     private func setupAudioEngine() {
@@ -88,10 +59,18 @@ class MetronomeModel {
         )
     }
     
-    private func playTick() {
-        let (note, velocity, shouldToggleOnBeat) = determineTickSound()
-        tick(note: note, velocity:velocity , toggleOnBeat: shouldToggleOnBeat)
-        updateBeatAndSubdivision()
+    private func calculateBPM() {
+        guard tapTimes.count > 2 else { return }
+        let intervals = zip(tapTimes.dropFirst(), tapTimes).map { $0.timeIntervalSince($1) }
+        let averageInterval = intervals.reduce(0, +) / Double(intervals.count)
+        bpm = min(Int(60.0 / averageInterval), 400)
+    }
+    
+    private func updateBeatAndSubdivision() {
+        currentSubdivision = (currentSubdivision + 1) % division
+        if currentSubdivision == 0 {
+            currentBeat = (currentBeat % beat) + 1
+        }
     }
     
     private func determineTickSound() -> (UInt8, UInt8, Bool) {
@@ -106,12 +85,12 @@ class MetronomeModel {
         }
     }
     
-    private func updateBeatAndSubdivision() {
-        currentSubdivision = (currentSubdivision + 1) % division
-        if currentSubdivision == 0 {
-            currentBeat = (currentBeat % beat) + 1
-        }
+    private func playTick() {
+        let (note, velocity, shouldToggleOnBeat) = determineTickSound()
+        tick(note: note, velocity:velocity , toggleOnBeat: shouldToggleOnBeat)
+        updateBeatAndSubdivision()
     }
+    
     
     private func tick(note: UInt8, velocity: UInt8, toggleOnBeat: Bool) {
         if toggleOnBeat {
@@ -137,11 +116,28 @@ class MetronomeModel {
         timer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(handleTick), userInfo: nil, repeats: true)
     }
     
-    deinit {
-        if audioEngine.isRunning {
-            audioEngine.disconnectNodeOutput(unitSampler)
-            audioEngine.detach(unitSampler)
-            audioEngine.stop()
+    // control from UI
+    func startTick() {
+        stopTick()
+        timer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(handleTick), userInfo: nil, repeats: true)
+        isTicking = true
+    }
+    
+    func stopTick() {
+        timer?.invalidate()
+        timer = nil
+        isTicking = false
+        currentSubdivision = 0
+        currentBeat = 1
+    }
+    
+    func handleTap() {
+        tapTimes.append(Date())
+        if tapTimes.count > 10 {
+            tapTimes.removeFirst()
         }
+        calculateBPM()
     }
 }
+
+

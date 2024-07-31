@@ -10,6 +10,7 @@ enum LoadingStageType {
     case loading
     case done
     case null
+    case failed
 }
 
 enum ButtonStageType: String {
@@ -54,7 +55,7 @@ struct LoadQuizView: View {
         VStack(spacing: 0) {
             switch loadingState {
             case .loading:
-                ProgressView()
+                LoadingView()
             case .done:
                 if currentQuizIndex < quizzes.count {
                     QuizProgressView(progress: progress, error: errorQuizIndices.count, back: back, time: stopWatch.formatTime)
@@ -63,6 +64,7 @@ struct LoadQuizView: View {
                             QuizContentView(quiz: quiz, next: nextQuiz, error: addErrorQuiz, answered: addAnsweredQuiz)
                                 .zIndex(currentQuizIndex == index ? 1 : 0)
                         }
+                        
                     }
                     .onAppear {
                         stopWatch.start()
@@ -77,11 +79,11 @@ struct LoadQuizView: View {
                 }
             case .null:
                 QuizNullView(back: back)
+            case .failed:
+                QuizNullView(back: back)
             }
         }
-        .onAppear {
-            fetchQuizzes()
-        }
+        .onAppear { fetchQuizzes() }
         .onDisappear {
             stopWatch.stop()
             quizzes = []
@@ -96,17 +98,11 @@ struct LoadQuizView: View {
         fetchQuizzes()
     }
     
-    func nextQuiz() {
-        currentQuizIndex = currentQuizIndex + 1
-    }
+    func nextQuiz() { currentQuizIndex = currentQuizIndex + 1 }
     
-    func addAnsweredQuiz() {
-        answered = answered + 1
-    }
+    func addAnsweredQuiz() { answered = answered + 1 }
     
-    func addErrorQuiz() {
-        errorQuizIndices.append(currentQuizIndex)
-    }
+    func addErrorQuiz() { errorQuizIndices.append(currentQuizIndex) }
     
     func fetchQuizzes() {
         Database.shared.fetchQuizzes(unitId: unitId) { result in
@@ -131,6 +127,7 @@ struct QuizContentView: View {
     var error: () -> Void
     var answered: () -> Void
     
+    @Environment(\.midi) var midi: MIDIPlayer
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     @State private var stage: ButtonStageType = .none
     @State private var selectedOption: Option? = nil
@@ -148,16 +145,11 @@ struct QuizContentView: View {
     }
     
     func buttonActionHandler() {
-        if stage == .checked {
-            next()
-        }
+        if stage == .checked { next() }
         stage.next()
         if stage == .checked {
             answered()
-            if !isAnswerCorrect {
-                error()
-            } else {
-            }
+            if !isAnswerCorrect { error() }
         }
     }
     
@@ -224,13 +216,23 @@ struct QuizContentView: View {
             }
             .background(colorScheme == .dark ? .black : .white)
             
-            Button("\(stage.rawValue)", action: buttonActionHandler)
-                .buttonStyle(BaseButtonStyle(fontColor: .white, backgroundColor: .accentColor))
-                .disabled(stage == .none)
-                .padding(.horizontal)
-                .padding(.bottom)
+            HStack {
+                Button("\(stage.rawValue)", action: buttonActionHandler)
+                    .buttonStyle(BaseButtonStyle(fontColor: .white, backgroundColor: .accentColor))
+                    .disabled(stage == .none)
+                
+                if !quiz.midi.isEmpty {
+                    PlayMidiButton(isPlaying: midi.isPlaying,
+                                   play: { midi.play(midiGroup: quiz.midi) },
+                                   stop: midi.stopAll)
+                }
+            }
+            .padding(.horizontal)
+            .padding(.bottom)
+            
         }
         .frame(maxWidth: 500)
+        .background(colorScheme == .dark ? .black : .white)
     }
 }
 
@@ -295,8 +297,8 @@ struct QuizCompletionView: View {
     var body: some View {
         VStack {
             switch loadingState {
-            case .loading, .null:
-                ProgressView()
+            case .loading, .null, .failed:
+                LoadingView()
             case .done:
                 VStack {
                     Spacer()
@@ -403,7 +405,8 @@ struct QuizNullView: View {
             }
             .padding()
             Spacer()
-            Text("No Quiz is available")
+            Text("Currently no quizzes are available, try again later.")
+                .padding()
             Spacer()
         }
         .frame(maxHeight: .infinity)

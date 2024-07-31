@@ -7,133 +7,57 @@
 
 import Foundation
 
-enum Direction {
-    case up
-    case down
+enum AccidentalType: Int, Hashable, Identifiable, CaseIterable {
+    var id: Self { self }
+    
+    case doubleFlat = -2, flat, natural, sharp, doubleSharp
+    
+    var offset: Int {
+        return self.rawValue
+    }
+    
+    static func from(offset: Int) -> AccidentalType? {
+        return AccidentalType(rawValue: offset)
+    }
 }
 
-struct Interval {
-    var quality: IntervalQualityType
-    var position: IntervalPositionType
-    
-    init?(quality: IntervalQualityType, position: IntervalPositionType) {
-        // Check if the provided style is allowed for the provided series
-        guard position.AvailableInterval.contains(quality) else {
-            return nil  // Return nil to indicate an invalid combination
-        }
-        
-        // If the combination is valid, initialize the properties
-        self.quality = quality
-        self.position = position
-    }
-    
-    var semitone: Int {
-        return quality.offset(for: position) + position.majorSemitone
-    }
-    
+extension AccidentalType {
     var text: String {
-        return "\(quality.abb) \(position)"
+        switch self {
+        case .doubleFlat: return "Double Flat"
+        case .flat: return "Flat"
+        case .natural: return "Natural"
+        case .sharp: return "Sharp"
+        case .doubleSharp: return "Double Sharp"
+        }
     }
-}
 
-enum IntervalQualityType: String, CaseIterable, Identifiable {
-    var id: Self { self }
-    
-    case major
-    case minor
-    case perfect
-    case augmented
-    case diminished
-        
-    func offset(for position: IntervalPositionType) -> Int {
-        switch (self, position) {
-        case (.augmented, _): return 1
-        case (.major, _), (.perfect, _): return 0
-        case (.minor, _): return -1
-        case (.diminished, .unison), (.diminished, .forth), (.diminished, .fifth), (.diminished, .octave): return -1
-        case (.diminished, _): return -2
+    var symbol: String {
+        switch self {
+        case .sharp: return 0x266F.toUnicode
+        case .flat: return 0x266D.toUnicode
+        case .natural: return ""
+        case .doubleSharp: return 0x1D12A.toUnicode
+        case .doubleFlat: return 0x1D12B.toUnicode
         }
     }
-        
-    var abb: String {
-        return self.rawValue.prefix(3).capitalized
-    }
-}
 
-enum IntervalPositionType: Int, CaseIterable, Identifiable {
-    var id: Self { self }
-    
-    case unison = 1
-    case second = 2
-    case third = 3
-    case forth = 4
-    case fifth = 5
-    case sixth = 6
-    case seventh = 7
-    case octave = 8
-    
-    var AvailableInterval: [IntervalQualityType] {
-        switch self {
-        case .unison, .octave: return [.perfect]
-        case .forth, .fifth: return [.diminished, .perfect, .augmented]
-        case .second, .third, .sixth, .seventh: return [.diminished, .minor, .major, .augmented]
-        }
+    var allSymbol: String {
+        self == .natural ? 0x266E.toUnicode : symbol
     }
-    
-    var reset: IntervalQualityType {
-        switch self {
-        case .unison, .octave, .forth, .fifth: return .perfect
-        case .second, .third, .sixth, .seventh: return .major
-        }
-    }
-    
-    var majorSemitone: Int {
-        switch self {
-        case .unison:
-            return 0
-        case .second:
-            return 2
-        case .third:
-            return 4
-        case .forth:
-            return 5
-        case .fifth:
-            return 7
-        case .sixth:
-            return 9
-        case .seventh:
-            return 11
-        case .octave:
-            return 12
-        }
-    }
+
+    static let preference: [AccidentalType] = [.sharp, .flat]
 }
 
 enum BaseNoteType: Int, CaseIterable {
     case C = 0, D, E, F, G, A, B
     
     var frequencyPosition: Int {
-        switch self {
-        case .C: return -9
-        case .D: return -7
-        case .E: return -5
-        case .F: return -4
-        case .G: return -2
-        case .A: return 0
-        case .B: return 2
-        }
+        return [-9, -7, -5, -4, -2, 0, 2][rawValue]
     }
     
     var MIDIReference: Int {
-        switch self {
-        case .C: return 0
-        case .D: return 2
-        case .E: return 4
-        case .F: return 5
-        case .G: return 7
-        case .A: return 9
-        case .B: return 11
-        }
+        return frequencyPosition + 9
     }
     
     var next: BaseNoteType {
@@ -143,24 +67,42 @@ enum BaseNoteType: Int, CaseIterable {
     var prev: BaseNoteType {
         return BaseNoteType(rawValue: (self.rawValue - 1 + BaseNoteType.allCases.count) % BaseNoteType.allCases.count) ?? .C
     }
+}
+
+extension BaseNoteType {
+    public static let clefBaseOctaves: [ClefType: Int] = [
+        .bass: 2,
+        .alto: 3,
+        .tenor: 3,
+        .treble: 4
+    ]
     
-    var check: Int {
-        return ((self.rawValue - 1 + BaseNoteType.allCases.count) % BaseNoteType.allCases.count)
+    private static let baseOffsets: [ClefType: [BaseNoteType: CGFloat]] = [
+        .treble: [.C: -3, .D: -2, .E: -1, .F: 0, .G: 1, .A: 2, .B: 3],
+        .alto:   [.C: -4, .D: -3, .E: -2, .F: -1, .G: 0, .A: 1, .B: 2],
+        .tenor:  [.C: -2, .D: -1, .E: 0, .F: 1, .G: 2, .A: 3, .B: 4],
+        .bass:   [.C: -5, .D: -4, .E: -3, .F: -2, .G: -1, .A: 0, .B: 1]
+    ]
+    
+    func baseOffset(for clefType: ClefType) -> CGFloat {
+        return BaseNoteType.baseOffsets[clefType]?[self] ?? 0
+    }
+    
+    func octaveShift(for clefType: ClefType, octave: Int, spacing: CGFloat) -> CGFloat {
+        guard let clefBaseOctave = BaseNoteType.clefBaseOctaves[clefType] else { return 0 }
+        return spacing * CGFloat(octave - clefBaseOctave) * 7
+    }
+    
+    func offset(for clefType: ClefType, in octave: Int, notationSize: NotationSize) -> CGFloat {
+        let spacing = notationSize.CGFloatValue / 8
+        return -(baseOffset(for: clefType) * spacing + octaveShift(for: clefType, octave: octave, spacing: spacing))
     }
 }
 
 enum FullNoteType: String, CaseIterable {
     case C, D, E, F, G, A, B
-    case CSharp = "C♯"
-    case DSharp = "D♯"
-    case FSharp = "F♯"
-    case GSharp = "G♯"
-    case ASharp = "A♯"
-    case DFlat = "D♭"
-    case EFlat = "E♭"
-    case GFlat = "G♭"
-    case AFlat = "A♭"
-    case BFlat = "B♭"
+    case CSharp = "C♯", DSharp = "D♯", FSharp = "F♯", GSharp = "G♯", ASharp = "A♯"
+    case DFlat = "D♭", EFlat = "E♭", GFlat = "G♭", AFlat = "A♭", BFlat = "B♭"
     
     var note: Note {
         switch self {
@@ -183,121 +125,40 @@ enum FullNoteType: String, CaseIterable {
         case .BFlat: return Note(.B, .flat)
         }
     }
-    
-    var sharp: FullNoteType {
-        switch self {
-        case .C: return .CSharp
-        case .D: return .DSharp
-        case .F: return .FSharp
-        case .G: return .GSharp
-        case .A: return .ASharp
-        default: return self
-        }
-    }
-    
-    var flat: FullNoteType {
-        switch self {
-        case .D: return .DFlat
-        case .E: return .EFlat
-        case .G: return .GFlat
-        case .A: return .AFlat
-        case .B: return .BFlat
-        default: return self
-        }
-    }
+
     
     static let sharpPitchNote: [FullNoteType] = FullNoteType.allCases.filter { $0.note.accidental != .flat }
     static let flatPitchNote: [FullNoteType] = FullNoteType.allCases.filter { $0.note.accidental != .sharp }
 }
 
-enum AccidentalType: String, Hashable, Identifiable {
-    var id: Self { return self }
-    
-    case natural = "Natural"
-    case sharp = "Sharp"
-    case flat = "Flat"
-    case doubleSharp = "Double Sharp"
-    case doubleFlat = "Double Flat"
-    
-    var offset: Int {
-        switch self {
-        case .flat      : return -1
-        case .natural   : return 0
-        case .sharp     : return 1
-        case .doubleSharp     : return 2
-        case .doubleFlat     : return -2
-        }
-    }
-    
-    var symbol: String {
-        switch self {
-        case .sharp         : return "266F".toUnicode
-        case .flat          : return "266D".toUnicode
-        case .natural       : return ""
-        case .doubleSharp   : return "1D12A".toUnicode
-        case .doubleFlat    : return "1D12B".toUnicode
-        }
-    }
-    
-    var allSymbol: String {
-        switch self {
-        case .natural       : return "266E".toUnicode
-        default             : return symbol
-        }
-    }
-    
-    static let preference: [AccidentalType] = [.sharp, .flat]
-    
-    static func from(offset: Int) -> AccidentalType? {
-        switch offset {
-        case -2: return .doubleFlat
-        case -1: return .flat
-        case 0:  return .natural
-        case 1:  return .sharp
-        case 2:  return .doubleSharp
-        default: return nil
-        }
-    }
+enum ToneType: Int {
+    case H = 1, W, WH
 }
 
-enum StepType: Int {
-    case H = 1
-    case W = 2
-    case WH = 3
-    
-    var text: String {
-        switch self {
-        case .H: return "Half Step"
-        case .W: return "Whole Step"
-        case .WH: return "Whole Half Step"
-        }
-    }
-}
-
-enum ScaleOrder: Int {
+enum ScaleOrderType: String, CaseIterable, Identifiable {
     case both
     case ascending
     case descending
+    
+    var id: Self { return self }
 }
 
 enum ScaleType: Hashable, Identifiable {
     case major
     case minor(MinorScaleType = .natural)
     
-    var id: Self { return self }
+    var id: Self { self }
     
-    enum MinorScaleType {
-        case natural
-        case harmonic
-        case melodic
+    enum MinorScaleType: String, CaseIterable, Identifiable {
+        case natural, harmonic, melodic
+        
+        var id: Self { self }
     }
     
     var name: String {
         switch self {
-        case .major:
-                return "Major"
-        case .minor(_):
-            return "Minor"
+        case .major: return "Major"
+        case .minor: return "Minor"
         }
     }
     
@@ -306,18 +167,11 @@ enum ScaleType: Hashable, Identifiable {
         case .major:
             return "Major"
         case .minor(let minorScaleType):
-            switch minorScaleType {
-            case .natural:
-                return "Natural Minor"
-            case .harmonic:
-                return "Harmonic Minor"
-            case .melodic:
-                return "Melodic Minor"
-            }
+            return "\(minorScaleType.rawValue.capitalized) Minor"
         }
     }
     
-    var ascIntervals: [StepType] {
+    var ascIntervals: [ToneType] {
         switch self {
         case .major:
             return [.W, .W, .H, .W, .W, .W, .H]
@@ -333,15 +187,22 @@ enum ScaleType: Hashable, Identifiable {
         }
     }
     
-    var decIntervals: [StepType] {
+    var decIntervals: [ToneType] {
         switch self {
-        case .major, .minor(.harmonic), .minor(.natural): return ascIntervals.reversed()
-        case .minor(.melodic): return [.W, .W, .H, .W, .W, .H, .W]
+        case .major, .minor(.natural), .minor(.harmonic):
+            return ascIntervals.reversed()
+        case .minor(.melodic):
+            return [.W, .W, .H, .W, .W, .H, .W]
         }
     }
     
-    static let basicCase: [ScaleType] = [.major, .minor(.natural)]
-    static let TypeCase: [ScaleType] = [.major, .minor(.natural), .minor(.harmonic), .minor(.melodic)]
+    static let basicCases: [ScaleType] = [.major, .minor(.natural)]
+    static let allTypes: [ScaleType] = [.major, .minor(.natural), .minor(.harmonic), .minor(.melodic)]
+}
+
+enum LedgerLineDirection {
+    case up
+    case down
 }
 
 enum KeyType: String, CaseIterable, Identifiable {
@@ -401,16 +262,31 @@ enum ClefType: String, CaseIterable, Identifiable {
     
     var id: Self { self }
     
-    var symbol: String {
+    var preferenceOctaveRange: ClosedRange<Int> {
         switch self {
-        case .treble: return "1D11E".toUnicode
-        case .bass: return "1D122".toUnicode
-        case .alto: return "1D121".toUnicode
-        case .tenor: return "1D121".toUnicode
+        case .treble: return 4...6
+        case .bass: return 2...4
+        case .alto: return 3...5
+        case .tenor: return 3...5
         }
     }
     
-    var yOffset: CGFloat {
+    var defaultOctave: Int {
+        return (preferenceOctaveRange.lowerBound + preferenceOctaveRange.upperBound) / 2
+    }
+}
+
+extension ClefType {
+    var symbol: String {
+        switch self {
+        case .treble: return 0x1D11E.toUnicode
+        case .bass: return 0x1D122.toUnicode
+        case .alto: return 0x1D121.toUnicode
+        case .tenor: return 0x1D121.toUnicode
+        }
+    }
+    
+    var offset: CGFloat {
         switch self {
         case .treble: return 0
         case .bass: return -0.9
@@ -436,19 +312,6 @@ enum ClefType: String, CaseIterable, Identifiable {
         case .tenor: return BasePitch(note: .G, octave: 4)
         }
     }
-    
-    var preferenceOctaveRange: ClosedRange<Int> {
-        switch self {
-        case .treble: return 4...6
-        case .bass: return 2...4
-        case .alto: return 3...5
-        case .tenor: return 3...5
-        }
-    }
-    
-    var defaultOctave: Int {
-        return (preferenceOctaveRange.lowerBound + preferenceOctaveRange.upperBound) / 2
-    }
 }
 
 enum NotationSize: String, CaseIterable, Identifiable {
@@ -466,91 +329,96 @@ enum NotationSize: String, CaseIterable, Identifiable {
     }
 }
 
-extension BaseNoteType {
-    private static let baseOffsets: [ClefType: [BaseNoteType: CGFloat]] = [
-        .treble: [.C: -3, .D: -2, .E: -1, .F: 0, .G: 1, .A: 2, .B: 3],
-        .alto:   [.C: -4, .D: -3, .E: -2, .F: -1, .G: 0, .A: 1, .B: 2],
-        .tenor:  [.C: -2, .D: -1, .E: 0, .F: 1, .G: 2, .A: 3, .B: 4],
-        .bass:   [.C: -5, .D: -4, .E: -3, .F: -2, .G: -1, .A: 0, .B: 1]
-    ]
-    
-    func baseOffset(for clefType: ClefType) -> CGFloat {
-        return BaseNoteType.baseOffsets[clefType]?[self] ?? 0
-    }
-    
-    public static let clefBaseOctaves: [ClefType: Int] = [
-        .bass: 2,
-        .alto: 3,
-        .tenor: 3,
-        .treble: 4
-    ]
-    
-    func octaveShift(for clefType: ClefType, octave: Int, spacing: CGFloat) -> CGFloat {
-        guard let clefBaseOctave = BaseNoteType.clefBaseOctaves[clefType] else { return 0 }
-        return spacing * CGFloat(octave - clefBaseOctave) * 7
-    }
-    
-    func offset(for clefType: ClefType, in octave: Int, notationSize: NotationSize) -> CGFloat {
-        let spacing = notationSize.CGFloatValue / 8
-        return -(baseOffset(for: clefType) * spacing + octaveShift(for: clefType, octave: octave, spacing: spacing))
-    }
-}
-
-enum DurationType: CaseIterable {
-    case breve
-    case semibreve
-    case minim
-    case crotchet
-    case quaver
-    case semiquaver
-    case demisemiquaver
-    case hemidemisemiquaver
+enum DurationType: Int, CaseIterable {
+    case breve = 0, semibreve, minim, crotchet, quaver, semiquaver, demisemiquaver, hemidemisemiquaver
     
     var note: String {
-        switch self {
-        case .breve: return "1D15C".toUnicode
-        case .semibreve: return "1D15D".toUnicode
-        case .minim: return "1D15E".toUnicode
-        case .crotchet: return "1D15F".toUnicode
-        case .quaver: return "1D160".toUnicode
-        case .semiquaver: return "1D161".toUnicode
-        case .demisemiquaver: return "1D152".toUnicode
-        case .hemidemisemiquaver: return "1D153".toUnicode
-        }
+        return (0x1D15C + self.rawValue).toUnicode
     }
     
     var rest: String {
-        switch self {
-        case .breve: return "1D13A".toUnicode
-        case .semibreve: return "1D13B".toUnicode
-        case .minim: return "1D13C".toUnicode
-        case .crotchet: return "1D13D".toUnicode
-        case .quaver: return "1D13E".toUnicode
-        case .semiquaver: return "1D13F".toUnicode
-        case .demisemiquaver: return "1D140".toUnicode
-        case .hemidemisemiquaver: return "1D141".toUnicode
-        }
+        return (0x1D13A + self.rawValue).toUnicode
     }
     
     var durationInBeats: Double {
+        return 8.0 / pow(2, Double(self.rawValue))
+    }
+}
+
+enum Meter: Hashable, Identifiable {
+    case simple(BeatMeasurement)
+    case compound(BeatMeasurement)
+    case odd
+    
+    enum BeatMeasurement: String {
+        case duple
+        case triple
+        case quadruple
+        case irregular
+    }
+    
+    var id: Self { self }
+    
+    var text: String {
         switch self {
-        case .breve: return 8.0
-        case .semibreve: return 4.0
-        case .minim: return 2.0
-        case .crotchet: return 1.0
-        case .quaver: return 0.5
-        case .semiquaver: return 0.25
-        case .demisemiquaver: return 0.125
-        case .hemidemisemiquaver: return 0.0625
+        case .simple(let beatMeasurement):
+            return "Simple \(beatMeasurement.rawValue.capitalized)"
+        case .compound(let beatMeasurement):
+            return "Compound \(beatMeasurement.rawValue.capitalized)"
+        case .odd:
+            return "Odd Meter"
         }
     }
 }
 
+enum IntervalGenericType: Int, CaseIterable, Identifiable {
+    case unison = 1, second, third, forth, fifth, sixth, seventh, octave
+    
+    var id: Self { self }
+    
+    var availableQualities: [IntervalQualityType] {
+        switch self {
+        case .unison, .octave   : [.perfect]
+        case .forth, .fifth     : [.diminished, .perfect, .augmented]
+        default                 : [.diminished, .minor, .major, .augmented]
+        }
+    }
+    
+    var defaultQuality: IntervalQualityType {
+        [.unison, .octave, .forth, .fifth].contains(self) ? .perfect : .major
+    }
+
+    var defaultSemitone: Int {
+        [0, 2, 4, 5, 7, 9, 11, 12][rawValue - 1]
+    }
+    
+    var ordinal: String { self.rawValue.ordinal }
+}
+
+enum IntervalQualityType: String, CaseIterable, Identifiable {
+    case major, minor, perfect, augmented, diminished
+    
+    var id: Self { self }
+    
+    func offset(for position: IntervalGenericType) -> Int {
+        switch (self, position) {
+        case (.augmented, _): 1
+        case (.major, _), (.perfect, _): 0
+        case (.minor, _): -1
+        case (.diminished, .unison), (.diminished, .forth), (.diminished, .fifth), (.diminished, .octave): -1
+        case (.diminished, _): -2
+        }
+    }
+    
+    var abb: String { rawValue.prefix(3).capitalized }
+}
+
 struct Note: Hashable, Identifiable {
-    var id: String { "\(baseNote.rawValue)\(accidental.rawValue)" }
     var baseNote: BaseNoteType
     var accidental: AccidentalType
 
+    var id: Self { self }
+    
     init(_ baseNote: BaseNoteType, _ accidental: AccidentalType) {
         self.baseNote = baseNote
         self.accidental = accidental
@@ -567,11 +435,6 @@ struct Note: Hashable, Identifiable {
     var text: String {
         return "\(baseNote)\(accidental.symbol)"
     }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(baseNote)
-        hasher.combine(accidental)
-    }
 }
 
 struct BasePitch {
@@ -584,9 +447,10 @@ struct BasePitch {
 }
 
 struct Pitch: Hashable, Identifiable {
-    var id: String { "\(note.baseNote.rawValue)\(note.accidental.rawValue)\(octave)" }
     var note: Note
     var octave: Int
+    
+    var id: Self { self }
     
     init(_ note: Note, octave: Int = 4) {
         self.note = note
@@ -611,30 +475,34 @@ struct Pitch: Hashable, Identifiable {
     }
 }
 
-enum TimeSignBeat: String {
-    case duple
-    case triple
-    case quadruple
-    case irregular
-}
-
-enum TimeSignComplexity: String {
-    case simple
-    case compound
-    case irregular
-}
-
-struct KeyScale {
-    var scale: ScaleType
-    var key: KeyType
+struct Interval {
+    var generic: IntervalGenericType
+    var quality: IntervalQualityType
     
-    init(scale: ScaleType, key: KeyType) {
-        self.scale = scale
-        self.key = key
+    init?(quality: IntervalQualityType, generic: IntervalGenericType) {
+        // Check if the provided style is allowed for the provided series
+        guard generic.availableQualities.contains(quality) else {
+            return nil  // Return nil to indicate an invalid combination
+        }
+        
+        // If the combination is valid, initialize the properties
+        self.quality = quality
+        self.generic = generic
+    }
+    
+    var semitone: Int {
+        return quality.offset(for: generic) + generic.defaultSemitone
+    }
+    
+    var text: String {
+        return "\(quality.rawValue.capitalized) \(generic)"
     }
 }
 
 class MusicNotation {
+    
+    public static let shared = MusicNotation()
+    
     // Enharmonic equivalents dictionary using Note struct
     let enharmonicEquivalents: [Int: [Note]] = [
         0: [Note(.C, .natural), Note(.B, .sharp), Note(.D, .doubleFlat)],
@@ -652,83 +520,58 @@ class MusicNotation {
         ]
 
     
-    public static let shared = MusicNotation()
     
-    func generateScale(scaleType: ScaleType, key: KeyType, startingOctave: Int = 4, order: ScaleOrder = .ascending) -> [Pitch] {
-        var ascNote: [Pitch] = []
-        var dscNote: [Pitch] = []
-        var octave = startingOctave
-        var note = Note(key.baseNote, key.accidental)
+    func generateScale(from scale: ScaleType,
+                       in key: KeyType,
+                       octave: Int = 4,
+                       order: ScaleOrderType = .ascending) -> [Pitch] {
         
-        ascNote.append(Pitch(note, octave: octave))
-        
-        for interval in scaleType.ascIntervals {
-            if note.baseNote == .B {
-                octave += 1
+        func generateNotes(tone: [ToneType], startingNote: Note, startingOctave: Int, isForward: Bool) -> [Pitch] {
+            var notes: [Pitch] = []
+            var octave = startingOctave
+            var note = startingNote
+
+            notes.append(Pitch(note, octave: octave))
+            for interval in tone {
+                if (isForward && note.baseNote == .B) || (!isForward && note.baseNote == .C) {
+                    octave += isForward ? 1 : -1
+                }
+                note = nextNote(note, tone: interval, isForward: isForward)
+                notes.append(Pitch(note, octave: octave))
             }
-            let nextNote = nextNote(note, interval: interval, isForward: true)
-            ascNote.append(Pitch(nextNote, octave: octave))
-            note = nextNote
+            return notes
         }
-        
-        note = Note(key.baseNote, key.accidental)
-        octave = startingOctave + 1
-        dscNote.append(Pitch(note, octave: octave))
-        
-        for interval in scaleType.decIntervals {
-            if note.baseNote == .C {
-                octave -= 1
-            }
-            let nextNote = nextNote(note, interval: interval, isForward: false)
-            dscNote.append(Pitch(nextNote, octave: octave))
-            note = nextNote
-        }
-        
+
+        let ascNotes = generateNotes(tone: scale.ascIntervals,
+                                     startingNote: Note(key.baseNote, key.accidental),
+                                     startingOctave: octave, isForward: true)
+        let dscNotes = generateNotes(tone: scale.decIntervals,
+                                     startingNote: Note(key.baseNote, key.accidental),
+                                     startingOctave: octave + 1, isForward: false)
+
         switch order {
         case .ascending:
-            return ascNote
+            return ascNotes
         case .descending:
-            return dscNote
+            return dscNotes
         case .both:
-            return ascNote.dropLast() + dscNote
+            return ascNotes.dropLast() + dscNotes
         }
     }
 
-    func nextNote(_ note: Note, interval: StepType, isForward: Bool) -> Note {
-        guard let currentIndex = enharmonicEquivalents.first(where: { $0.value.contains { $0 == note } })?.key else {
+    func nextNote(_ note: Note, tone: ToneType, isForward: Bool) -> Note {
+        guard let currentIndex = enharmonicEquivalents.first(where: { $0.value.contains(note) })?.key else {
             return note
         }
-        
-        let nextIndex = (currentIndex + (isForward ? interval.rawValue : -interval.rawValue) + 12) % 12
+
+        let nextIndex = (currentIndex + (isForward ? tone.rawValue : -tone.rawValue) + 12) % 12
         let nextNotes = enharmonicEquivalents[nextIndex]
-        
         let nextMeetNote = isForward ? note.baseNote.next : note.baseNote.prev
-        
+
         if let nextNote = nextNotes?.first(where: { $0.baseNote == nextMeetNote }) {
             return nextNote
         }
         return note
-    }
-
-    func addOctave(notes: [Note], startingOctave: Int = 4, ascending: Bool = true) -> [Pitch] {
-        var pitchNotes: [Pitch] = []
-        var currentOctave = startingOctave
-        
-        for note in notes {
-            let pitchNote = Pitch(note, octave: currentOctave)
-            pitchNotes.append(pitchNote)
-            
-            // Adjust octave based on the note and direction
-            if note.baseNote == .B {
-                if ascending {
-                    currentOctave += 1
-                } else {
-                    currentOctave -= 1
-                }
-            }
-        }
-        
-        return pitchNotes
     }
     
     enum PitchCompare {
@@ -773,16 +616,16 @@ class MusicNotation {
         let baseDifference = baseNoteDistance(from: pitch1.basePitch, to: pitch2.basePitch)
         let semitoneDifference = semitoneDifference(from: pitch1, to: pitch2)
         
-        guard let position = IntervalPositionType(rawValue: (baseDifference + 1)) else {
+        guard let position = IntervalGenericType(rawValue: (baseDifference + 1)) else {
             return nil
         }
         
         // Determine the semitone offset for this series
-        let semitone = position.majorSemitone
+        let semitone = position.defaultSemitone
         
-        for quality in position.AvailableInterval {
+        for quality in position.availableQualities {
             if quality.offset(for: position) == semitoneDifference - semitone {
-                return Interval(quality: quality, position: position)
+                return Interval(quality: quality, generic: position)
             }
         }
         return nil
@@ -801,17 +644,20 @@ class MusicNotation {
     }
     
     func intervalPitch(from pitch: Pitch, in interval: Interval) -> Pitch? {
-        let baseNoteShift = interval.position.rawValue - 1
+        let baseNoteShift = interval.generic.rawValue - 1
         let basePitch = upBasePitch(basePitch: pitch.basePitch, loop: baseNoteShift)
         
-        guard let accidental = AccidentalType.from(offset: interval.quality.offset(for: interval.position)) else {
+        let semitone = semitoneDifference(from: pitch, to: basePitch.toPitch(accidental: .natural))
+        let difference = interval.semitone - semitone
+        
+        guard let accidental = AccidentalType.from(offset: difference) else {
             return nil
         }
         
         return basePitch.toPitch(accidental: accidental)
     }
     
-    func getLedgerLine(pitch: Pitch, clef: ClefType) -> (Int, Direction) {
+    func getLedgerLine(pitch: Pitch, clef: ClefType) -> (Int, LedgerLineDirection) {
         let bottomDifference = baseNoteDistance(from: pitch.basePitch, to: clef.firstBottomLedgerPitch)
         let topDifference = baseNoteDistance(from: clef.firstTopLedgerPitch, to: pitch.basePitch)
         

@@ -13,8 +13,8 @@ import SwiftUI
         NoteView(clef: .treble, pitch: Pitch(Note(.C, .natural), octave: 4), isRest: true)
         NoteView(clef: .treble, 
                  pitch: Pitch(Note(.C, .natural), octave: 4),
-                 showAccidental: true,
-                 keySignature: KeySignature(clef: .treble, scale: .major, key: .D))
+                 isShowingKeySignature: true,
+                 keySignature: KeySignature())
     }
 }
 
@@ -25,7 +25,7 @@ struct GroupNoteView: View {
     var durationType: DurationType = .semibreve
     
     var keySignature: KeySignature?
-    var isShowKeySignature: Bool
+    var isShowingKeySignature: Bool = true
     var scale: ScaleType?
     
     @AppStorage("notationSize") var notationSize: NotationSize = .standard
@@ -35,27 +35,15 @@ struct GroupNoteView: View {
     }
     
     var body: some View {
-        ZStack {
-            StaffView(4)
-            HStack {
-                HStack(spacing: 0.4) {
-                    ForEach(Array(pitches.enumerated()), id: \.offset) { index, pitch in
-                        if !isShowKeySignature && pitch.note.accidental != .natural {
-                            AccidentalView(pitch: pitch,
-                                           clef: clef,
-                                           showNatural: false)
-                        } else if showAccidental(pitch) {
-                            AccidentalView(pitch: pitch,
-                                           clef: clef,
-                                           showNatural: false)
-                        }
-                        else if showNaturalAccidental(pitch) {
-                            AccidentalView(pitch: pitch,
-                                           clef: clef,
-                                           showNatural: true)
-                        }
+        HStack {
+            HStack(spacing: -0.4) {
+                ForEach(Array(pitches.enumerated()), id: \.offset) { index, pitch in
+                    if accidentalAppearance(pitch) {
+                        AccidentalView(pitch: pitch, clef: clef)
                     }
                 }
+            }
+            VStack {
                 ZStack {
                     ForEach(Array(pitches.enumerated()), id: \.offset) { index, pitch in
                         let offset: CGFloat = (index > 0 &&
@@ -79,21 +67,17 @@ struct GroupNoteView: View {
         .notoMusicSymbolTextStyle()
     }
     
-    private func showNaturalAccidental(_ pitch: Pitch) -> Bool {
+    private func accidentalAppearance(_ pitch: Pitch) -> Bool {
         let inputNote = pitch.note
-        guard let note = keySignature?.accidentalNotes.first(where: { $0.baseNote == inputNote.baseNote }) else {
+        guard let accidentalNote = keySignature?.accidentalNotes.first(where: { $0.baseNote == inputNote.baseNote }) else {
             return false
         }
-        return inputNote.accidental == .natural && note.accidental != .natural
-    }
-    
-    private func showAccidental(_ pitch: Pitch) -> Bool {
-        guard let note = keySignature?.accidentalNotes.first(where: { $0.baseNote == pitch.note.baseNote }) else {
-            // if doesn't exist
-            return pitch.note.accidental != .natural
+        
+        if isShowingKeySignature {
+            return inputNote.accidental != accidentalNote.accidental
+        } else {
+            return inputNote.accidental != .natural
         }
-        // if exist
-        return note.accidental != pitch.note.accidental
     }
     
     private func isPitchAdjacent(from pitch1: Pitch, to pitch2: Pitch) -> Bool {
@@ -108,7 +92,7 @@ struct NoteView: View {
     let clef: ClefType
     let pitch: Pitch
     var isRest: Bool = false
-    var showAccidental: Bool = false
+    var isShowingKeySignature: Bool = true
     var durationType: DurationType = .semibreve
     
     var keySignature: KeySignature?
@@ -117,42 +101,42 @@ struct NoteView: View {
     @AppStorage("notationSize") var notationSize: NotationSize = .standard
     
     var body: some View {
-        ZStack {
-            StaffView()
-            if isRest {
-                Text(durationType.rest)
-            } else {
-                HStack(spacing: -0.4) {
-                    ZStack {
-                        if showAccidental {
-                            AccidentalView(pitch: pitch,
-                                           clef: clef,
-                                           showNatural: showNaturalAccidental)
-                        }
+        if isRest {
+            Text(durationType.rest)
+        } else {
+            HStack(spacing: -0.4) {
+                ZStack {
+                    if accidentalAppearance {
+                        AccidentalView(pitch: pitch, clef: clef)
                     }
-                    ZStack {
-                        Text(durationType.note)
-                            .offset(y: pitch.note.baseNote.offset(for: clef,
-                                                                  in: pitch.octave,
-                                                                  notationSize: notationSize))
-                        let (ledgerLines, direction) = MusicNotation.shared.getLedgerLine(pitch: pitch, clef: clef)
-                        if ledgerLines > 0 {
-                            LedgerView(amount: ledgerLines, position: direction)
-                        }
+                }
+                ZStack {
+                    Text(durationType.note)
+                        .offset(y: pitch.note.baseNote.offset(for: clef,
+                                                              in: pitch.octave,
+                                                              notationSize: notationSize))
+                    let (ledgerLines, direction) = MusicNotation.shared.getLedgerLine(pitch: pitch, clef: clef)
+                    if ledgerLines > 0 {
+                        LedgerView(amount: ledgerLines, position: direction)
                     }
                 }
             }
-            
+            .padding(.horizontal)
+            .notoMusicSymbolTextStyle()
         }
-        .notoMusicSymbolTextStyle()
     }
     
-    var showNaturalAccidental: Bool {
+    private var accidentalAppearance: Bool {
         let inputNote = pitch.note
-        guard let note = keySignature?.accidentalNotes.first(where: { $0.baseNote == inputNote.baseNote }) else {
+        guard let accidentalNote = keySignature?.accidentalNotes.first(where: { $0.baseNote == inputNote.baseNote }) else {
             return false
         }
-        return inputNote.accidental == .natural && note.accidental != .natural
+        
+        if isShowingKeySignature {
+            return inputNote.accidental != accidentalNote.accidental
+        } else {
+            return inputNote.accidental != .natural
+        }
     }
 }
 
@@ -160,40 +144,40 @@ struct AccidentalView: View {
     @AppStorage("notationSize") var notationSize: NotationSize = .standard
     let pitch: Pitch
     let clef: ClefType
-    var showNatural: Bool = false
     
     var body: some View {
-        ZStack {
-            Text(showNatural ? pitch.note.accidental.allSymbol : pitch.note.accidental.symbol)
+        VStack {
+            Text(pitch.note.accidental.allSymbol)
                 .offset(y: pitch.note.baseNote.offset(for: clef,
                                                       in: pitch.octave,
                                                       notationSize: notationSize))
-            let (ledgerLines, direction) = MusicNotation.shared.getLedgerLine(pitch: pitch, clef: clef)
-                        if ledgerLines > 0 {
-                            LedgerView(amount: ledgerLines, position: direction)
-                        }
         }
     }
 }
 
 struct StaffView: View {
     @AppStorage("notationSize") var notationSize: NotationSize = .standard
-    let numberOfStaffLines: Int
+    let width: CGFloat
+    @State private var hwidth: CGFloat = 0
     
-    private var spacing: CGFloat {
-        return notationSize.CGFloatValue / 6
+    init(width: CGFloat) {
+        self.width = width
     }
     
-    init(_ numberOfStaffLines: Int = 1) {
-        self.numberOfStaffLines = numberOfStaffLines
+    private var scaledX: CGFloat {
+        return width / hwidth
     }
-    
+
     var body: some View {
         HStack {
-            ForEach(0..<numberOfStaffLines, id: \.self) {_ in
-                Text("0x1D11A".toUnicode)
-                    .padding(.horizontal, -spacing)
-            }
+            Text(0x1D11A.toUnicode)
+                .background(GeometryReader { reader in
+                    let size = reader.size
+                    Color.clear.onAppear {
+                        hwidth = size.width * 0.95
+                    }
+                })
+                .scaleEffect(x: scaledX, y: 1.0)
         }
         .notoMusicSymbolTextStyle()
     }
@@ -202,7 +186,7 @@ struct StaffView: View {
 struct LedgerView: View {
     @AppStorage("notationSize") var notationSize: NotationSize = .standard
     let amount: Int
-    let position: Direction
+    let position: LedgerLineDirection
     
     private var spacing: CGFloat {
         return notationSize.CGFloatValue / 6
@@ -222,7 +206,7 @@ struct LedgerView: View {
     var body: some View {
         ForEach(ledgerOffsets, id: \.self) { offset in
             VStack {
-                Text("1D116".toUnicode)
+                Text(0x1D116.toUnicode)
                     .offset(y: offset)
                     .padding(.horizontal, -spacing)
             }

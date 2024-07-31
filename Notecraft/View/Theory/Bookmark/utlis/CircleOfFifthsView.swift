@@ -52,26 +52,24 @@ struct CircleOfFifthsView: View {
                 }
                 .frame(maxWidth: .infinity, minHeight: 200)
                 HStack {
-                    Button(action: { toggleScale() }) {
-                        Circle()
-                            .fill(Color(uiColor: .systemGray5))
-                            .frame(width: 40, height: 40)
-                            .overlay {
-                                Text(scale == .major ? "M" : "m")
-                            }
-                    }
+                    Circle()
+                        .fill(Color(uiColor: .systemGray5))
+                        .frame(width: 40, height: 40)
+                        .overlay {
+                            Text(scale == .major ? "M" : "m")
+                        }
+                        .onTapGesture(perform: toggleScale)
                     Spacer()
-                    Button(action: { toggleAccidental() }) {
-                        Circle()
-                            .fill(Color(uiColor: .systemGray5))
-                            .frame(width: 40, height: 40)
-                            .overlay {
-                                Text(accidental.symbol)
-                            }
-                    }
+                    Circle()
+                        .fill(Color(uiColor: .systemGray5))
+                        .frame(width: 40, height: 40)
+                        .overlay {
+                            Text(accidental.symbol)
+                        }
+                        .onTapGesture(perform: toggleAccidental)
                 }
+                .bold()
                 .font(.subheadline)
-                .fontWeight(.heavy)
             }
         }
         .padding(.vertical)

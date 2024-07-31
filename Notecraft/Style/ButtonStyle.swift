@@ -7,6 +7,48 @@
 
 import SwiftUI
 
+struct CircularButtonStyle: ButtonStyle {
+    var backgroundColor: Color
+    var foregroundColor: Color
+    
+    init(backgroundColor: Color = .accentColor, foregroundColor: Color = .white) {
+        self.backgroundColor = backgroundColor
+        self.foregroundColor = foregroundColor
+    }
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding()
+            .labelStyle(.iconOnly)
+            .background(backgroundColor)
+            .foregroundColor(foregroundColor)
+            .clipShape(Circle())
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+            .opacity(configuration.isPressed ? 0.8 : 1.0)
+            .animation(.easeInOut, value: configuration.isPressed)
+    }
+}
+
+struct CircleToggleStyle: ToggleStyle {
+    var onIcon: String
+    var offIcon: String?
+    var onColor: Color = .accentColor
+    var offColor: Color = Color(uiColor: .systemGray5)
+    
+    func makeBody(configuration: Configuration) -> some View {
+        Button(action: {
+            configuration.isOn.toggle()
+        }) {
+            Image(systemName: (configuration.isOn ? onIcon : offIcon) ?? onIcon)
+                .padding()
+                .foregroundColor(.white)
+                .background(configuration.isOn ? onColor : offColor)
+                .clipShape(Circle())
+                .animation(.easeInOut, value: configuration.isOn)
+        }
+    }
+}
+
 struct CheckToggleStyle: ToggleStyle {
     var isFlash: Bool
     
@@ -23,8 +65,7 @@ struct CheckToggleStyle: ToggleStyle {
             }
             
         }
-        .frame(maxWidth: .infinity)
-        .frame(maxHeight: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(isFlash ? .accent : Color(uiColor:.systemGray5))
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
         .animation(.easeInOut, value: isFlash)
@@ -133,6 +174,14 @@ struct QuizButtonStyle: ButtonStyle {
                 .stroke(selectType.color, lineWidth: 2)
         )
     }
+}
+
+extension ButtonStyle where Self == CircularButtonStyle {
+    static func circular(backgroundColor: Color = .accentColor, foregroundColor: Color = .white) -> Self {
+        Self(backgroundColor: backgroundColor, foregroundColor: foregroundColor)
+    }
+    
+    static var circular: Self { Self() }
 }
 
 extension ButtonStyle where Self == DefaultButtonStyle {

@@ -24,6 +24,7 @@ class UserModel {
     var data: User?
     var authState: AuthState
     var errorMessage: String
+    var sheetDirectory: URL?
     
     init() {
         self.authState = .authenticating
@@ -49,6 +50,7 @@ extension UserModel {
             self.data = session.user
             if let uuidString = data?.id.uuidString {
                 self.uuidString = uuidString
+                createUserSheetDirectory()
             }
         } catch {
             return
@@ -138,5 +140,29 @@ extension UserModel {
                         updatedAt: Date())
         model.data = user
         return model
+    }
+}
+
+extension UserModel {
+    @MainActor func createUserSheetDirectory() {
+        guard let userId = self._data?.id.uuidString else {
+            return
+        }
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let directory = documentsURL.appendingPathComponent("\(userId)/sheets")
+        // Check if 'sheets' directory exists, create if it doesn't
+        if !FileManager.default.fileExists(atPath: directory.path) {
+            do {
+                print("called2")
+                try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
+                print("Created 'Sheets' directory at: \(directory)")
+                sheetDirectory = directory
+            } catch {
+                print("Failed to create 'Sheets' directory: \(error.localizedDescription)")
+            }
+        } else {
+            sheetDirectory = directory
+            print(self.uuidString)
+        }
     }
 }

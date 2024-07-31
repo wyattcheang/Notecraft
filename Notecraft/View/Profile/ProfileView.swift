@@ -13,6 +13,7 @@ struct ProfileView: View {
     
     @State private var displayName: String = ""
     @State private var presentingConfirmationDialog = false
+    @State private var signOutConfirmationDialog = false
     @State private var showSignOutAlert = false
     
     private func signOut() async -> Bool {
@@ -51,7 +52,7 @@ struct ProfileView: View {
                         Spacer()
                         Picker("Accidental", selection: $accidentalPreference) {
                             ForEach(AccidentalType.preference) { accidental in
-                                Text(accidental.rawValue)
+                                Text(accidental.text)
                             }
                         }
                         .pickerStyle(.segmented)
@@ -71,25 +72,27 @@ struct ProfileView: View {
                     }
                 }
                 Section {
-                    Button("Sign Out", role: .cancel) {
-                        Task {
-                            showSignOutAlert = await signOut()
-                            dismiss()
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .alert("You have successfully sign out",
-                           isPresented: $showSignOutAlert) {
-                    }
+                    Button("Sign Out", role: .cancel, action: { signOutConfirmationDialog.toggle() })
+                        .frame(maxWidth: .infinity)
                 }
             }
             .navigationTitle("Profile")
             .navigationBarTitleDisplayMode(.large)
-            .confirmationDialog("Deleting your account is permanent. Do you want to delete your account?",
-                                isPresented: $presentingConfirmationDialog, titleVisibility: .visible) {
+            .confirmationDialog("Are you sure you want to logout?",
+                                isPresented: $signOutConfirmationDialog, titleVisibility: .visible) {
                 //            Button("Delete Account", role: .destructive, action: deleteAccount)
-                Button("Cancel", role: .cancel, action: { })
+                Button("Cancel", role: .cancel, action: {})
+                Button("Confirm", role: .destructive) {
+                    Task {
+                        showSignOutAlert = await signOut()
+                        dismiss()
+                    }
+                }
+                Button("Cancel", role: .cancel) { }
             }
+        }
+        .alert("You have successfully signed out",
+               isPresented: $showSignOutAlert) {
         }
     }
 }

@@ -11,13 +11,12 @@ class FastAPIServer {
     static let shared = FastAPIServer()
     
     @MainActor
-    func uploadPDF(at pdfURL: URL, fileID: String, userID: String) {
-        var uploadStatus = ""
-        
+    func uploadPDF(at pdfURL: URL, fileID: String, userID: String, completion: @escaping (Result<String, Error>) -> Void) {
         guard let url = URL(string: "https://helpful-albacore-distinct.ngrok-free.app/upload/") else {
-            uploadStatus = "Invalid URL"
+            completion(.failure(URLError(.badURL)))
             return
         }
+
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
 
@@ -29,7 +28,7 @@ class FastAPIServer {
 
         var body = Data()
         
-        // Add id to form data
+        // Add file_id to form data
         body.append("--\(boundary)\r\n".data(using: .utf8)!)
         body.append("Content-Disposition: form-data; name=\"file_id\"\r\n\r\n".data(using: .utf8)!)
         body.append("\(fileID)\r\n".data(using: .utf8)!)
@@ -48,7 +47,7 @@ class FastAPIServer {
             body.append(pdfData)
             body.append("\r\n".data(using: .utf8)!)
         } catch {
-            uploadStatus = "Failed to prepare PDF for upload"
+            completion(.failure(error))
             return
         }
 
@@ -56,16 +55,20 @@ class FastAPIServer {
         request.httpBody = body
 
         URLSession.shared.dataTask(with: request) { data, response, error in
-            print(error ?? "no")
             DispatchQueue.main.async {
                 if let error = error {
-                    uploadStatus = "Upload failed: \(error.localizedDescription)"
+                    completion(.failure(error))
                 } else if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-                    uploadStatus = "Upload successful"
+                    completion(.success("Upload successful"))
                 } else {
-                    uploadStatus = "Upload failed"
+                    let statusCodeError = NSError(domain: "", 
+                                                  code: (response as? HTTPURLResponse)?.statusCode ?? -1,
+                                                  userInfo: [NSLocalizedDescriptionKey: "Upload failed"])
+                    completion(.failure(statusCodeError))
                 }
             }
         }.resume()
     }
 }
+
+

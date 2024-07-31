@@ -6,12 +6,10 @@
 //
 
 import Foundation
-func loadFile<T: Decodable>(_ filename: String) -> T {
+func loadFile<T: Decodable>(_ filename: String, as type: T.Type = T.self) -> T {
     let data: Data
 
-
-    guard let file = Bundle.main.url(forResource: filename, withExtension: nil)
-    else {
+    guard let file = Bundle.main.url(forResource: filename, withExtension: nil) else {
         fatalError("Couldn't find \(filename) in main bundle.")
     }
 
@@ -20,7 +18,6 @@ func loadFile<T: Decodable>(_ filename: String) -> T {
     } catch {
         fatalError("Couldn't load \(filename) from main bundle:\n\(error)")
     }
-
 
     do {
         let decoder = JSONDecoder()

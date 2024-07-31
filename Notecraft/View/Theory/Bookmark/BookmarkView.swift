@@ -6,54 +6,52 @@
 //
 
 import SwiftUI
-import AVFAudio
+
+struct BookmarkItem {
+    let title: String
+    let image: Image
+    let destination: AnyView
+}
 
 struct BookmarkView: View {
-    // Define a dictionary of titles and their corresponding destinations
-    let items: [(title: String, destination: AnyView)] = [
-            ("Signatures", AnyView(KeyTimeSignatureView())),
-            ("Tempo", AnyView(TermListView(file: "tempo.json"))),
-            ("Dynamic", AnyView(TermListView(file: "dynamic.json"))),
-            ("Mood", AnyView(TermListView(file: "mood.json"))),
-            ("Scale", AnyView(ScaleView())),
-            ("Interval", AnyView(IntervalView()))
-        ]
+    let dictionaryItems: [BookmarkItem] = [
+        BookmarkItem(title: "Tempo", image: Image("tempo"), destination: AnyView(TermListView(file: "tempo.json"))),
+        BookmarkItem(title: "Dynamics", image: Image("dynamic"), destination: AnyView(TermListView(file: "dynamic.json"))),
+        BookmarkItem(title: "Moods", image: Image("mood"), destination: AnyView(TermListView(file: "mood.json")))
+    ]
+    
+    let experienceItems: [BookmarkItem] = [
+        BookmarkItem(title: "Signatures", image: Image("signatures"), destination: AnyView(SignatureView())),
+        BookmarkItem(title: "Scale", image: Image("scale"), destination: AnyView(ScaleView())),
+        BookmarkItem(title: "Interval", image: Image("interval"), destination: AnyView(IntervalView()))
+    ]
     
     var body: some View {
         ScrollView(.vertical) {
-            ForEach(items, id: \.title) { item in
-                NavigationLink(destination: item.destination) {
-                    CardView(title: item.title)
-                }
+            VStack(alignment: .leading, spacing: 16) {
+                BookmarkSectionView(title: "Dictionary", items: dictionaryItems)
+                BookmarkSectionView(title: "Experience", items: experienceItems)
             }
             .padding()
         }
     }
 }
 
-struct CardView: View {
+struct BookmarkSectionView: View {
     let title: String
+    let items: [BookmarkItem]
     
     var body: some View {
-        HStack {
-            Text(title)
-                .bold()
-                .font(.title2)
-            Spacer()
-        }
-        .padding()
-        .padding(.vertical)
-        .background(.accent)
-        .foregroundColor(.white)
-        .frame(maxHeight: 90)
-        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-        .visualEffect { content, proxy in
-            content
-                .hueRotation(Angle(degrees: proxy.frame(in: .global).origin.y / 2))
+        VStack(alignment: .leading) {
+            SectionHeaderView(text: title)
+            ForEach(items, id: \.title) { item in
+                NavigationLink(destination: item.destination) {
+                    CardView(title: item.title, image: item.image)
+                }
+            }
         }
     }
 }
-
 
 #Preview {
     NavigationView {

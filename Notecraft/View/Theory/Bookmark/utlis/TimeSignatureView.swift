@@ -7,52 +7,78 @@
 
 import SwiftUI
 
+struct NotationRenderView: View {
+    var hexCodes: [String]
+    private var unicodeString: String
+    
+    init(_ hexCodes: [String] = []) {
+        self.hexCodes = hexCodes
+        unicodeString = hexCodes.map { $0.toUnicode }.joined()
+    }
+    
+    var body: some View {
+        Text(" \(unicodeString) ")
+    }
+}
+
 @Observable
 class TimeSignature {
-    var beat: Int
-    var time: Int
+    var beat: Int = 4
+    private var _subdivision: Int = 4
     
-    init(beat: Int = 4, time: Int = 4) {
-        self.beat = beat
-        self.time = time
-    }
-    
-    var complexity: TimeSignComplexity {
-        if (beat == 2 || beat == 3 || beat == 4) && (time == 2 || time == 4 || time == 8) {
-            return .simple
+    var availableSubdivision = [2, 4, 8, 12, 16]
+        
+    var subdivision: Int {
+        get {
+            return _subdivision
         }
-        if (beat == 6 || beat == 9 || beat == 12) && (time == 4 || time == 8 || time == 16) {
-            return .compound
-        }
-        else {
-            return .irregular
+        set {
+            if availableSubdivision.contains(newValue) {
+                _subdivision = newValue
+            }
         }
     }
     
-    var beatType: TimeSignBeat {
-        switch (beat, time) {
-        case (2, _):
-            return .duple
-        case (3, _):
-            return .triple
-        case (4, _):
-            return .quadruple
-        case (6, 8), (6, 16):
-            return .duple
-        case (9, 8), (9, 16):
-            return .triple
-        case (12, 8), (12, 16):
-            return .quadruple
+    func setSubdivision(_ value: Int) {
+        if availableSubdivision.contains(value) {
+            self.subdivision = value
+        }
+    }
+    
+    var meter: Meter {
+        switch (beat, subdivision) {
+        case (2, 2), (2, 4), (2, 8), (3, 2), (3, 4), (3, 8), (4, 2), (4, 4), (4, 8):
+            return .simple(beatType)
+        case (6, 4), (6, 8), (6, 16), (9, 4), (9, 8), (9, 16), (12, 4), (12, 8), (12, 16):
+            return .compound(beatType)
         default:
-            return .irregular
+            return .odd
         }
     }
+    
+    var beatType: Meter.BeatMeasurement {
+            switch (beat, subdivision) {
+            case (2, _):
+                return .duple
+            case (3, _):
+                return .triple
+            case (4, _):
+                return .quadruple
+            case (6, _):
+                return .duple
+            case (9, _):
+                return .triple
+            case (12, _):
+                return .quadruple
+            default:
+                return .irregular
+            }
+        }
 }
 
 struct TimeSignatureView: View {
     @AppStorage("notationSize") var notationSize: NotationSize = .standard
     @Binding var timeSignature: TimeSignature
-    var showStaff: Bool = false
     
     private var spacing: CGFloat {
         return notationSize.CGFloatValue / 4
@@ -60,21 +86,13 @@ struct TimeSignatureView: View {
 
     var body: some View {
         ZStack {
-            if showStaff {
-                StaffView(1)
-                    .notoMusicSymbolTextStyle()
-            }
-            Group {
-                NotationRenderView(getNumberReturnCode(value: String(timeSignature.beat)))
-                    .padding(.top, -spacing)
-                    .padding(.bottom, spacing)
-                NotationRenderView(getNumberReturnCode(value: String(timeSignature.time)))
-                    .padding(.top, spacing)
-                    .padding(.bottom, -spacing)
-            }
-            .bravuraMusicSymbolTextStyle()
-            .padding(.vertical, -50)
+            NotationRenderView(getNumberReturnCode(value: String(timeSignature.beat)))
+                .offset(y:-spacing)
+            NotationRenderView(getNumberReturnCode(value: String(timeSignature.subdivision)))
+                .offset(y:spacing)
         }
+        .bravuraMusicSymbolTextStyle()
+        .padding(.vertical, -50)
     }
 }
 

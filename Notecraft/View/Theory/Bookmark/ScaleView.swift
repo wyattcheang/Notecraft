@@ -8,32 +8,36 @@
 import SwiftUI
 
 struct ScaleView: View {
-    @Environment(\.midi) var midi: MIDIPlayer
     @AppStorage("notationSize") var notationSize: NotationSize = .standard
+    @Environment(\.midi) var midi: MIDIPlayer
     
-    @State var keySignature = KeySignature(clef: .treble, scale: .major, key: .C)
-    @State var accidental: AccidentalType = .sharp
+    @State var keySignature = KeySignature()
     @State var octave: Int = 4
-    var octaves: ClosedRange<Int> = 2...6
     
-    @State private var currentNoteIndex: Int? = nil
-    @State private var isPlayingScale: Bool = false
+    @State private var staffWidth: CGFloat = 0
+    @State private var scaleOrder: ScaleOrderType = .both
     
-    var pitchSet: [Pitch] {
-        MusicNotation.shared.generateScale(scaleType: keySignature.scale, key: keySignature.key, startingOctave: octave, order: .both)
+    @State private var isShowingKeySignature: Bool = true
+    
+    private var pitchSet: [Pitch] {
+        MusicNotation.shared.generateScale(from: keySignature.scale, in: keySignature.key, octave: octave, order: scaleOrder)
     }
     
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    KeySignatureView(keySignature: $keySignature, showStaff: true)
-                    ForEach(pitchSet.indices, id: \.self) { index in
-                        let pitch = pitchSet[index]
-                        Button(action: {
-                            playNote(pitch: pitch)
-                        }) {
-                            NoteView(clef: keySignature.clef, pitch: pitch)
+                ZStack {
+                    StaffView(width: staffWidth)
+                    HStack {
+                        KeySignatureView(keySignature: $keySignature, showKeySignature: isShowingKeySignature)
+                        ForEach(pitchSet.indices, id: \.self) { index in
+                            let pitch = pitchSet[index]
+                            Button(action: {
+                                playNote(pitch: pitch)
+                            }) {
+                                NoteView(clef: keySignature.clef, pitch: pitch, isShowingKeySignature: isShowingKeySignature, keySignature: keySignature)
+                            }
+                            .id(index)
                             .overlay {
                                 Text(pitch.text)
                                     .bold()
@@ -41,56 +45,80 @@ struct ScaleView: View {
                                     .offset(y: 80)
                             }
                         }
-                        .id(index)
                     }
+                    .frame(maxHeight: 280)
+                    .padding(.horizontal, UIScreen.main.bounds.width * 0.5)
+                    .widthAware($staffWidth)
                 }
                 .padding()
-                .frame(maxWidth: .infinity, maxHeight: 200)
             }
-            .onChange(of: currentNoteIndex) { index, _ in
-                if let index = index {
-                    withAnimation {
-                        proxy.scrollTo(index, anchor: .center)
+            .overlay(alignment: .bottom) {
+                HStack {
+                    CircleToggleButton("music.note", toggle: $isShowingKeySignature)
+                    Spacer()
+                    Text(keySignature.textWithScaleType)
+                        .font(.headline)
+                    Spacer()
+                    PlayMidiButton(isPlaying: midi.isPlaying, play: playScale, stop: midi.stopAll)
+                }
+                .padding(.horizontal)
+            }
+            .onAppear {
+                proxy.scrollTo(midi.currentPlayingIndex, anchor: .center)
+            }
+            .onDisappear {
+                midi.stopAll()
+            }
+            .onChange(of: midi.isPlaying) {
+                if midi.isPlaying {
+                    withAnimation(.easeInOut) {
+                        proxy.scrollTo(midi.currentPlayingIndex, anchor: .center)
                     }
+                }
+            }
+            .onChange(of: midi.currentPlayingIndex) {
+                withAnimation(.easeInOut) {
+                    proxy.scrollTo(midi.currentPlayingIndex, anchor: .center)
                 }
             }
         }
         List {
-            CircleOfFifthsView(key: $keySignature.key, scale: $keySignature.scale)
             Group {
+                Picker("Octave", selection: $octave) {
+                    ForEach(keySignature.clef.preferenceOctaveRange, id: \.self) { number in
+                        Text("\(number)")
+                    }
+                }
                 Picker("Clef", selection: $keySignature.clef) {
                     ForEach(ClefType.allCases) { type in
                         Text(type.rawValue.capitalized)
                     }
                 }
-                Picker("Scale", selection: $keySignature.scale) {
-                    ForEach(ScaleType.TypeCase) { type in
-                        Text(type.nameWithType)
+                Picker("Order", selection: $scaleOrder) {
+                    ForEach(ScaleOrderType.allCases) { type in
+                        Text(type.rawValue.capitalized)
                     }
                 }
-                Picker("Accidental Preference", selection: $accidental) {
-                    ForEach(AccidentalType.preference) { accidental in
-                        Text("\(accidental)")
-                    }
-                }
-                Picker("Octave", selection: $octave) {
-                    ForEach(octaves, id: \.self) { number in
-                        Text("\(number)")
+                if keySignature.scale != .major {
+                    Picker("Scale Style", selection: $keySignature.scale) {
+                        ForEach(ScaleType.MinorScaleType.allCases) { type in
+                            Text(type.rawValue.capitalized).tag(ScaleType.minor(type))
+                        }
                     }
                 }
             }
-            Button("Play", action: playScale)
-                .disabled(isPlayingScale)
-                .buttonStyle(.accentButton)
+            .pickerStyle(SegmentedPickerStyle())
+            CircleOfFifthsView(key: $keySignature.key, scale: $keySignature.scale)
         }
+        .navigationTitle("Scale")
+        .navigationBarTitleDisplayMode(.inline)
         .onChange(of: keySignature.clef) {
-            guard let octave = BaseNoteType.clefBaseOctaves[keySignature.clef] else {
-                return
+            if !keySignature.clef.preferenceOctaveRange.contains(octave) {
+                self.octave = keySignature.clef.defaultOctave
             }
-            self.octave = octave
         }
     }
-
+    
     private func playNote(pitch: Pitch) {
         midi.play(pitch.MIDINote)
     }
@@ -100,26 +128,8 @@ struct ScaleView: View {
     }
     
     private func playScale() {
-        isPlayingScale = true
-        var delay: Double = 0
-        for (index, pitch) in pitchSet.enumerated() {
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-                currentNoteIndex = index
-                withAnimation {
-                    currentNoteIndex = index
-                }
-                playNote(pitch: pitch)
-            }
-            delay += 0.5
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-                withAnimation {
-                    currentNoteIndex = nil
-                }
-                if index == pitchSet.count - 1 {
-                    isPlayingScale = false
-                }
-            }
-        }
+        let midiGroup = pitchSet.map { Midi(notes: [$0.MIDINote]) }
+        midi.play(midiGroup: midiGroup)
     }
 }
 
