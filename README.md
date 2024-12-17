@@ -3,8 +3,6 @@
 [![Swift Version](https://img.shields.io/badge/Swift-5.0-orange.svg)](https://swift.org)
 [![Platform](https://img.shields.io/badge/Platform-iOS%2018.0+-blue.svg)](https://developer.apple.com/ios/)
 
-Brief description of your project in 2-3 sentences. Explain what your app does and its core value proposition.
-
 ## 📱 Screenshots
 ![UI](https://github.com/user-attachments/assets/5063bf58-b663-4e31-83e8-14df43e1b78e)
 
